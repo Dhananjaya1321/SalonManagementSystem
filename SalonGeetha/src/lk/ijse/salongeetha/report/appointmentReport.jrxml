@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="appointmentReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10e87723-c502-4d0e-9d0d-b37c9b7edf2a">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalonGeetha"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT c.Name,c.NIC,a.Apt_Id AS Appointment_ID,ap.Amount_due FROM Customer c JOIN 
+Appointment a ON c.NIC=a.NIC JOIN Appointment_payment ap ON
+a.Apt_Id=ap.Apt_Id]]>
+	</queryString>
+	<field name="Name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Name"/>
+		<property name="com.jaspersoft.studio.field.label" value="Name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="NIC" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NIC"/>
+		<property name="com.jaspersoft.studio.field.label" value="NIC"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="Appointment_ID" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Apt_Id"/>
+		<property name="com.jaspersoft.studio.field.label" value="Appointment_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+	</field>
+	<field name="Amount_due" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Amount_due"/>
+		<property name="com.jaspersoft.studio.field.label" value="Amount_due"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointment_payment"/>
+	</field>
+	<group name="NIC">
+		<groupExpression><![CDATA[$F{NIC}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="182" y="60" width="190" height="20" uuid="0ef8fcdf-5545-42f7-ac4c-136651cc2060"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[All Appointment Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="20" width="223" height="30" uuid="399d10d3-e360-470a-8b85-2542c15be198"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Appointment Report]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="415" y="-10" width="150" height="30" uuid="3aed4aa9-5f05-4355-b5f3-a2fc62d15e3c"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-2" width="100" height="30" uuid="3b0c60d4-9ebc-412d-9554-bf583d2fecc1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34204037-1d42-4a0b-887c-538bec1e8cf0"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="-2" width="100" height="30" uuid="bfc7c41c-7280-4969-bbce-3a7e5139b374">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7be550a9-abb8-4444-82ff-9c488a860e8d"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="-2" width="100" height="30" uuid="9fe6eee7-5dfe-438c-9a47-532269b02b4e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="457fb5c1-bd55-450a-b2cc-f0fdc6043f7d"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Appointment_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="0" width="100" height="30" uuid="ba5be204-05ab-4f15-a967-c6b058b21951">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1a8c2bfc-ed30-44ae-b754-1e539e266fff"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount_due]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="100" height="30" uuid="a3994533-65fc-4503-a27d-530a78577a0e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34204037-1d42-4a0b-887c-538bec1e8cf0"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="20" width="100" height="30" uuid="3a2c422c-118c-48e1-910c-961787f7805b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7be550a9-abb8-4444-82ff-9c488a860e8d"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NIC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="20" width="100" height="30" uuid="f50ca933-6dce-4856-a0af-15dd1fc618d7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="457fb5c1-bd55-450a-b2cc-f0fdc6043f7d"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Appointment_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="20" width="100" height="30" uuid="2f4cbe9e-ef5c-46b2-8d53-232234964c00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1a8c2bfc-ed30-44ae-b754-1e539e266fff"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Amount_due}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="248" y="20" width="67" height="30" uuid="db63e56f-9ac7-4ba3-b518-6d52d5929f4b"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

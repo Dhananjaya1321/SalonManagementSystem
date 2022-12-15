@@ -1,0 +1,5 @@
+package lk.ijse.salongeetha.util;
+
+public enum IdTypes {
+    BILL,EMPLOYEE,PRODUCT,RENTAL,SALARY,SERVICE,SUPPLIER,APPOINTMENT,BOOK,APAYMENT,BPAYMENT
+}

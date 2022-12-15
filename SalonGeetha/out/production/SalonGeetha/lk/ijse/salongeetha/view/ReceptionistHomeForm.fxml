@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="fullPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.salongeetha.controller.ReceptionistHomeFormController">
+   <center>
+      <GridPane fx:id="rightPane" prefHeight="600.0" prefWidth="506.0" style="-fx-background-color: #F5F5F5;" BorderPane.alignment="CENTER">
+         <rowConstraints>
+            <RowConstraints maxHeight="145.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="434.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="424.0" minHeight="10.0" prefHeight="208.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="404.0" minHeight="10.0" prefHeight="327.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+      </GridPane>
+   </center>
+   <left>
+      <GridPane fx:id="leftPane" prefHeight="500.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(to right top, #7a0094, #9405a8, #b00abc, #cd0fcf, #eb12e2);" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnHomeOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);" text="  Home           " textFill="WHITE" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icon/home_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5285714285714286" endY="0.6285714285714286" startX="0.4380952380952381" startY="0.5428571428571428">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnAppointmentOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);" text="  Appointment" textFill="WHITE" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/image/download-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5285714285714286" endY="0.6285714285714286" startX="0.4380952380952381" startY="0.5428571428571428">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnBookingOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);" text="  Booking         " textFill="WHITE" GridPane.rowIndex="4">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="36.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/image/ooking.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5285714285714286" endY="0.6285714285714286" startX="0.4380952380952381" startY="0.5428571428571428">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnCustomerOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);" text="  Customers     " textFill="WHITE" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icon/groups_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5523809523809524" endY="0.7333333333333334" startX="0.35714285714285715" startY="0.5523809523809524">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnPaymentOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);" text="  Payment        " textFill="WHITE" GridPane.rowIndex="6">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="41.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icon/payments_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5285714285714286" endY="0.6285714285714286" startX="0.4380952380952381" startY="0.5428571428571428">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" maxHeight="65.0" onAction="#btnLogOutOnAction" prefHeight="35.0" prefWidth="294.0" style="-fx-background-radius: 0 60 50; -fx-background-color: linear-gradient(to right, #94009b, #aa0aae, #c114c1, #d81dd4, #f025e7);" text="  LogOut       " textFill="WHITE" GridPane.rowIndex="8">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assets/icon/logOut.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <ripplerFill>
+                  <LinearGradient endX="0.5285714285714286" endY="0.6285714285714286" startX="0.4380952380952381" startY="0.5428571428571428">
+                     <stops>
+                        <Stop color="#720678" />
+                        <Stop color="#b9028e" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </ripplerFill>
+            </JFXButton>
+            <Label fx:id="lblTime" prefHeight="53.0" prefWidth="190.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDate" prefHeight="39.0" prefWidth="164.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </children>
+         <effect>
+            <DropShadow height="0.0" radius="4.75" />
+         </effect>
+      </GridPane>
+   </left>
+</BorderPane>

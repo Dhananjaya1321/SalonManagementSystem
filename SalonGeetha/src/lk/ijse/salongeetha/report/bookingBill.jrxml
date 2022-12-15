@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bookingBill" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="895c5174-4796-45f9-ac4e-ffd7750273a5">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalonGeetha"/>
+	<parameter name="TotalValue" class="java.lang.Double"/>
+	<parameter name="Balance" class="java.lang.String"/>
+	<parameter name="AmountPaid" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select c.name,c.nic,bd.rent_id,bd.qty,bd.for_how_many_days,b.bok_id,b.date,r.name as rental_name
+,r.Price_pre_day,r.Discount,(bd.for_how_many_days*(r.Price_pre_day-((r.Price_pre_day*r.Discount)/100)))
+as total from customer c join book b on c.nic=b.nic join book_rentals_detail bd on 
+b.bok_id = bd.bok_id join rentals r on r.Rent_Id = bd.rent_id  where b.bok_id = 
+(SELECT bok_id FROM book ORDER BY bok_id DESC LIMIT 1) and b.status = 'Paid']]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="nic" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nic"/>
+		<property name="com.jaspersoft.studio.field.label" value="nic"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="rent_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rent_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="rent_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book_rentals_detail"/>
+	</field>
+	<field name="qty" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="qty"/>
+		<property name="com.jaspersoft.studio.field.label" value="qty"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book_rentals_detail"/>
+	</field>
+	<field name="for_how_many_days" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="for_how_many_days"/>
+		<property name="com.jaspersoft.studio.field.label" value="for_how_many_days"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book_rentals_detail"/>
+	</field>
+	<field name="bok_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="bok_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="bok_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book"/>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date"/>
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="book"/>
+	</field>
+	<field name="rental_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="rental_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+	</field>
+	<field name="Price_pre_day" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Price_pre_day"/>
+		<property name="com.jaspersoft.studio.field.label" value="Price_pre_day"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+	</field>
+	<field name="Discount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Discount"/>
+		<property name="com.jaspersoft.studio.field.label" value="Discount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	</field>
+	<variable name="Variable_1" class="java.lang.String"/>
+	<group name="rent_id">
+		<groupExpression><![CDATA[$F{rent_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="209" y="0" width="143" height="30" uuid="1a0cd581-c3b9-4181-bc6a-4af87e40121b"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Salon Geetha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="54" width="103" height="26" uuid="b368eddb-1b7d-4bf1-89bc-4034429f48d2"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Tel-0765410779]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="30" width="230" height="26" uuid="25e3dd23-d351-4b49-95b0-f6ae2034a3c1"/>
+				<textElement>
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[No.181 ,Domanwila ,Meetiyagoda]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="30" y="20" width="130" height="30" uuid="abc1f94b-d660-4c8a-a943-cdd2eb31ab80"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="470" y="21" width="90" height="30" uuid="aed93be8-ae21-46d5-b24c-d11e9ae633ed"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="21" width="60" height="30" uuid="6d28037b-88d6-4590-87c9-4cefaaeeac57"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Time :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="67" width="555" height="1" uuid="d41d878e-1568-4f04-a90c-5fe0159553df"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="48" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="42" width="555" height="1" uuid="b48849c2-f5f0-41d5-b4da-55bb6a7a9d36"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="12" width="80" height="19" uuid="2e200739-94d2-4937-a4a4-c77c42b36d68">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34bdcb8b-8b0f-4166-968a-c8aaf2b71849"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="12" width="30" height="19" uuid="a77bf211-0444-46cb-ac6a-ee32dd299e6b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fc9efe02-f0a2-480e-aa3c-bc0e8160dea6"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="12" width="90" height="19" uuid="a8f4df90-e352-4e6a-924f-dc9021ba2235">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c4d79ba-f7bf-45f6-9403-ef9ba495f888"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Price_pre_day]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="12" width="80" height="17" uuid="8be4eb3e-9027-402f-9d5b-d79eaa249a15">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="06248710-a117-43e8-b54e-85b685af4fa9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[How_many_days]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="12" width="48" height="17" uuid="6cbcaca9-3377-44c3-a401-46510a7a8b00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b27fe50-0104-44e4-a19a-5d8825763f4b"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="100" height="19" uuid="4bf7381f-0cb5-411e-8d1f-4add7acc0073">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34bdcb8b-8b0f-4166-968a-c8aaf2b71849"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rental_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="29" width="100" height="14" uuid="8a27a38b-0a4e-48ab-942d-06bafbdefd05">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fc9efe02-f0a2-480e-aa3c-bc0e8160dea6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="29" width="100" height="14" uuid="944893ee-3c1c-4df6-8467-e0330e87cbc7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c4d79ba-f7bf-45f6-9403-ef9ba495f888"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Price_pre_day}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="29" width="100" height="15" uuid="4f675f31-99f1-4841-845d-720d91447e4a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b27fe50-0104-44e4-a19a-5d8825763f4b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="29" width="100" height="15" uuid="0e3b091c-4263-47fa-9fab-4bb6b71bdb34">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="06248710-a117-43e8-b54e-85b685af4fa9"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{for_how_many_days}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="29" width="100" height="14" uuid="7e2334e8-ba2c-4727-8adb-0e52f208094d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5120ac04-8aec-4d10-91bd-84e00c075637"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{rent_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="119" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="6" width="555" height="1" uuid="aa59d6c2-0f81-4cc6-8182-c04f41b5a84d"/>
+			</line>
+			<staticText>
+				<reportElement x="179" y="10" width="120" height="24" uuid="207eedf7-657b-4e0f-a404-9479816b334a"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total         : Rs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="178" y="60" width="119" height="24" uuid="6cecd918-a14b-41ce-abc9-b424e76f9c41"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance    : Rs.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="301" y="11" width="120" height="23" uuid="1b548bf0-9f18-41a8-85a9-992a0298c575"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TotalValue}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="191" y="89" width="173" height="30" uuid="58a21274-d71b-48e7-91fc-976bd4c42ce8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thank You! Come Again.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="88" width="555" height="1" uuid="a6c2a6ca-0c36-484c-9cdf-68acaff10b3e"/>
+			</line>
+			<textField>
+				<reportElement x="302" y="60" width="100" height="24" uuid="e945dbea-9f4c-41d0-aa79-12435c538042"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Balance}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="35" width="151" height="25" uuid="855f7de7-d3c1-4b55-83c7-1a2899a88371"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount paid  : Rs.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="301" y="36" width="141" height="23" uuid="84487e14-ec58-4502-bc53-a09a65ccb6a2"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{AmountPaid}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="rigthPane" prefHeight="600.0" prefWidth="506.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.salongeetha.controller.ManagePaymentController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="20.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="424.0" minHeight="0.0" prefHeight="248.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="417.0" minHeight="0.0" prefHeight="332.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane style="-fx-background-color: #3498db.red;" GridPane.rowIndex="1">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="119.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <GridPane prefHeight="36.0" prefWidth="506.0" GridPane.rowIndex="2">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="258.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <JFXButton buttonType="RAISED" onAction="#btnSavePaymentOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-color: #12b500; -fx-background-radius: 5;" text="Save" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/icon/save.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="50.0" minHeight="0.0" prefHeight="5.0" />
+                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="50.0" minHeight="2.0" prefHeight="19.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="18.0" minHeight="5.0" prefHeight="18.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="lblPaymentId" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="35.0" prefWidth="127.0" text="Payment Id :" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.rowIndex="3">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="18.0" minHeight="7.0" prefHeight="18.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <JFXComboBox fx:id="cmbPaymentMethod" prefHeight="35.0" prefWidth="500.0" style="-fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <focusColor>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#00ccff" />
+                                    <Stop color="#682cff" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </focusColor></JFXComboBox>
+                        <Label prefHeight="16.0" prefWidth="200.0" style="-fx-background-color: #F5F5F5;" text="Payment method :" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="18.0" minHeight="6.0" prefHeight="18.0" />
+                        <RowConstraints minHeight="5.0" prefHeight="12.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <JFXComboBox fx:id="cmbAppointmentIdOrBookingId" onAction="#cmbAppointmentIdOrBookingId" prefHeight="35.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" GridPane.rowIndex="1">
+                           <focusColor>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#00ccff" />
+                                    <Stop color="#682cff" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </focusColor></JFXComboBox>
+                        <Label prefHeight="35.0" prefWidth="500.0" text="Select appointment Id or booking Id :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="18.0" minHeight="5.0" prefHeight="18.0" />
+                        <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <JFXTextField fx:id="txtAmountPaid" onAction="#txtAmountPaid" prefHeight="35.0" prefWidth="401.0" style="-fx-border-radius: 5; -fx-background-radius: 5; -fx-border-color: black;" GridPane.rowIndex="1">
+                           <focusColor>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#00ccff" />
+                                    <Stop color="#682cff" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </focusColor></JFXTextField>
+                        <Label prefHeight="1.0" prefWidth="126.0" style="-fx-background-color: #F5F5F5;" text="Amount paid :" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="25.0" minHeight="6.0" prefHeight="25.0" />
+                        <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="35.0" prefWidth="127.0" text="Amount due :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblAmountDue" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="4" GridPane.rowIndex="3">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="21.0" minHeight="5.0" prefHeight="21.0" />
+                        <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="67.0" text="Balance :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblBalance" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+            <GridPane prefHeight="36.0" prefWidth="506.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="49.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="49.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="56.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="360.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <JFXRadioButton fx:id="bPayment" onAction="#bPayment" text="Booking payment" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="payment" />
+                     </toggleGroup>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="aPayment" onAction="#aPayment" text="Appointment payment" toggleGroup="$payment" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </JFXRadioButton>
+                  <Label prefHeight="35.0" prefWidth="200.0" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <GridPane prefHeight="353.0" prefWidth="506.0" GridPane.rowIndex="2">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="0.0" prefWidth="0.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="470.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="2.0" prefWidth="2.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints maxHeight="21.0" minHeight="0.0" prefHeight="21.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="323.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TableView fx:id="tblView" prefHeight="336.0" prefWidth="490.0" style="-fx-background-color: #FFFFFF;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <columns>
+                  <TableColumn fx:id="columenPaymentId" prefWidth="75.0" text="Payment_Id" />
+                  <TableColumn fx:id="columenAIdOrBId" prefWidth="38.0" text="Appointment_Id_or_booking_Id" />
+                  <TableColumn fx:id="columenPaymentMethod" prefWidth="75.0" text="Payment_method" />
+                  <TableColumn fx:id="columenAmountDue" prefWidth="75.0" text="Amount_due" />
+               </columns>
+               <effect>
+                  <DropShadow height="5.0" radius="2.0" width="5.0" />
+               </effect>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </GridPane>
+   </children>
+</GridPane>

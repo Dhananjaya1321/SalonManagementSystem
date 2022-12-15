@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="popUpPane" prefHeight="450.0" prefWidth="376.0" style="-fx-background-radius: 15; -fx-background-color: e51a98;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.salongeetha.controller.AddAdminDetailsFormController">
+   <children>
+      <AnchorPane layoutX="3.0" layoutY="3.0" prefHeight="444.0" prefWidth="370.0" style="-fx-background-color: #F5F5F5; -fx-background-radius: 15;">
+         <children>
+            <Group layoutX="52.0" layoutY="22.0">
+               <children>
+                  <JFXTextField fx:id="txtAddress" labelFloat="true" layoutY="25.0" prefHeight="41.0" prefWidth="280.0" promptText="Address" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="BLACK">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <focusColor>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#ff00ea" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </focusColor>
+                  </JFXTextField>
+               </children>
+            </Group>
+            <Group layoutX="52.0" layoutY="99.0">
+               <children>
+                  <JFXTextField fx:id="txtPhoneNumber" labelFloat="true" layoutY="24.0" prefHeight="41.0" prefWidth="280.0" promptText="Phone number" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="BLACK">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <focusColor>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#ff00ea" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </focusColor>
+                  </JFXTextField>
+               </children>
+            </Group>
+            <Group layoutX="28.0" layoutY="261.0">
+               <children>
+                  <JFXTextArea fx:id="txtDescription" labelFloat="true" layoutX="21.0" layoutY="14.0" prefHeight="90.0" prefWidth="284.0" promptText="Description" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="BLACK">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <focusColor>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#ff00ea" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </focusColor>
+                  </JFXTextArea>
+               </children>
+            </Group>
+            <Group layoutX="52.0" layoutY="181.0">
+               <children>
+                  <JFXDatePicker fx:id="txtDOB" layoutY="23.0" overLay="true" prefHeight="40.0" prefWidth="280.0" promptText="02/02/2022" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;">
+                     <defaultColor>
+                        <LinearGradient endX="1.0">
+                           <stops>
+                              <Stop color="#ff00ea" />
+                              <Stop color="BLACK" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </defaultColor>
+                  </JFXDatePicker>
+               </children>
+            </Group>
+            <AnchorPane layoutX="58.0" layoutY="387.0" prefHeight="43.0" prefWidth="269.0" style="-fx-background-color: e51a98; -fx-background-radius: 10;">
+               <children>
+                  <JFXButton buttonType="RAISED" layoutX="2.0" layoutY="2.0" onAction="#btnSaveOnAction" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: white; -fx-background-radius: 9;" text="Save">
+                     <font>
+                        <Font size="18.0" />
+                     </font></JFXButton>
+               </children>
+            </AnchorPane>
+            <Label fx:id="lblPhoneValidation" layoutX="58.0" layoutY="166.0" prefHeight="17.0" prefWidth="174.0" textFill="RED" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </AnchorPane>
+   </children>
+   <effect>
+      <DropShadow />
+   </effect>
+</AnchorPane>

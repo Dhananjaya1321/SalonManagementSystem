@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="appointmentBill" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f21bf5c-918c-481b-93e9-36f9afc6728c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalonGeetha"/>
+	<parameter name="TotalValue" class="java.lang.String"/>
+	<parameter name="Balance" class="java.lang.String"/>
+	<parameter name="AmountPaid" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select c.name,c.nic,a.Apt_Id,a.date,a.time,s.sev_id,s.name as Service_name,
+s.price,s.Discount,(s.price-((s.price*s.Discount)/100))
+as total from customer c join appointment a on c.nic=a.nic join service_appointment_detail ad on 
+ad.Apt_Id = a.Apt_Id join service s on s.Sev_Id = ad.Sev_Id  where a.Apt_Id = 
+(SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1) and a.status = 'Paid']]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="nic" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nic"/>
+		<property name="com.jaspersoft.studio.field.label" value="nic"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+	</field>
+	<field name="Apt_Id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Apt_Id"/>
+		<property name="com.jaspersoft.studio.field.label" value="Apt_Id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date"/>
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+	</field>
+	<field name="time" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="time"/>
+		<property name="com.jaspersoft.studio.field.label" value="time"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+	</field>
+	<field name="sev_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sev_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="sev_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+	</field>
+	<field name="Service_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="Service_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+	</field>
+	<field name="price" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="price"/>
+		<property name="com.jaspersoft.studio.field.label" value="price"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+	</field>
+	<field name="Discount" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Discount"/>
+		<property name="com.jaspersoft.studio.field.label" value="Discount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	</field>
+	<group name="Apt_Id">
+		<groupExpression><![CDATA[$F{Apt_Id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="209" y="0" width="143" height="30" uuid="f3ab667b-882d-4800-97a7-55f5b93ce7ee"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Salon Geetha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="30" width="230" height="26" uuid="390b4177-09cc-494f-84c1-b31ac25eabe1"/>
+				<textElement>
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[No.181 ,Domanwila ,Meetiyagoda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="54" width="103" height="26" uuid="e44caa4e-3ec7-4757-b882-6e5b071fff4c"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Tel-0765410779]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="400" y="3" width="60" height="30" uuid="46d8bfe0-1af7-4132-af09-35ca7b6a31b4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Time :]]></text>
+			</staticText>
+			<textField pattern="HH:mm">
+				<reportElement x="460" y="3" width="90" height="30" uuid="b035d90e-740c-412d-849b-20e41a7fec7e"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="20" y="2" width="130" height="30" uuid="c92706ed-3f54-4f4a-84fb-0f6d9c635317"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="33" width="555" height="1" uuid="7c1dc590-018b-4e9c-9d28-def83e9bfd12"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="39" width="555" height="1" uuid="992dd9f8-ce8a-469b-87ca-0170ba1d56e2"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="7a76a047-743e-43ef-b8d1-cb5774fee07c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a366ae29-8fd9-47dc-8403-2da0c72890a3"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="4" width="100" height="30" uuid="67857a8a-b433-4cad-87cf-9c5ba059341d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a374e6d2-30ec-48e4-a81c-08bedcd04e00"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="4" width="100" height="30" uuid="cab3d9cd-86fd-4e15-83eb-cc4a9ebc08dd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27c847f6-d304-49c5-9e81-e0bf4928b08d"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Discount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="5" width="100" height="30" uuid="77b25b05-7e3d-4ba3-ab98-ab69d01027b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e0154e0d-c818-47be-8952-b26566fa9f96"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="68" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="100" height="30" uuid="734bb87e-e25e-4609-a98e-8f50f09f8ed5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a366ae29-8fd9-47dc-8403-2da0c72890a3"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Service_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="100" height="20" uuid="06f5b27f-2d76-4c6a-8784-bd638b34bf31">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9980a41-25f0-4f6f-8dc2-25eb7b358296"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sev_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="40" width="100" height="20" uuid="7628acc8-64a5-403d-9732-4d5d57c8b310">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a374e6d2-30ec-48e4-a81c-08bedcd04e00"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="40" width="100" height="20" uuid="b8416b22-00fc-4534-ab5d-1d73ccbe3bf1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="27c847f6-d304-49c5-9e81-e0bf4928b08d"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Discount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="40" width="100" height="20" uuid="0b8ff1d9-6d32-49d7-978a-32fdf36fdc9a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e0154e0d-c818-47be-8952-b26566fa9f96"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="199" y="1" width="118" height="24" uuid="3c9903b0-a8f5-4169-b30d-bfaebcb4cd1b"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total         : Rs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="26" width="147" height="25" uuid="aaffc8a6-dd2b-4a9d-afbc-a1105eba8ac2"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount paid  : Rs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="51" width="119" height="24" uuid="b09f76ee-042b-4902-8d04-e45c55d8b610"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance    : Rs.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="90" width="173" height="20" uuid="38444c5b-bfe3-406f-bc9d-d18c750a7dde"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thank You! Come Again.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="81" width="555" height="1" uuid="64f2c322-a340-4df1-aa22-e47215ecc3c4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="1" width="555" height="1" uuid="7034f658-199b-460b-99ed-46e99932d987"/>
+			</line>
+			<textField>
+				<reportElement x="321" y="2" width="149" height="23" uuid="fbc47022-b64a-4f89-bfe8-60140a368a65"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TotalValue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="51" width="150" height="25" uuid="c23b2eeb-78a5-4295-9e9f-7939e978acfa"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Balance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="28" width="145" height="21" uuid="55116954-9237-4ef7-bceb-0194015a6f93"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{AmountPaid}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
