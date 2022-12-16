@@ -11,11 +11,12 @@ public class CustomerTM {
     private String userName;
     private JFXButton deleteButton;
     private JFXButton updateButton;
+    private JFXButton mailButton;
 
     public CustomerTM() {
     }
 
-    public CustomerTM(String nic, String name, String phoneNumber, String email, String dob, JFXButton deleteButton, JFXButton updateButton) {
+    public CustomerTM(String nic, String name, String phoneNumber, String email, String dob, JFXButton deleteButton, JFXButton updateButton, JFXButton mailButton) {
         this.nic = nic;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -23,6 +24,7 @@ public class CustomerTM {
         this.dob = dob;
         this.deleteButton = deleteButton;
         this.updateButton = updateButton;
+        this.mailButton = mailButton;
     }
 
     public String getNic() {
@@ -101,5 +103,13 @@ public class CustomerTM {
                 ", deleteButton=" + deleteButton +
                 ", updateButton=" + updateButton +
                 '}';
+    }
+
+    public JFXButton getMailButton() {
+        return mailButton;
+    }
+
+    public void setMailButton(JFXButton mailButton) {
+        this.mailButton = mailButton;
     }
 }

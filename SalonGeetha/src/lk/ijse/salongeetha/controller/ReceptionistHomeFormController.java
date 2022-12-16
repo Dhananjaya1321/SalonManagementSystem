@@ -69,7 +69,7 @@ public class ReceptionistHomeFormController {
     }
 
     public void setPane(String formName) throws IOException {
-        Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/"+formName));
+        Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/" + formName));
         rightPane.getChildren().clear();
         rightPane.getChildren().add(load);
         fullPane.setCenter(load);
@@ -93,5 +93,6 @@ public class ReceptionistHomeFormController {
         });
         thread.start();
     }
+
 
 }

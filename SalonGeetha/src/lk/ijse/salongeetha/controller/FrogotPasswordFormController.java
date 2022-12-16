@@ -54,7 +54,7 @@ public class FrogotPasswordFormController {
             if (isChecked) {
                 if (email.equals(user.getEmail())) {
                     otp = GenerateOTP.getOTP();
-                    boolean isSend = SendMail.Authentication(email, otp);
+                    boolean isSend = SendMail.Authentication("Authentication",email, otp);
                     if (isSend) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Email send successfully");
                         alert.show();

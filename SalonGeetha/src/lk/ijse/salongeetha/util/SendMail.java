@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class SendMail {
-    public static boolean Authentication(String to, String text) {
+    public static boolean Authentication(String subject,String to, String text) {
         final String user = "myprojectisuru@gmail.com";
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -34,7 +34,7 @@ public class SendMail {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(user));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Authentication");
+            message.setSubject(subject);
             message.setText(text);
             Transport.send(message);
             return true;
