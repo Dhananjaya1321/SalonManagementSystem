@@ -12,13 +12,12 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.salongeetha.model.AppointmentModel;
-import lk.ijse.salongeetha.model.BookingModel;
-import lk.ijse.salongeetha.model.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
+import lk.ijse.salongeetha.model.castom.impl.BookingModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.to.tm.BookTM;
-import org.apache.poi.hssf.util.HSSFColor;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -13,8 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.model.ProductModel;
-import lk.ijse.salongeetha.model.SupplierModel;
+import lk.ijse.salongeetha.model.castom.SupplierDAO;
+import lk.ijse.salongeetha.model.castom.impl.ProductModel;
+import lk.ijse.salongeetha.model.castom.impl.SupplierModel;
 import lk.ijse.salongeetha.to.Product;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.ProductTM;
@@ -95,7 +95,7 @@ public class ManageProductController {
     @FXML
     private JFXTextField txtQtyOnHand;
     ArrayList<Product> productArrayList;
-
+    SupplierDAO supplierDAO=new SupplierModel();
     {
         try {
             productArrayList = ProductModel.getAllProduct();
@@ -306,7 +306,7 @@ public class ManageProductController {
         cmbProductCatogary.getItems().addAll(category);
 
         try {
-            ArrayList<Supplier> supplierIds = SupplierModel.getSuppliers();
+            ArrayList<Supplier> supplierIds = supplierDAO.getAll();
             String[] ids;
             if (supplierIds.size() != 0) {
                 ids = new String[supplierIds.size()];

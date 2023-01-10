@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,9 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.model.BillModel;
-import lk.ijse.salongeetha.model.CustomerModel;
-import lk.ijse.salongeetha.model.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.BillModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.BillPayment;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.BillPaymentTM;

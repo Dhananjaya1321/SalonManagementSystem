@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -12,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.model.*;
+import lk.ijse.salongeetha.model.castom.impl.SupplierModel;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.SupplierTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -86,10 +85,11 @@ public class ManageSupplierController {
     @FXML
     private JFXTextArea txtAddress;
     ArrayList<Supplier> supplierList;
+    SupplierModel supplierModel = new SupplierModel();
 
     {
         try {
-            supplierList = SupplierModel.getSuppliers();
+            supplierList = supplierModel.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -110,7 +110,7 @@ public class ManageSupplierController {
 
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = SupplierModel.addSupplier(supplier);
+                        boolean addSupplier = supplierModel.add(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Supplier added successful");
                             alert.show();
@@ -155,7 +155,7 @@ public class ManageSupplierController {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = SupplierModel.updateSupplier(supplier);
+                        boolean addSupplier = supplierModel.update(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -203,7 +203,7 @@ public class ManageSupplierController {
             cleanTable();
             supplier.setName(text);
             try {
-                supplierList = SupplierModel.searchSupplier(supplier);
+                supplierList = supplierModel.search(supplier);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -218,7 +218,7 @@ public class ManageSupplierController {
 
         try {
             tblView.getItems().clear();
-            supplierList = SupplierModel.getSuppliers();
+            supplierList = supplierModel.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -266,7 +266,7 @@ public class ManageSupplierController {
                     Supplier supplier = new Supplier();
                     supplier.setSupId(supplierId);
                     try {
-                        boolean isDeleted = SupplierModel.deleteSupplier(supplier);
+                        boolean isDeleted = supplierModel.delete(supplier);
                         if (isDeleted) {
                             Alert deleteSuccessfully = new Alert(Alert.AlertType.WARNING, "Employee delete successfully");
                             deleteSuccessfully.show();
@@ -301,7 +301,7 @@ public class ManageSupplierController {
     private void setNextId() {
         try {
 
-            String currentId = SupplierModel.checkId();
+            String currentId = supplierModel.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.SUPPLIER);
             lblSupplierId.setText(generateNextId);
 

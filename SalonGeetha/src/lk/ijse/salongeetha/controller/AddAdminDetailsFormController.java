@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.salongeetha.model.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;

@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -12,21 +11,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.model.CustomerModel;
-import lk.ijse.salongeetha.model.RentalsModel;
-import lk.ijse.salongeetha.model.ServiceModel;
+import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
 import lk.ijse.salongeetha.to.Rentals;
-import lk.ijse.salongeetha.to.Service;
-import lk.ijse.salongeetha.to.tm.EmployeeTM;
 import lk.ijse.salongeetha.to.tm.RentalsTM;
-import lk.ijse.salongeetha.to.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 

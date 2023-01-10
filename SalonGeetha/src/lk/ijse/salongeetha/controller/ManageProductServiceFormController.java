@@ -9,19 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.model.BillModel;
-import lk.ijse.salongeetha.model.ProductModel;
-import lk.ijse.salongeetha.model.ProductServiceModel;
-import lk.ijse.salongeetha.model.ServiceModel;
-import lk.ijse.salongeetha.to.BillPayment;
+import lk.ijse.salongeetha.model.castom.impl.ProductModel;
+import lk.ijse.salongeetha.model.castom.impl.ProductServiceModel;
+import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.Product;
 import lk.ijse.salongeetha.to.ProductServiceDetail;
 import lk.ijse.salongeetha.to.Service;
-import lk.ijse.salongeetha.to.tm.BillPaymentTM;
 import lk.ijse.salongeetha.to.tm.ProductServiceTM;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 

@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -17,7 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.model.*;
+import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.util.GenerateId;

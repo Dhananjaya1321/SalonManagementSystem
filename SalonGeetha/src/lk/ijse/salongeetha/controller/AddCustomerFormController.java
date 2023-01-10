@@ -10,16 +10,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.model.CustomerModel;
-import lk.ijse.salongeetha.model.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.to.Customer;
-import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static javafx.scene.paint.Color.RED;

@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.model.CustomerModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.tm.CustomerTM;
 import lk.ijse.salongeetha.util.SendMail;
@@ -27,8 +26,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static javafx.scene.paint.Color.RED;
 
 public class ManageCustomerController {
 

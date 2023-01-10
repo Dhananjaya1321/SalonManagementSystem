@@ -16,7 +16,7 @@ public class LoginFormInitializer extends Application {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/LoginForm.fxml"))));
 //        primaryStage.resizableProperty().setValue(false);
-//        primaryStage.initStyle(StageStyle.TRANSPARENT);
+//  isuru      primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
     }
 }

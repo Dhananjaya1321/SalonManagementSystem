@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -10,13 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.model.*;
+import lk.ijse.salongeetha.model.castom.impl.*;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.PaymentTM;
-import lk.ijse.salongeetha.to.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import net.sf.jasperreports.engine.*;
@@ -26,7 +23,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

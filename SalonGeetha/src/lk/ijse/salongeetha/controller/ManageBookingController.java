@@ -1,6 +1,5 @@
 package lk.ijse.salongeetha.controller;
 
-import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -14,32 +13,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.model.*;
+import lk.ijse.salongeetha.model.castom.impl.BookingModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
 import lk.ijse.salongeetha.to.*;
-import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.to.tm.BookTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
-import lk.ijse.salongeetha.util.Validation;
-import lk.ijse.salongeetha.util.ValidityCheck;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
-import rex.utils.S;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 
 import static javafx.scene.paint.Color.RED;

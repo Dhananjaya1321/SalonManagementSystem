@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.model.LoginModel;
+import lk.ijse.salongeetha.model.castom.impl.LoginModel;
 import lk.ijse.salongeetha.util.GenerateOTP;
 import lk.ijse.salongeetha.util.SendMail;
 import lk.ijse.salongeetha.to.User;
