@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Payment;
@@ -15,13 +16,8 @@ public class BookingModel {
     public static boolean addBooking(Book book, ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
-            PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection().
-                    prepareStatement("INSERT INTO Book (Bok_Id,Date,NIC) VALUES (?,?,?)");
-            preparedStatement.setObject(1, book.getBokId());
-            preparedStatement.setObject(2, book.getDate());
-            preparedStatement.setObject(3, book.getNic());
-            int executeUpdate = preparedStatement.executeUpdate();
-            if (executeUpdate > 0) {
+            boolean isAdded = CrudUtil.setQuery("INSERT INTO Book (Bok_Id,Date,NIC) VALUES (?,?,?)", book.getBokId(), book.getDate(), book.getNic());
+            if (isAdded) {
                 boolean addDetails = BookingRentalsModel.addDetails(bookRentalsDetails);
                 if (addDetails) {
                     boolean updateRentalQty = RentalsModel.updateRentalQty(bookRentalsDetails);
@@ -35,50 +31,30 @@ public class BookingModel {
             }
             DBConnection.getDBConnection().getConnection().rollback();
             return false;
-        }finally {
+        } finally {
             DBConnection.getDBConnection().getConnection().setAutoCommit(true);
         }
     }
 
     public static boolean deleteBooking(Book book) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("DELETE FROM Book WHERE Bok_Id=?");
-        preparedStatement.setObject(1,book.getBokId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("DELETE FROM Book WHERE Bok_Id=?",book.getBokId());
     }
+
     public static boolean updateBooking(Book book) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("UPDATE Book SET Status=? WHERE Bok_Id=?");
-//        preparedStatement.setObject(1,book.getDate());
-        preparedStatement.setObject(1,book.getStatus());
-        preparedStatement.setObject(2,book.getBokId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if(executeUpdate > 0){
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("UPDATE Book SET Status=? WHERE Bok_Id=?", book.getStatus(), book.getBokId());
     }
 
     public static String checkId() throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Bok_Id FROM book ORDER BY Bok_Id DESC LIMIT 1");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Bok_Id FROM book ORDER BY Bok_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
-
         }
         return null;
     }
 
     public static ArrayList<Book> getIdS() throws SQLException, ClassNotFoundException {
         ArrayList<Book> books = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Bok_Id FROM Book WHERE Status='Pending'");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Bok_Id FROM Book WHERE Status='Pending'");
         while (resultSet.next()) {
             Book book = new Book();
             book.setBokId(String.valueOf(resultSet.getObject(1)));
@@ -88,48 +64,37 @@ public class BookingModel {
     }
 
     public static void getId(Payment payment) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("select nic from book where bok_id=?");
-        prepareStatement.setObject(1,payment.getaOrBId());
-        ResultSet resultSet = prepareStatement.executeQuery();
-        if(resultSet.next()){
+        ResultSet resultSet = CrudUtil.setQuery("select nic from book where bok_id=?", payment.getaOrBId());
+        if (resultSet.next()) {
             payment.setNic(String.valueOf(resultSet.getObject(1)));
-
         }
-
     }
 
     public static String getBookingCount(String setDate) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().
-                prepareStatement("SELECT COUNT(Bok_Id) FROM Book WHERE Date=?");
-        prepareStatement.setObject(1,setDate);
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT COUNT(Bok_Id) FROM Book WHERE Date=?",setDate);
         if (resultSet.next()) {
-            String count=resultSet.getString(1);
+            String count = resultSet.getString(1);
             return count;
         }
         return null;
     }
 
     public static ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
-        ArrayList<BookTM> bookTMS=new ArrayList<>();
+        ArrayList<BookTM> bookTMS = new ArrayList<>();
         String quary;
         if (time.equals("Past 7 day")) {
-             quary="SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
-        }else if(time.equals("Past 30 day")){
-            quary="SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
-        }else if(time.equals("Past 1 year")){
-            quary="SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
-        }else {
-            quary="SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
+            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
+        } else if (time.equals("Past 30 day")) {
+            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
+        } else if (time.equals("Past 1 year")) {
+            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
+        } else {
+            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
         }
 
-
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().
-                prepareStatement(quary);
-        ResultSet resultSet = prepareStatement.executeQuery();
-        while (resultSet.next()){
-            BookTM bookTM=new BookTM();
+        ResultSet resultSet = CrudUtil.setQuery(quary);
+        while (resultSet.next()) {
+            BookTM bookTM = new BookTM();
             bookTM.setQty(resultSet.getInt(1));
             bookTM.setDate(resultSet.getString(2));
             bookTMS.add(bookTM);
