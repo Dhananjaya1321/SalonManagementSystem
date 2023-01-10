@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
@@ -15,19 +16,13 @@ public class AppointmentModel {
     public static boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
-            PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection().
-                    prepareStatement("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)");
-            preparedStatement.setObject(1, appointment.getAptId());
-            preparedStatement.setObject(2, appointment.getDate());
-            preparedStatement.setObject(3, appointment.getTime());
-            preparedStatement.setObject(4, appointment.getNic());
-            int executeUpdate = preparedStatement.executeUpdate();
-            if (executeUpdate > 0) {
+            boolean isAdded = CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
+                    , appointment.getDate(), appointment.getTime(), appointment.getNic());
+            if (isAdded) {
                 boolean addDetails = ServiceAppointmentModel.addDetails(serviceAppointmentDetails);
                 if (addDetails) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;
-
                 }
             }
             DBConnection.getDBConnection().getConnection().rollback();
@@ -38,46 +33,24 @@ public class AppointmentModel {
     }
 
     public static boolean deleteAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("DELETE FROM Appointment WHERE Apt_Id=?");
-        preparedStatement.setObject(1, appointment.getAptId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("DELETE FROM Appointment WHERE Apt_Id=?", appointment.getAptId());
     }
 
     public static boolean updateAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("UPDATE Appointment SET Status=? WHERE Apt_Id=?");
-//        preparedStatement.setObject(1,appointment.getDate());
-//        preparedStatement.setObject(2,appointment.getTime());
-        preparedStatement.setObject(1, appointment.getStatus());
-        preparedStatement.setObject(2, appointment.getAptId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("UPDATE Appointment SET Status=? WHERE Apt_Id=?", appointment.getStatus(), appointment.getAptId());
     }
 
     public static String checkId() throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
-
         }
         return null;
     }
 
     public static ArrayList<Appointment> getIds() throws SQLException, ClassNotFoundException {
         ArrayList<Appointment> appointments = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Apt_Id FROM Appointment WHERE Status='Pending'");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM Appointment WHERE Status='Pending'");
         while (resultSet.next()) {
             Appointment appointment = new Appointment();
             appointment.setAptId(String.valueOf(resultSet.getObject(1)));
@@ -87,10 +60,7 @@ public class AppointmentModel {
     }
 
     public static boolean getId(Payment payment) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("select nic from appointment where Apt_Id=?");
-        prepareStatement.setObject(1, payment.getaOrBId());
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("select nic from appointment where Apt_Id=?", payment.getaOrBId());
         if (resultSet.next()) {
             payment.setNic(String.valueOf(resultSet.getObject(1)));
             return true;
@@ -99,10 +69,7 @@ public class AppointmentModel {
     }
 
     public static String getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().
-                prepareStatement("SELECT COUNT(Apt_Id) FROM Appointment WHERE Date=?");
-        prepareStatement.setObject(1, setDate);
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT COUNT(Apt_Id) FROM Appointment WHERE Date=?", setDate);
         if (resultSet.next()) {
             String count = resultSet.getString(1);
             return count;
@@ -122,9 +89,7 @@ public class AppointmentModel {
         } else {
             quary = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date";
         }
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().
-                prepareStatement(quary);
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery(quary);
         while (resultSet.next()) {
             AppointmentTM appointmentTM = new AppointmentTM();
             appointmentTM.setCount(resultSet.getInt(1));

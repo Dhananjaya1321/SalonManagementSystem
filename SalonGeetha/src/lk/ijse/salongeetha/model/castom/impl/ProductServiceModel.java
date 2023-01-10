@@ -1,8 +1,10 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
+import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.ProductServiceDetail;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,12 +30,17 @@ public class ProductServiceModel {
     }
 
     public static boolean addProductService(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO product_service_detail VALUES (?,?,?)",productServiceDetail.getProId(),
-                productServiceDetail.getSevId(),productServiceDetail.getQty());
+        return CrudUtil.setQuery("INSERT INTO product_service_detail VALUES (?,?,?)", productServiceDetail.getProId(),
+                productServiceDetail.getSevId(), productServiceDetail.getQty());
     }
 
     public static boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("SELECT * FROM product_service_detail WHERE Pro_Id=? AND Sev_Id=?",productServiceDetail.getProId()
-        ,productServiceDetail.getSevId());
+
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM product_service_detail WHERE Pro_Id=? AND Sev_Id=?", productServiceDetail.getProId()
+                , productServiceDetail.getSevId());
+        if (resultSet.next()) {
+            return true;
+        }
+        return false;
     }
 }
