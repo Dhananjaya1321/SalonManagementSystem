@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 
 import java.sql.PreparedStatement;
@@ -13,14 +14,9 @@ public class BookingRentalsModel {
     public static boolean addDetails(ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
         int i = 0;
         for (BookRentalsDetail b : bookRentalsDetails) {
-            PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                    .prepareStatement("INSERT INTO book_rentals_detail VALUES (?,?,?,?)");
-            prepareStatement.setObject(1,b.getRentId());
-            prepareStatement.setObject(2,b.getBokId());
-            prepareStatement.setObject(3,b.getQty());
-            prepareStatement.setObject(4,b.getForHowManyDays());
-            int executeUpdate = prepareStatement.executeUpdate();
-            if (executeUpdate > 0) {
+            boolean isAdded = CrudUtil.setQuery("INSERT INTO book_rentals_detail VALUES (?,?,?,?)", b.getRentId(), b.getBokId()
+                    , b.getQty(), b.getForHowManyDays());
+            if (isAdded) {
                 i++;
             }
         }
@@ -31,20 +27,16 @@ public class BookingRentalsModel {
     }
 
     public static ArrayList<BookRentalsDetail> getAmountDue(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException {
-        ArrayList<BookRentalsDetail> bookRentalsDetails=new ArrayList<>();
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("select bd.Qty,bd.For_how_many_days,r.Price_pre_day,r.Discount \n" +
-                        "from book_rentals_detail bd join rentals r on bd.Rent_Id = r.Rent_Id where Bok_Id = ?");
-        prepareStatement.setObject(1,bookRentalsDetail.getBokId());
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ArrayList<BookRentalsDetail> bookRentalsDetails = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.setQuery("select bd.Qty,bd.For_how_many_days,r.Price_pre_day,r.Discount \n" +
+                "from book_rentals_detail bd join rentals r on bd.Rent_Id = r.Rent_Id where Bok_Id = ?", bookRentalsDetail.getBokId());
         while (resultSet.next()) {
-            BookRentalsDetail setBookRentalsDetail=new BookRentalsDetail();
+            BookRentalsDetail setBookRentalsDetail = new BookRentalsDetail();
             setBookRentalsDetail.setQty((Integer) resultSet.getObject(1));
             setBookRentalsDetail.setForHowManyDays((Integer) resultSet.getObject(2));
             setBookRentalsDetail.setPrice((Double) resultSet.getObject(3));
             setBookRentalsDetail.setDiscount((Double) resultSet.getObject(4));
             bookRentalsDetails.add(setBookRentalsDetail);
-
         }
         return bookRentalsDetails;
     }
