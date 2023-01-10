@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.EmployeeServiceDetail;
 import lk.ijse.salongeetha.to.ProductServiceDetail;
 
@@ -14,13 +15,10 @@ public class EmployeeServiceModel {
 
     public static ArrayList<EmployeeServiceDetail> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
         ArrayList<EmployeeServiceDetail> employeeServiceDetails = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("select es.Emp_Id,es.Sev_Id,e.Name,s.Name from employee_service_detail es join \n" +
-                        "service s on es.Sev_Id = s.Sev_Id join employee e on es.Emp_Id = e.Emp_Id;");
-        ResultSet resultSet = preparedStatement.executeQuery();
-
+        ResultSet resultSet = CrudUtil.setQuery("select es.Emp_Id,es.Sev_Id,e.Name,s.Name from employee_service_detail es join \n" +
+                "service s on es.Sev_Id = s.Sev_Id join employee e on es.Emp_Id = e.Emp_Id;");
         while (resultSet.next()) {
-            EmployeeServiceDetail employeeServiceDetail=new EmployeeServiceDetail();
+            EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
             employeeServiceDetail.setEmpId(String.valueOf(resultSet.getObject(1)));
             employeeServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
             employeeServiceDetail.setEmpName(String.valueOf(resultSet.getObject(3)));
@@ -31,23 +29,13 @@ public class EmployeeServiceModel {
     }
 
     public static boolean deleteEmployeeService(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("DELETE FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?");
-        prepareStatement.setObject(1,employeeServiceDetail.getEmpId());
-        prepareStatement.setObject(2,employeeServiceDetail.getSevId());
-        int executeUpdate = prepareStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("DELETE FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
+                employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
     }
 
     public static boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT * FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?");
-        prepareStatement.setObject(1,employeeServiceDetail.getEmpId());
-        prepareStatement.setObject(2,employeeServiceDetail.getSevId());
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
+                employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
         if (resultSet.next()) {
             return true;
         }
@@ -55,14 +43,7 @@ public class EmployeeServiceModel {
     }
 
     public static boolean addEmployeeService(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("INSERT INTO employee_service_detail VALUES (?,?)");
-        prepareStatement.setObject(1,employeeServiceDetail.getEmpId());
-        prepareStatement.setObject(2,employeeServiceDetail.getSevId());
-        boolean isAdded = prepareStatement.executeUpdate() > 0;
-        if (isAdded) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("INSERT INTO employee_service_detail VALUES (?,?)", employeeServiceDetail.getEmpId(),
+                employeeServiceDetail.getSevId());
     }
 }
