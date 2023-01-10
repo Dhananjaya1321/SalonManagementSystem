@@ -1,9 +1,5 @@
 package lk.ijse.salongeetha.model;
 
-import lk.ijse.salongeetha.to.Employee;
-import lk.ijse.salongeetha.to.Supplier;
-import lk.ijse.salongeetha.to.User;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 

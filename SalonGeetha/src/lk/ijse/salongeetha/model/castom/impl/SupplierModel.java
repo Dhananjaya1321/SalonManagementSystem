@@ -1,12 +1,9 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.SupplierDAO;
-import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.Supplier;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
