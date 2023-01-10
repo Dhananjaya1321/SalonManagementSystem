@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.Product;
 
@@ -13,66 +14,32 @@ import java.util.regex.Pattern;
 
 public class ProductModel {
     public static boolean addProduct(Product product) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("INSERT INTO Product VALUES (?,?,?,?,?,?,?)");
-        preparedStatement.setObject(1, product.getProId());
-        preparedStatement.setObject(2, product.getDescription());
-        preparedStatement.setObject(3, product.getCategory());
-        preparedStatement.setObject(4, product.getBrand());
-        preparedStatement.setObject(5, product.getUnitPrice());
-        preparedStatement.setObject(6, product.getQtyOnHand());
-        preparedStatement.setObject(7, product.getSupId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("INSERT INTO Product VALUES (?,?,?,?,?,?,?)", product.getProId()
+                , product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId());
     }
 
     public static boolean deleteProduct(Product product) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("DELETE FROM Product WHERE Pro_Id=?");
-        preparedStatement.setObject(1, product.getProId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("DELETE FROM Product WHERE Pro_Id=?", product.getProId());
     }
 
     public static boolean updateProduct(Product product) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("UPDATE Product SET Description=?,Category=?,Brand=?,Unit_price=?" +
-                        ",Qty_on_hand=?,Sup_Id=? WHERE Pro_Id=?");
-        preparedStatement.setObject(1, product.getDescription());
-        preparedStatement.setObject(2, product.getCategory());
-        preparedStatement.setObject(3, product.getBrand());
-        preparedStatement.setObject(4, product.getUnitPrice());
-        preparedStatement.setObject(5, product.getQtyOnHand());
-        preparedStatement.setObject(6, product.getSupId());
-        preparedStatement.setObject(7, product.getProId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+        return CrudUtil.setQuery("UPDATE Product SET Description=?,Category=?,Brand=?,Unit_price=?,Qty_on_hand=?,Sup_Id=?" +
+                " WHERE Pro_Id=?", product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId(), product.getProId());
     }
 
     public static ArrayList<Product> searchProduct(Product product) throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products=new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(product.getBrand());
         if (matcher.matches()) {
-            setColumn="SELECT * FROM Product WHERE Brand LIKE ?";
-        }else {
-            setColumn="SELECT * FROM Product WHERE Pro_Id LIKE ?";
+            setColumn = "SELECT * FROM Product WHERE Brand LIKE ?";
+        } else {
+            setColumn = "SELECT * FROM Product WHERE Pro_Id LIKE ?";
         }
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().prepareStatement(setColumn);
-        prepareStatement.setObject(1,"%"+product.getBrand()+"%");
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + product.getBrand() + "%");
         while (resultSet.next()) {
-            Product searchProduct=new Product();
+            Product searchProduct = new Product();
             searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
             searchProduct.setDescription(String.valueOf(resultSet.getObject(2)));
             searchProduct.setCategory(String.valueOf(resultSet.getObject(3)));
@@ -86,9 +53,7 @@ public class ProductModel {
     }
 
     public static String checkId() throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Pro_Id FROM Product ORDER BY Pro_Id DESC LIMIT 1");
-        ResultSet resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Pro_Id FROM Product ORDER BY Pro_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
         }
@@ -97,10 +62,7 @@ public class ProductModel {
 
     public static ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT * FROM Product");
-        ResultSet resultSet = preparedStatement.executeQuery();
-
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Product");
         while (resultSet.next()) {
             Product product = new Product();
             product.setProId(String.valueOf(resultSet.getObject(1)));
