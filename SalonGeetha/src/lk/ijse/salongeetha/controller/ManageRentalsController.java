@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
 import lk.ijse.salongeetha.to.Rentals;
 import lk.ijse.salongeetha.to.tm.RentalsTM;
@@ -83,10 +84,11 @@ public class ManageRentalsController {
     @FXML
     private JFXTextField txtDiscount;
     ArrayList<Rentals> rentalsArrayList;
+    RentalsDAO rentalsDAO = new RentalsModel();
 
     {
         try {
-            rentalsArrayList = RentalsModel.getAllRentals();
+            rentalsArrayList = rentalsDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -115,7 +117,7 @@ public class ManageRentalsController {
 
                     rentals.setRntId(rentalId);
                     try {
-                        boolean isDeleted = RentalsModel.deleteRentals(rentals);
+                        boolean isDeleted = rentalsDAO.delete(rentals);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -163,7 +165,7 @@ public class ManageRentalsController {
                 if (pricePreDay > 0) {
                     Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean addRentals = RentalsModel.addRentals(rentals);
+                        boolean addRentals = rentalsDAO.add(rentals);
                         if (addRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Renal add is successful");
                             alert.show();
@@ -207,7 +209,7 @@ public class ManageRentalsController {
                 if (pricePreDay > 0) {
                     Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean updateRentals = RentalsModel.updateRentals(rentals);
+                        boolean updateRentals = rentalsDAO.update(rentals);
                         if (updateRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -254,7 +256,7 @@ public class ManageRentalsController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            rentalsArrayList = RentalsModel.getAllRentals();
+            rentalsArrayList = rentalsDAO.getAll();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -264,7 +266,7 @@ public class ManageRentalsController {
     private void setNextId() {
         try {
 
-            String currentId = RentalsModel.checkId();
+            String currentId = rentalsDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.RENTAL);
             lblRentalId.setText(generateNextId);
 
@@ -302,7 +304,7 @@ public class ManageRentalsController {
             cleanTable();
             rentals.setName(text);
             try {
-                rentalsArrayList = RentalsModel.searchRentals(rentals);
+                rentalsArrayList = rentalsDAO.search(rentals);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -316,7 +318,7 @@ public class ManageRentalsController {
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            rentalsArrayList = RentalsModel.getAllRentals();
+            rentalsArrayList = rentalsDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
