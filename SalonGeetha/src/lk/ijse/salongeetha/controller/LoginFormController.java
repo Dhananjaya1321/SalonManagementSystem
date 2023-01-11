@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.salongeetha.model.castom.LoginDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.LoginModel;
 import lk.ijse.salongeetha.to.Employee;
@@ -94,6 +95,7 @@ public class LoginFormController {
 
     @FXML
     private AnchorPane leftPane;
+    LoginDAO loginDAO = new LoginModel();
 
     @FXML
     void createAccountOnAction(ActionEvent event) {
@@ -115,7 +117,7 @@ public class LoginFormController {
                     if (ValidityCheck.check(Validation.EMAIL, email)) {
                         if (ValidityCheck.check(Validation.PASSWORD, password)) {
                             if (rePassword.equals(password)) {
-                                creatAccount(user,employee);
+                                creatAccount(user, employee);
                                 lblUserNameValidation.setText(null);
                                 btnClose.setVisible(false);
                                 btnClose1.setVisible(true);
@@ -155,7 +157,7 @@ public class LoginFormController {
 
     private void creatAccount(User user, Employee employee) {
         try {
-            boolean isAdded = LoginModel.addAdminDetails(user,employee);
+            boolean isAdded = loginDAO.addDetails(user, employee);
             if (isAdded) {
                 TranslateTransition slide = new TranslateTransition();
                 slide.setDuration(Duration.seconds(0.7));
@@ -187,7 +189,7 @@ public class LoginFormController {
         user.setUserName(userName);
         user.setPassword(password);
         try {
-            boolean isSetUserAccount = LoginModel.setUserAccount(user);
+            boolean isSetUserAccount = loginDAO.setUserAccount(user);
             if (isSetUserAccount) {
 
                 if (password.equals(user.getPassword())) {
@@ -264,10 +266,9 @@ public class LoginFormController {
     }
 
 
-
     public void initialize() {
         try {
-            boolean isChecked = LoginModel.checkUserAccount();
+            boolean isChecked = loginDAO.checkUserAccount();
             if (isChecked) {
                 setPage(isChecked);
             } else {
