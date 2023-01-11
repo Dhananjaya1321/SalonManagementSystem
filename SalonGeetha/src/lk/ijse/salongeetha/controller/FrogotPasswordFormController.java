@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.LoginDAO;
 import lk.ijse.salongeetha.model.castom.impl.LoginModel;
 import lk.ijse.salongeetha.util.GenerateOTP;
 import lk.ijse.salongeetha.util.SendMail;
@@ -41,6 +42,7 @@ public class FrogotPasswordFormController {
 
     private String otp;
     private String userName;
+    LoginDAO loginDAO = new LoginModel();
 
     @FXML
     void btnSendEmailOnAction(ActionEvent event) {
@@ -50,11 +52,11 @@ public class FrogotPasswordFormController {
         user.setUserName(userName);
         try {
 
-            boolean isChecked = LoginModel.checkEmail(user);
+            boolean isChecked = loginDAO.checkEmail(user);
             if (isChecked) {
                 if (email.equals(user.getEmail())) {
                     otp = GenerateOTP.getOTP();
-                    boolean isSend = SendMail.Authentication("Authentication",email, otp);
+                    boolean isSend = SendMail.Authentication("Authentication", email, otp);
                     if (isSend) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Email send successfully");
                         alert.show();
