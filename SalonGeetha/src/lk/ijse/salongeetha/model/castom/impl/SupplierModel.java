@@ -32,10 +32,6 @@ public class SupplierModel implements SupplierDAO {
                 , supplier.getName(), supplier.getAddress(), supplier.getPhoneNumber(), supplier.getEmail());
     }
 
-    @Override
-    public boolean delete(Supplier user, Supplier employee) throws SQLException, ClassNotFoundException {
-        return false;
-    }
 
     public boolean delete(Supplier supplier) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Supplier WHERE Sup_Id=?", supplier.getSupId());

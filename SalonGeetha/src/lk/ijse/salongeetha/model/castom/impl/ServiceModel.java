@@ -1,75 +1,41 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.to.Service;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ServiceModel {
-    public static boolean addService(Service service) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection().
-                prepareStatement("INSERT INTO Service VALUES (?,?,?,?,?)");
-        preparedStatement.setObject(1, service.getSevId());
-        preparedStatement.setObject(2, service.getDescription());
-        preparedStatement.setObject(3, service.getName());
-        preparedStatement.setObject(4, service.getPrice());
-        preparedStatement.setObject(5, service.getDiscount());
-
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+public class ServiceModel implements ServiceDAO {
+    public boolean add(Service service) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Service VALUES (?,?,?,?,?)", service.getSevId(), service.getDescription()
+                , service.getName(), service.getPrice(), service.getDiscount());
     }
 
-    public static boolean deleteService(Service service) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("DELETE FROM Service WHERE Sev_Id=?");
-        preparedStatement.setObject(1, service.getSevId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+    public boolean delete(Service service) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM Service WHERE Sev_Id=?", service.getSevId());
     }
 
-    public static boolean updateService(Service service) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("UPDATE Service SET Description=?,Name=?,Price=?,Discount=? WHERE Sev_Id=?");
-        preparedStatement.setObject(1, service.getDescription());
-        preparedStatement.setObject(2, service.getName());
-        preparedStatement.setObject(3, service.getPrice());
-        preparedStatement.setObject(4, service.getDiscount());
-        preparedStatement.setObject(5, service.getSevId());
-        int executeUpdate = preparedStatement.executeUpdate();
-        if (executeUpdate > 0) {
-            return true;
-        }
-        return false;
+    public boolean update(Service service) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("UPDATE Service SET Description=?,Name=?,Price=?,Discount=? WHERE Sev_Id=?", service.getDescription()
+                , service.getName(), service.getPrice(), service.getDiscount(), service.getSevId());
     }
 
-    public static String checkId() throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT Sev_Id FROM Service ORDER BY Sev_Id DESC LIMIT 1");
-        ResultSet resultSet = preparedStatement.executeQuery();
+    public String checkId() throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Sev_Id FROM Service ORDER BY Sev_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
         }
         return null;
     }
 
-    public static ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
+    public ArrayList<Service> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
-                .prepareStatement("SELECT * FROM Service");
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-//        if (resultSet.next()) {
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Service");
         while (resultSet.next()) {
             Service service = new Service();
             service.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -82,7 +48,7 @@ public class ServiceModel {
         return services;
     }
 
-    public static ArrayList<Service> searchService(Service service) throws SQLException, ClassNotFoundException {
+    public ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
@@ -92,10 +58,7 @@ public class ServiceModel {
         } else {
             setColumn = "SELECT * FROM Service WHERE Sev_Id LIKE ?";
         }
-
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().prepareStatement(setColumn);
-        prepareStatement.setObject(1, "%" + service.getName() + "%");
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + service.getName() + "%");
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -110,9 +73,7 @@ public class ServiceModel {
 
     public static ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        PreparedStatement prepareStatement = DBConnection.getDBConnection().getConnection().prepareStatement("SELECT * FROM Service WHERE Sev_Id = ?");
-        prepareStatement.setObject(1, service.getSevId());
-        ResultSet resultSet = prepareStatement.executeQuery();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Service WHERE Sev_Id = ?", service.getSevId());
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
