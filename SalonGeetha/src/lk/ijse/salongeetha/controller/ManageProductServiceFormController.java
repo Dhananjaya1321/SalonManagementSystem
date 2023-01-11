@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.ProductDAO;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.ProductModel;
 import lk.ijse.salongeetha.model.castom.impl.ProductServiceModel;
 import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
@@ -67,7 +69,8 @@ public class ManageProductServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String productId;
-
+    ProductDAO productDAO=new ProductModel();
+    ServiceDAO serviceDAO=new ServiceModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String productIdValue = cmbProductId.getValue();
@@ -107,7 +110,7 @@ public class ManageProductServiceFormController {
         Service service = new Service();
         service.setName(serviceId);
         try {
-            ArrayList<Service> services = ServiceModel.searchService(service);
+            ArrayList<Service> services = serviceDAO.search(service);
             if (services.size() > 0) {
                 for (Service s : services) {
                     lblServiceName.setText(s.getName());
@@ -126,7 +129,7 @@ public class ManageProductServiceFormController {
     public void initialize() {
         btnSave.setVisible(false);
         try {
-            ArrayList<Service> services = ServiceModel.getAllService();
+            ArrayList<Service> services = serviceDAO.getAll();
             String[] ids;
 
             if (services.size() != 0) {
@@ -138,7 +141,7 @@ public class ManageProductServiceFormController {
             }
 
 
-            ArrayList<Product> products = ProductModel.getAllProduct();
+            ArrayList<Product> products = productDAO.getAll();
             String[] Pids;
             if (products.size() != 0) {
                 Pids = new String[products.size()];
