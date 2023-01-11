@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.castom.PaymentDAO;
 import lk.ijse.salongeetha.model.castom.impl.*;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.PaymentTM;
@@ -80,11 +81,12 @@ public class ManagePaymentController {
     private String setAOrB = "Appointment payment";
     ArrayList<Payment> aPaymentArrayList;
     ArrayList<Payment> bPaymentArrayList;
+    PaymentDAO paymentDAO = new PaymentModel();
 
     {
         try {
-            aPaymentArrayList = PaymentModel.getAllAPayments();
-            bPaymentArrayList = PaymentModel.getAllBPayments();
+            aPaymentArrayList = paymentDAO.getAllAPayments();
+            bPaymentArrayList = paymentDAO.getAllBPayments();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -170,7 +172,7 @@ public class ManagePaymentController {
 
     private void setNextAId() {
         try {
-            String billPayment = PaymentModel.checkAppointmentId();
+            String billPayment = paymentDAO.checkAppointmentId();
             String generateNextId = GenerateId.generateNextId(billPayment, IdTypes.APAYMENT);
             lblPaymentId.setText(generateNextId);
 
@@ -181,7 +183,7 @@ public class ManagePaymentController {
 
     private void setNextBId() {
         try {
-            String billPayment = PaymentModel.checkBookId();
+            String billPayment = paymentDAO.checkBookId();
             String generateNextId = GenerateId.generateNextId(billPayment, IdTypes.BPAYMENT);
             lblPaymentId.setText(generateNextId);
 
@@ -202,24 +204,24 @@ public class ManagePaymentController {
         payment.setAmountDue(amountDue);
         payment.setaOrBId(appointmentIdOrBookingIdValue);
         try {
-            boolean addPayment = PaymentModel.addPayment(payment);
+            boolean addPayment = paymentDAO.add(payment);
             if (addPayment) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Payment add is successful");
                 alert.show();
                 loadCmb();
                 tblView.getItems().clear();
 
-                if(setAOrB.equals("Appointment payment")) {
-                    aPaymentArrayList = PaymentModel.getAllAPayments();
+                if (setAOrB.equals("Appointment payment")) {
+                    aPaymentArrayList = paymentDAO.getAllAPayments();
                     loadAllAPaymentData();
                     setNextAId();
 
 
                     InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/appointmentBill.jrxml");
-                    HashMap<String,Object> hm = new HashMap<>();
-                    hm.put("TotalValue",Double.valueOf(lblAmountDue.getText()));
-                    hm.put("AmountPaid",Double.valueOf(txtAmountPaid.getText()));
-                    hm.put("Balance",Double.valueOf(lblBalance.getText()));
+                    HashMap<String, Object> hm = new HashMap<>();
+                    hm.put("TotalValue", Double.valueOf(lblAmountDue.getText()));
+                    hm.put("AmountPaid", Double.valueOf(txtAmountPaid.getText()));
+                    hm.put("Balance", Double.valueOf(lblBalance.getText()));
                     try {
                         JasperReport jasperReport = JasperCompileManager.compileReport(resource);
                         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, hm, DBConnection.getDBConnection().getConnection());
@@ -227,18 +229,17 @@ public class ManagePaymentController {
                     } catch (JRException | ClassNotFoundException | SQLException e) {
                         e.printStackTrace();
                     }
-                }else {
-                    bPaymentArrayList = PaymentModel.getAllBPayments();
+                } else {
+                    bPaymentArrayList = paymentDAO.getAllBPayments();
                     loadAllBPaymentData();
                     setNextBId();
 
 
-
                     InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/bookingBill.jrxml");
-                    HashMap<String,Object> hm = new HashMap<>();
-                    hm.put("TotalValue",Double.valueOf(lblAmountDue.getText()));
-                    hm.put("AmountPaid",Double.valueOf(txtAmountPaid.getText()));
-                    hm.put("Balance",Double.valueOf(lblBalance.getText()));
+                    HashMap<String, Object> hm = new HashMap<>();
+                    hm.put("TotalValue", Double.valueOf(lblAmountDue.getText()));
+                    hm.put("AmountPaid", Double.valueOf(txtAmountPaid.getText()));
+                    hm.put("Balance", Double.valueOf(lblBalance.getText()));
                     try {
                         JasperReport jasperReport = JasperCompileManager.compileReport(resource);
                         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, hm, DBConnection.getDBConnection().getConnection());
