@@ -2,6 +2,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.PaymentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.Payment;
@@ -13,8 +14,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PaymentModel {
-    public static boolean addPayment(Payment payment) throws SQLException, ClassNotFoundException {
+public class PaymentModel implements PaymentDAO {
+    public boolean add(Payment payment) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement;
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
         Matcher matcher = namePattern.matcher(payment.getaOrBId());
@@ -49,16 +50,31 @@ public class PaymentModel {
         }
     }
 
-    public static boolean deletePayment(Payment payment) throws SQLException, ClassNotFoundException {
+    public boolean delete(Payment payment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Payment WHERE Pay_Id=?", payment.getPayId());
     }
 
-    public static boolean updatePayment(Payment payment) throws SQLException, ClassNotFoundException {
+    @Override
+    public ArrayList<Payment> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public boolean update(Payment payment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Payment SET Amount_paid=?,Balance=?,Payment_method=? WHERE Pay_Id=?",
                 payment.getAmountPaid(), payment.getBalance(), payment.getPaymentMethod(), payment.getPayId());
     }
 
-    public static String checkAppointmentId() throws SQLException, ClassNotFoundException {
+    @Override
+    public String checkId() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Payment> search(Payment supplier) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public String checkAppointmentId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pay_Id FROM appointment_payment ORDER BY Pay_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -66,7 +82,7 @@ public class PaymentModel {
         return null;
     }
 
-    public static String checkBookId() throws SQLException, ClassNotFoundException {
+    public String checkBookId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pay_Id FROM book_payment ORDER BY Pay_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -74,13 +90,13 @@ public class PaymentModel {
         return null;
     }
 
-    public static void searchPaymentDetails(Payment payment) throws SQLException, ClassNotFoundException {
+    public void searchPaymentDetails(Payment payment) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = DBConnection.getDBConnection().getConnection()
                 .prepareStatement("SELECT Pay_Id FROM payment ORDER BY Pay_Id DESC LIMIT 1");
         ResultSet resultSet = preparedStatement.executeQuery();
     }
 
-    public static ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
+    public ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
         ArrayList<Payment> payments = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM appointment_payment");
         while (resultSet.next()) {
@@ -94,7 +110,7 @@ public class PaymentModel {
         return payments;
     }
 
-    public static ArrayList<Payment> getAllBPayments() throws SQLException, ClassNotFoundException {
+    public ArrayList<Payment> getAllBPayments() throws SQLException, ClassNotFoundException {
         ArrayList<Payment> payments = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM book_payment");
         while (resultSet.next()) {
