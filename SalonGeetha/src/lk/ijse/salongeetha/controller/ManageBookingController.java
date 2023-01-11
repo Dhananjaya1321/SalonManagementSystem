@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.model.castom.impl.BookingModel;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
@@ -131,7 +132,8 @@ public class ManageBookingController {
     private JFXTextField txtQty;
     private double calTotal = 0;
     ObservableList<BookTM> observableList = FXCollections.observableArrayList();
-//    ArrayList<BookTM> arrayList = new ArrayList();
+    //    ArrayList<BookTM> arrayList = new ArrayList();
+    RentalsDAO rentalsDAO = new RentalsModel();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -246,8 +248,6 @@ public class ManageBookingController {
                 setNextId();
 
 
-
-
             }
 
 
@@ -356,7 +356,7 @@ public class ManageBookingController {
 
     private void loadCmb() {
         try {
-            ArrayList<Rentals> allRentals = RentalsModel.getAllRentals();
+            ArrayList<Rentals> allRentals = rentalsDAO.getAll();
             String[] ids;
             if (allRentals.size() != 0) {
                 ids = new String[allRentals.size()];
