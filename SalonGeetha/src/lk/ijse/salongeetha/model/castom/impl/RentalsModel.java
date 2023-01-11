@@ -1,6 +1,7 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Rentals;
 
@@ -10,22 +11,22 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RentalsModel {
-    public static boolean addRentals(Rentals rentals) throws SQLException, ClassNotFoundException {
+public class RentalsModel implements RentalsDAO {
+    public boolean add(Rentals rentals) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO Rentals VALUES (?,?,?,?,?,?)", rentals.getRntId(), rentals.getName()
                 , rentals.getPricePreDay(), rentals.getDescription(), rentals.getAvaliableCount(), rentals.getDiscount());
     }
 
-    public static boolean deleteRentals(Rentals rentals) throws SQLException, ClassNotFoundException {
+    public boolean delete(Rentals rentals) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Rentals WHERE Rent_Id=?", rentals.getRntId());
     }
 
-    public static boolean updateRentals(Rentals rentals) throws SQLException, ClassNotFoundException {
+    public boolean update(Rentals rentals) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Rentals SET Name=?,Price_pre_day=?,Description=?,Avaliable_count=?,Discount=? " +
                 "WHERE Rent_Id=?", rentals.getName(), rentals.getPricePreDay(), rentals.getDescription(), rentals.getAvaliableCount(), rentals.getDiscount(), rentals.getRntId());
     }
 
-    public static String checkId() throws SQLException, ClassNotFoundException {
+    public String checkId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Rent_Id FROM Rentals ORDER BY Rent_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -33,7 +34,7 @@ public class RentalsModel {
         return null;
     }
 
-    public static ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
+    public ArrayList<Rentals> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Rentals");
         while (resultSet.next()) {
@@ -49,7 +50,7 @@ public class RentalsModel {
         return rentals;
     }
 
-    public static ArrayList<Rentals> searchRentals(Rentals rental) throws SQLException, ClassNotFoundException {
+    public ArrayList<Rentals> search(Rentals rental) throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
@@ -89,7 +90,7 @@ public class RentalsModel {
         return rentals;
     }
 
-    public static boolean updateRentalQty(ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
+    public boolean update(ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
         int i = 0;
         for (BookRentalsDetail b : bookRentalsDetails) {
             CrudUtil.setQuery("UPDATE Rentals set Avaliable_count=Avaliable_count - ? WHERE Rent_Id = ?", b.getQty(), b.getRentId());
