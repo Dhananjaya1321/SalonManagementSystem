@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeServiceModel;
 import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
@@ -73,6 +74,8 @@ public class ManageEmployeeServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String employeeId;
+    ServiceDAO serviceDAO=new ServiceModel();
+
     @FXML
     void btnAddONAction(ActionEvent event) {
         String cmbEmpIdValue = cmbEmpId.getValue();
@@ -106,7 +109,7 @@ public class ManageEmployeeServiceFormController {
 
     public void initialize() {
         try {
-            ArrayList<Service> services = ServiceModel.getAllService();
+            ArrayList<Service> services = serviceDAO.getAll();
             String[] ids;
 
             if (services.size() != 0) {
@@ -227,7 +230,7 @@ public class ManageEmployeeServiceFormController {
         Service service = new Service();
         service.setName(serviceId);
         try {
-            ArrayList<Service> services = ServiceModel.searchService(service);
+            ArrayList<Service> services = serviceDAO.search(service);
             if (services.size() > 0) {
                 for (Service s : services) {
                     lblServiceName.setText(s.getName());
