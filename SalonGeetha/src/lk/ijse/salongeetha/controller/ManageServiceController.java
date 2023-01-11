@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.Service;
 import lk.ijse.salongeetha.to.tm.ServiceTM;
@@ -71,10 +72,11 @@ public class ManageServiceController {
     @FXML
     private JFXTextArea txtDescription;
     ArrayList<Service> serviceArrayList;
+    ServiceDAO serviceDAO = new ServiceModel();
 
     {
         try {
-            serviceArrayList = ServiceModel.getAllService();
+            serviceArrayList = serviceDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -104,7 +106,7 @@ public class ManageServiceController {
 
                     service.setSevId(serviceId);
                     try {
-                        boolean isDeleted = ServiceModel.deleteService(service);
+                        boolean isDeleted = serviceDAO.delete(service);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Service delete successfully");
                             alert1.show();
@@ -148,7 +150,7 @@ public class ManageServiceController {
     private void setNextId() {
         try {
 
-            String currentId = ServiceModel.checkId();
+            String currentId = serviceDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.SERVICE);
             lblServiceId.setText(generateNextId);
 
@@ -181,7 +183,7 @@ public class ManageServiceController {
 
                 Service service = new Service(serviceId, description, name, Double.parseDouble(price), Double.parseDouble(discount));
                 try {
-                    boolean addService = ServiceModel.addService(service);
+                    boolean addService = serviceDAO.add(service);
                     if (addService) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Service is added");
                         alert.show();
@@ -192,7 +194,7 @@ public class ManageServiceController {
                         alert.show();
                     }
                     tblView.getItems().clear();
-                    serviceArrayList = ServiceModel.getAllService();
+                    serviceArrayList = serviceDAO.getAll();
                     loadAllData();
                 } catch (SQLException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -221,7 +223,7 @@ public class ManageServiceController {
             cleanTable();
             service.setName(text);
             try {
-                serviceArrayList = ServiceModel.searchService(service);
+                serviceArrayList = serviceDAO.search(service);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -233,15 +235,11 @@ public class ManageServiceController {
     }
 
     public void cleanTable() {
-
         try {
             tblView.getItems().clear();
-            serviceArrayList = ServiceModel.getAllService();
+            serviceArrayList = serviceDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-
     }
-
-
 }
