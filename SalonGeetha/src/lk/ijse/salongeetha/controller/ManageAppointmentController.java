@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
@@ -122,7 +123,7 @@ public class ManageAppointmentController {
 
     ObservableList<AppointmentTM> observableList = FXCollections.observableArrayList();
     ArrayList<AppointmentTM> arrayList = new ArrayList();
-
+    ServiceDAO serviceDAO=new ServiceModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();
@@ -294,7 +295,7 @@ public class ManageAppointmentController {
 
     private void loadCmb() {
         try {
-            ArrayList<Service> allService = ServiceModel.getAllService();
+            ArrayList<Service> allService = serviceDAO.getAll();
             String[] ids;
             if (allService.size() != 0) {
                 ids = new String[allService.size()];
