@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.LoginDAO;
 import lk.ijse.salongeetha.model.castom.impl.LoginModel;
 import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.Validation;
@@ -42,6 +43,7 @@ public class CreateNewPasswordFormController {
     @FXML
     private AnchorPane leftPane;
     static String userName;
+    LoginDAO loginDAO=new LoginModel();
      public static void passUserName(String userName){
         CreateNewPasswordFormController.userName =userName;
     }
@@ -75,7 +77,7 @@ public class CreateNewPasswordFormController {
     }
     private void createNewPassword(User user){
             try {
-                boolean isChangePassword = LoginModel.ChangePassword(user);
+                boolean isChangePassword = loginDAO.ChangePassword(user);
                 if (isChangePassword) {
                     btnChange.setVisible(false);
                     btnGoToLogin.setVisible(true);
