@@ -2,6 +2,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Payment;
@@ -20,7 +21,8 @@ public class BookingModel {
             if (isAdded) {
                 boolean addDetails = BookingRentalsModel.addDetails(bookRentalsDetails);
                 if (addDetails) {
-                    boolean updateRentalQty = RentalsModel.updateRentalQty(bookRentalsDetails);
+                    RentalsDAO rentalsDAO=new RentalsModel();
+                    boolean updateRentalQty = rentalsDAO.update(bookRentalsDetails);
                     if (updateRentalQty) {
                         {
                             DBConnection.getDBConnection().getConnection().commit();

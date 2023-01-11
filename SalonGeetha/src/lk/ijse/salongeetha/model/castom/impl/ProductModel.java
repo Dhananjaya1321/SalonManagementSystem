@@ -1,33 +1,31 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
-import lk.ijse.salongeetha.to.Customer;
+import lk.ijse.salongeetha.model.castom.ProductDAO;
 import lk.ijse.salongeetha.to.Product;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProductModel {
-    public static boolean addProduct(Product product) throws SQLException, ClassNotFoundException {
+public class ProductModel implements ProductDAO {
+    public boolean add(Product product) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO Product VALUES (?,?,?,?,?,?,?)", product.getProId()
                 , product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId());
     }
 
-    public static boolean deleteProduct(Product product) throws SQLException, ClassNotFoundException {
+    public boolean delete(Product product) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Product WHERE Pro_Id=?", product.getProId());
     }
 
-    public static boolean updateProduct(Product product) throws SQLException, ClassNotFoundException {
+    public boolean update(Product product) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Product SET Description=?,Category=?,Brand=?,Unit_price=?,Qty_on_hand=?,Sup_Id=?" +
                 " WHERE Pro_Id=?", product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId(), product.getProId());
     }
 
-    public static ArrayList<Product> searchProduct(Product product) throws SQLException, ClassNotFoundException {
+    public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
@@ -52,7 +50,7 @@ public class ProductModel {
         return products;
     }
 
-    public static String checkId() throws SQLException, ClassNotFoundException {
+    public String checkId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pro_Id FROM Product ORDER BY Pro_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -60,7 +58,7 @@ public class ProductModel {
         return null;
     }
 
-    public static ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
+    public ArrayList<Product> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Product");
         while (resultSet.next()) {
