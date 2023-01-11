@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.ProductDAO;
 import lk.ijse.salongeetha.model.castom.SupplierDAO;
 import lk.ijse.salongeetha.model.castom.impl.ProductModel;
 import lk.ijse.salongeetha.model.castom.impl.SupplierModel;
@@ -96,9 +97,10 @@ public class ManageProductController {
     private JFXTextField txtQtyOnHand;
     ArrayList<Product> productArrayList;
     SupplierDAO supplierDAO=new SupplierModel();
+    ProductDAO productDAO=new ProductModel();
     {
         try {
-            productArrayList = ProductModel.getAllProduct();
+            productArrayList = productDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -127,7 +129,7 @@ public class ManageProductController {
 
                     product.setProId(productId);
                     try {
-                        boolean isDeleted = ProductModel.deleteProduct(product);
+                        boolean isDeleted = productDAO.delete(product);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Product delete successfully");
                             alert1.show();
@@ -178,7 +180,7 @@ public class ManageProductController {
                 if (unitPrice >= 0) {
                     Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean addProduct = ProductModel.addProduct(product);
+                        boolean addProduct = productDAO.add(product);
                         if (addProduct) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Product collection is successful");
                             alert.show();
@@ -189,7 +191,7 @@ public class ManageProductController {
                             alert.show();
                         }
                         tblView.getItems().clear();
-                        productArrayList = ProductModel.getAllProduct();
+                        productArrayList = productDAO.getAll();
                         loadAllData();
                     } catch (SQLException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
@@ -224,7 +226,7 @@ public class ManageProductController {
                 if (unitPrice >= 0) {
                     Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean updateProduct = ProductModel.updateProduct(product);
+                        boolean updateProduct = productDAO.update(product);
                         if (updateProduct) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -270,7 +272,7 @@ public class ManageProductController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            productArrayList = ProductModel.getAllProduct();
+            productArrayList = productDAO.getAll();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -280,7 +282,7 @@ public class ManageProductController {
     private void setNextId() {
         try {
 
-            String currentId = ProductModel.checkId();
+            String currentId = productDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.PRODUCT);
             lblProduct.setText(generateNextId);
 
@@ -337,7 +339,7 @@ public class ManageProductController {
             cleanTable();
             product.setBrand(text);
             try {
-                productArrayList = ProductModel.searchProduct(product);
+                productArrayList = productDAO.search(product);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -351,7 +353,7 @@ public class ManageProductController {
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            productArrayList = ProductModel.getAllProduct();
+            productArrayList = productDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
