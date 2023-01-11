@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.UserDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.UserModel;
 import lk.ijse.salongeetha.to.Employee;
@@ -132,6 +133,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private String setJobTitel;
     ArrayList<Employee> employeeArrayList;
+    UserDAO userDAO = new UserModel();
 
     {
         try {
@@ -392,7 +394,7 @@ public class ManageEmployeeFormController extends MainFormController {
                         user.setEid(empId);
                         employee.setEmpId(employeeId);
                         try {
-                            boolean deleteUser = UserModel.deleteUser(user, employee);
+                            boolean deleteUser = userDAO.delete(user, employee);
                             if (deleteUser) {
                                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Receptionist and user account  delete successfully");
                                 alert1.show();

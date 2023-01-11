@@ -2,6 +2,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.UserDAO;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 
@@ -12,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmployeeModel {
+
     public static boolean addReceptionist(Employee employee, User user) throws SQLException, ClassNotFoundException {
         try {
             DBConnection.getDBConnection().getConnection().setAutoCommit(false);
@@ -20,7 +22,8 @@ public class EmployeeModel {
                     , employee.getAddress(), employee.getDob(), employee.getPhoneNumber(), employee.getDescription(), employee.getEmail()
                     , employee.getNic(), employee.getJobTitle());
             if (isAdded) {
-                boolean addUser = UserModel.addUser(user);
+                UserDAO userDAO=new UserModel();
+                boolean addUser = userDAO.add(user);
                 if (addUser) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;
