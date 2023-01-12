@@ -3,6 +3,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.AppointmentDAO;
+import lk.ijse.salongeetha.model.castom.ServiceAppointmentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AppointmentModel implements AppointmentDAO {
+    ServiceAppointmentDAO serviceAppointmentDAO=new ServiceAppointmentModel();
     @Override
     public boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
@@ -20,7 +22,7 @@ public class AppointmentModel implements AppointmentDAO {
             boolean isAdded = CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
                     , appointment.getDate(), appointment.getTime(), appointment.getNic());
             if (isAdded) {
-                boolean addDetails = ServiceAppointmentModel.addDetails(serviceAppointmentDetails);
+                boolean addDetails = serviceAppointmentDAO.addDetails(serviceAppointmentDetails);
                 if (addDetails) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;

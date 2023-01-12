@@ -14,6 +14,7 @@ import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.PaymentDAO;
+import lk.ijse.salongeetha.model.castom.ServiceAppointmentDAO;
 import lk.ijse.salongeetha.model.castom.impl.*;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.PaymentTM;
@@ -86,7 +87,7 @@ public class ManagePaymentController {
     PaymentDAO paymentDAO = new PaymentModel();
     BookingDAO booingDAO = new BookingModel();
     AppointmentDAO appointmentDAO = new AppointmentModel();
-
+    ServiceAppointmentDAO serviceAppointmentDAO=new ServiceAppointmentModel();
     {
         try {
             aPaymentArrayList = paymentDAO.getAllAPayments();
@@ -287,7 +288,7 @@ public class ManagePaymentController {
                 total = 0;
                 ServiceAppointmentDetail serviceAppointmentDetail = new ServiceAppointmentDetail();
                 serviceAppointmentDetail.setAptId(value);
-                ArrayList<ServiceAppointmentDetail> amountDue = ServiceAppointmentModel.getAmountDue(serviceAppointmentDetail);
+                ArrayList<ServiceAppointmentDetail> amountDue = serviceAppointmentDAO.getAmountDue(serviceAppointmentDetail);
                 if (amountDue.size() != 0) {
                     for (ServiceAppointmentDetail a : amountDue) {
                         total += a.getPrice() - (a.getPrice() * a.getDiscount()) / 100.0;
