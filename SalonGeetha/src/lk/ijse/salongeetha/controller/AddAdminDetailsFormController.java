@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.util.Validation;
@@ -34,6 +35,7 @@ public class AddAdminDetailsFormController {
 
     @FXML
     private JFXDatePicker txtDOB;
+    EmployeeDAO employeeDAO = new EmployeeModel();
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -49,7 +51,7 @@ public class AddAdminDetailsFormController {
             employee.setPhoneNumber(phoneNumber);
             employee.setAddress(address);
             try {
-                boolean updateAdmin = EmployeeModel.updateAdmin(employee);
+                boolean updateAdmin = employeeDAO.updateAdmin(employee);
                 if (updateAdmin) {
                     popUpPane.setVisible(false);
                 } else {
