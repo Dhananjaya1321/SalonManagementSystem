@@ -2,6 +2,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.UserDAO;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
@@ -11,10 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserModel implements UserDAO {
+    EmployeeDAO employeeDAO = new EmployeeModel();
 
     public boolean add(User user) throws SQLException, ClassNotFoundException {
-        String password= SetPassword.setPassword()+user.getPassword();//set password
-        return CrudUtil.setQuery("INSERT INTO User VALUES (?,?,?)",user.getUserName(),user.getEid(),password);
+        String password = SetPassword.setPassword() + user.getPassword();//set password
+        return CrudUtil.setQuery("INSERT INTO User VALUES (?,?,?)", user.getUserName(), user.getEid(), password);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class UserModel implements UserDAO {
         try {
             boolean executeUpdate = CrudUtil.setQuery("DELETE FROM User WHERE Emp_Id=?", user.getEid());
             if (executeUpdate) {
-                boolean deleteEmployee = EmployeeModel.deleteEmployee(employee);
+                boolean deleteEmployee = employeeDAO.delete(employee);
                 if (deleteEmployee) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;

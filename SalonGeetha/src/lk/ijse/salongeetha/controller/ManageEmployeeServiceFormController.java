@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeServiceModel;
@@ -74,7 +75,8 @@ public class ManageEmployeeServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String employeeId;
-    ServiceDAO serviceDAO=new ServiceModel();
+    ServiceDAO serviceDAO = new ServiceModel();
+    EmployeeDAO employeeDAO = new EmployeeModel();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -96,7 +98,7 @@ public class ManageEmployeeServiceFormController {
                     employeeServiceDetailArrayList = EmployeeServiceModel.getAllEmployeeServiceDetails();
                     loadAllData();
                 }
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "This values is already exists");
                 alert.show();
             }
@@ -121,7 +123,7 @@ public class ManageEmployeeServiceFormController {
             }
 
 
-            ArrayList<Employee> employees = EmployeeModel.getAllEmployee();
+            ArrayList<Employee> employees = employeeDAO.getAll();
             String[] eIds;
             if (employees.size() != 0) {
                 eIds = new String[employees.size()];
@@ -214,7 +216,7 @@ public class ManageEmployeeServiceFormController {
         Employee employee = new Employee();
         employee.setName(employeeId);
         try {
-            ArrayList<Employee> employees = EmployeeModel.searchEmployee(employee);
+            ArrayList<Employee> employees = employeeDAO.search(employee);
             if (employees.size() > 0) {
                 for (Employee e : employees) {
                     lblEmpName.setText(e.getName());

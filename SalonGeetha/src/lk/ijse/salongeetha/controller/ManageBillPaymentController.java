@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.impl.BillModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.BillPayment;
@@ -87,6 +88,7 @@ public class ManageBillPaymentController {
     private JFXTextArea txtDescription;
 
     ArrayList<BillPayment> billPaymentArrayList;
+    EmployeeDAO employeeDAO=new EmployeeModel();
 
     {
         try {
@@ -283,7 +285,7 @@ public class ManageBillPaymentController {
 
 
         try {
-            ArrayList<Employee> employeesIds = EmployeeModel.getAllEmployee();
+            ArrayList<Employee> employeesIds = employeeDAO.getAll();
             String[] ids;
             if (employeesIds.size() != 0) {
                 ids = new String[employeesIds.size()];
