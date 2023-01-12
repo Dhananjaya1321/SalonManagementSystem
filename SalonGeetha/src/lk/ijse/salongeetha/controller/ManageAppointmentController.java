@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
@@ -128,6 +129,7 @@ public class ManageAppointmentController {
     ServiceDAO serviceDAO=new ServiceModel();
     EmployeeDAO employeeDAO=new EmployeeModel();
     CustomerDAO customerDAO=new CustomerModel();
+    AppointmentDAO appointmentDAO=new AppointmentModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();
@@ -209,7 +211,7 @@ public class ManageAppointmentController {
         Appointment appointment = new Appointment(appointmentId, date, time, nic);
 
         try {
-            boolean addAppointment = AppointmentModel.addAppointment(appointment, serviceAppointmentDetails);
+            boolean addAppointment = appointmentDAO.addAppointment(appointment, serviceAppointmentDetails);
             if (addAppointment) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Appointment added");
                 alert.show();
@@ -243,7 +245,7 @@ public class ManageAppointmentController {
 
     private void setNextId() {
         try {
-            String currentId = AppointmentModel.checkId();
+            String currentId = appointmentDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.APPOINTMENT);
             lblAppointmentId.setText(generateNextId);
 

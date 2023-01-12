@@ -12,6 +12,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
@@ -41,6 +42,7 @@ public class HomeFormController {
     private AnchorPane popUpPane;
     EmployeeDAO employeeDAO = new EmployeeModel();
     BookingDAO bookingDAO = new BookingModel();
+    AppointmentDAO appointmentDAO = new AppointmentModel();
 
     private void setLblAppointment() {
         long millis = System.currentTimeMillis();
@@ -48,7 +50,7 @@ public class HomeFormController {
         String setDate = String.valueOf(date);
 
         try {
-            String appointmentCount = AppointmentModel.getAppointmentCount(setDate);
+            String appointmentCount = appointmentDAO.getAppointmentCount(setDate);
             if (appointmentCount != null) {
                 lblAppointment.setText(appointmentCount);
             }
@@ -107,7 +109,7 @@ public class HomeFormController {
             for (BookTM b : bookingForChart) {
                 seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getQty()));
             }
-            ArrayList<AppointmentTM> appointmentForChart = AppointmentModel.getAppointmentForChart(time);
+            ArrayList<AppointmentTM> appointmentForChart = appointmentDAO.getAppointmentForChart(time);
             for (AppointmentTM a : appointmentForChart) {
                 seriesBooking.getData().add(new XYChart.Data(a.getDate(), a.getCount()));
             }
