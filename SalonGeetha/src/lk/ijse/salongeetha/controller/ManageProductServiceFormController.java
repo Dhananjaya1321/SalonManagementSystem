@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.model.castom.ProductDAO;
+import lk.ijse.salongeetha.model.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.ProductModel;
 import lk.ijse.salongeetha.model.castom.impl.ProductServiceModel;
@@ -71,6 +72,7 @@ public class ManageProductServiceFormController {
     private String productId;
     ProductDAO productDAO=new ProductModel();
     ServiceDAO serviceDAO=new ServiceModel();
+    ProductServiceDAO productServiceDAO=new ProductServiceModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String productIdValue = cmbProductId.getValue();
@@ -80,14 +82,14 @@ public class ManageProductServiceFormController {
         ProductServiceDetail productServiceDetail = new ProductServiceDetail(productIdValue, serviceIdValue, serviceNameText, txtQtyText);
 
         try {
-            boolean checkAlreadyExists = ProductServiceModel.checkAlreadyExists(productServiceDetail);
+            boolean checkAlreadyExists = productServiceDAO.checkAlreadyExists(productServiceDetail);
             if (!checkAlreadyExists) {
-                 boolean addProductService = ProductServiceModel.addProductService(productServiceDetail);
+                 boolean addProductService = productServiceDAO.add(productServiceDetail);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
                     tblView.getItems().clear();
-                    productServiceDetailArrayList = ProductServiceModel.getAllProductServiceDetails();
+                    productServiceDetailArrayList = productServiceDAO.getAll();
                     loadAllData();
                 }
             }else {
@@ -167,7 +169,7 @@ public class ManageProductServiceFormController {
 
     {
         try {
-            productServiceDetailArrayList = ProductServiceModel.getAllProductServiceDetails();
+            productServiceDetailArrayList = productServiceDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -196,7 +198,7 @@ public class ManageProductServiceFormController {
                     try {
                         productServiceDetail.setProId(proId);
                         productServiceDetail.setSevId(sevId);
-                        boolean isDeleted = ProductServiceModel.deleteProductService(productServiceDetail);
+                        boolean isDeleted = productServiceDAO.delete(productServiceDetail);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();

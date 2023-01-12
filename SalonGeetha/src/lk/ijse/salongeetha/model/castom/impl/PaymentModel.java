@@ -20,7 +20,6 @@ public class PaymentModel implements PaymentDAO {
     BookingDAO bookingDAO=new BookingModel();
     AppointmentDAO appointmentDAO=new AppointmentModel();
     public boolean add(Payment payment) throws SQLException, ClassNotFoundException {
-        PreparedStatement preparedStatement;
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
         Matcher matcher = namePattern.matcher(payment.getaOrBId());
         if (matcher.matches()) {
