@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.tm.CustomerTM;
@@ -65,6 +66,7 @@ public class ManageCustomerController {
 
     @FXML
     private AnchorPane popUpPane;
+    CustomerDAO customerDAO = new CustomerModel();
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
         search();
@@ -92,13 +94,13 @@ public class ManageCustomerController {
             if (msg != null) {
                 boolean authentication = SendMail.Authentication(subject, to, msg);
                 if (authentication) {
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION,"Email send is successful");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Email send is successful");
                     alert.show();
                     txtTo.setText(null);
                     txtMsg.setText(null);
                     txtSubject.setText(null);
-                }else {
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Email send is fail");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Email send is fail");
                     alert.show();
                 }
             } else {
@@ -115,7 +117,7 @@ public class ManageCustomerController {
 
     {
         try {
-            customerArrayList = CustomerModel.getAllCustomer();
+            customerArrayList = customerDAO.getAll();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -144,7 +146,7 @@ public class ManageCustomerController {
                     Customer customer = new Customer();
                     customer.setNic(customerNIC);
                     try {
-                        boolean isDeleted = CustomerModel.deleteCustomer(customer);
+                        boolean isDeleted = customerDAO.delete(customer);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -178,11 +180,11 @@ public class ManageCustomerController {
             });
             mail.setOnAction((e) -> {
                 CustomerTM tm = tblView.getSelectionModel().getSelectedItem();
-                String email=tm.getEmail();
+                String email = tm.getEmail();
                 if (email != null) {
                     txtTo.setText(email);
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Select customer");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Select customer");
                     alert.show();
                 }
 
@@ -204,7 +206,7 @@ public class ManageCustomerController {
                 stage.show();*/
 
             });
-            CustomerTM customerTM = new CustomerTM(c.getNic(), c.getName(), c.getPhoneNumber(), c.getEmail(), c.getDob(), delete, update,mail);
+            CustomerTM customerTM = new CustomerTM(c.getNic(), c.getName(), c.getPhoneNumber(), c.getEmail(), c.getDob(), delete, update, mail);
             observableList.add(customerTM);
             tblView.setItems(observableList);
         }
@@ -223,7 +225,7 @@ public class ManageCustomerController {
             cleanTable();
             customer.setName(text);
             try {
-                customerArrayList = CustomerModel.searchCustomer(customer);
+                customerArrayList = customerDAO.search(customer);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -238,7 +240,7 @@ public class ManageCustomerController {
 
         try {
             tblView.getItems().clear();
-            customerArrayList = CustomerModel.getAllCustomer();
+            customerArrayList = customerDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
