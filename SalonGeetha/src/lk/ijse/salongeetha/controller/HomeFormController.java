@@ -12,6 +12,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
 import lk.ijse.salongeetha.model.castom.impl.BookingModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
@@ -37,7 +38,7 @@ public class HomeFormController {
 
     @FXML
     private AnchorPane popUpPane;
-
+    EmployeeDAO employeeDAO = new EmployeeModel();
 
     private void setLblAppointment() {
         long millis = System.currentTimeMillis();
@@ -78,7 +79,7 @@ public class HomeFormController {
         setLblBooking();
         Employee employee = new Employee();
         try {
-            boolean isCheckedAdmin = EmployeeModel.checkAdmin(employee);
+            boolean isCheckedAdmin = employeeDAO.checkAdmin(employee);
             if (isCheckedAdmin) {
                 if (employee.getPhoneNumber().equals("")) {
                     Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/AddAdminDetailsForm.fxml"));
@@ -105,11 +106,11 @@ public class HomeFormController {
                 seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getQty()));
             }
             ArrayList<AppointmentTM> appointmentForChart = AppointmentModel.getAppointmentForChart(time);
-            for(AppointmentTM a : appointmentForChart){
+            for (AppointmentTM a : appointmentForChart) {
                 seriesBooking.getData().add(new XYChart.Data(a.getDate(), a.getCount()));
             }
             seriesBooking.getData().add(new XYChart.Data("55", 555));
-            lineChart.getData().addAll(seriesBooking,seriesAppointment);
+            lineChart.getData().addAll(seriesBooking, seriesAppointment);
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
