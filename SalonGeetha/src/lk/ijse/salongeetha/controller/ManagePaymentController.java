@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.db.DBConnection;
+import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.PaymentDAO;
 import lk.ijse.salongeetha.model.castom.impl.*;
 import lk.ijse.salongeetha.to.*;
@@ -82,6 +83,7 @@ public class ManagePaymentController {
     ArrayList<Payment> aPaymentArrayList;
     ArrayList<Payment> bPaymentArrayList;
     PaymentDAO paymentDAO = new PaymentModel();
+    BookingDAO booingDAO = new BookingModel();
 
     {
         try {
@@ -136,7 +138,7 @@ public class ManagePaymentController {
 
         try {
             appointments = AppointmentModel.getIds();
-            books = BookingModel.getIdS();
+            books = booingDAO.getIdS();
 
             String[] aIds = new String[appointments.size()];
             String[] bIds = new String[books.size()];

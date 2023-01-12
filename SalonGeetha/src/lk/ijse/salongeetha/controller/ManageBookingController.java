@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.model.castom.impl.BookingModel;
@@ -136,6 +137,7 @@ public class ManageBookingController {
     //    ArrayList<BookTM> arrayList = new ArrayList();
     RentalsDAO rentalsDAO = new RentalsModel();
     CustomerDAO customerDAO = new CustomerModel();
+    BookingDAO bookingDAO = new BookingModel();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -241,7 +243,7 @@ public class ManageBookingController {
         Book book = new Book(bid, date, nic);
 
         try {
-            boolean addBooking = BookingModel.addBooking(book, bookRentalsDetails);
+            boolean addBooking = bookingDAO.addBooking(book, bookRentalsDetails);
             if (addBooking) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, " Booking is successful");
                 alert.show();
@@ -347,7 +349,7 @@ public class ManageBookingController {
 
     private void setNextId() {
         try {
-            String currentId = BookingModel.checkId();
+            String currentId = bookingDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.BOOK);
             lblBookingId.setText(generateNextId);
 
