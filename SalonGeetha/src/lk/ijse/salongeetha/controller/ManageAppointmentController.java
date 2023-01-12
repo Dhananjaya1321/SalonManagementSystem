@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
@@ -124,6 +125,7 @@ public class ManageAppointmentController {
     ObservableList<AppointmentTM> observableList = FXCollections.observableArrayList();
     ArrayList<AppointmentTM> arrayList = new ArrayList();
     ServiceDAO serviceDAO=new ServiceModel();
+    EmployeeDAO employeeDAO=new EmployeeModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();
@@ -314,7 +316,7 @@ public class ManageAppointmentController {
                 cmbCustomerId.getItems().addAll(ids);
             }
 
-            ArrayList<Employee> employees = EmployeeModel.getBeauticians();
+            ArrayList<Employee> employees = employeeDAO.getBeauticians();
             if (employees.size() != 0) {
                 ids = new String[employees.size()];
                 for (int i = 0; i < ids.length; i++) {
@@ -372,7 +374,7 @@ public class ManageAppointmentController {
         Employee employee = new Employee();
         employee.setEmpId(value);
         try {
-            ArrayList<Employee> employees = EmployeeModel.searchEmployeeDetails(employee);
+            ArrayList<Employee> employees = employeeDAO.searchEmployeeDetails(employee);
             if (employees.size() > 0) {
                 for (Employee e : employees) {
                     lblEmpName.setText(e.getName());

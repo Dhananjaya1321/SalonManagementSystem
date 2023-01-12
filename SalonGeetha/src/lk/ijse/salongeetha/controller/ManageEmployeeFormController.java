@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.UserDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.UserModel;
@@ -134,10 +135,10 @@ public class ManageEmployeeFormController extends MainFormController {
     private String setJobTitel;
     ArrayList<Employee> employeeArrayList;
     UserDAO userDAO = new UserModel();
-
+    EmployeeDAO employeeDAO=new EmployeeModel();
     {
         try {
-            employeeArrayList = EmployeeModel.getAllEmployee();
+            employeeArrayList = employeeDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -212,7 +213,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void addReceptionist(User user) {
         try {
-            boolean addReceptionist = EmployeeModel.addReceptionist(this.employee, user);
+            boolean addReceptionist = employeeDAO.addReceptionist(this.employee, user);
             if (addReceptionist) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Receptionist added successful");
                 alert.show();
@@ -232,7 +233,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void addEmployee() {
         try {
-            boolean addEmployee = EmployeeModel.addEmployee(this.employee);
+            boolean addEmployee = employeeDAO.add(this.employee);
             if (addEmployee) {
                 setNextId();
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Employee added successful");
@@ -287,7 +288,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void updateEmployee() {
         try {
-            boolean isUpdated = EmployeeModel.updateEmployee(employee);
+            boolean isUpdated = employeeDAO.update(employee);
             if (isUpdated) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "update successful");
                 alert.show();
@@ -347,7 +348,7 @@ public class ManageEmployeeFormController extends MainFormController {
         lblVDescription.setText(null);
 
         try {
-            employeeArrayList = EmployeeModel.getAllEmployee();
+            employeeArrayList = employeeDAO.getAll();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -376,7 +377,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
                         employee.setEmpId(employeeId);
                         try {
-                            boolean isDeleted = EmployeeModel.deleteEmployee(employee);
+                            boolean isDeleted = employeeDAO.delete(employee);
                             if (isDeleted) {
                                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Employee delete successfully");
                                 alert1.show();
@@ -441,7 +442,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void setNextId() {
         try {
-            String currentId = EmployeeModel.checkId();
+            String currentId = employeeDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.EMPLOYEE);
             lblEmpId.setText(generateNextId);
 
@@ -524,7 +525,7 @@ public class ManageEmployeeFormController extends MainFormController {
             cleanTable();
             employee.setName(text);
             try {
-                employeeArrayList = EmployeeModel.searchEmployee(employee);
+                employeeArrayList = employeeDAO.search(employee);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -538,7 +539,7 @@ public class ManageEmployeeFormController extends MainFormController {
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            employeeArrayList = EmployeeModel.getAllEmployee();
+            employeeArrayList = employeeDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
