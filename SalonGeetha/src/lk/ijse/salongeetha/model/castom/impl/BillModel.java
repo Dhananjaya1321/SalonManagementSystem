@@ -1,24 +1,22 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.BillDAO;
 import lk.ijse.salongeetha.to.BillPayment;
-import lk.ijse.salongeetha.to.Customer;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BillModel {
-    public static boolean addBillPaymentDetails(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+public class BillModel implements BillDAO {
+    public boolean add(BillPayment billPayment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO Bill_payment VALUES (?,?,?,?,?,?)", billPayment.getBilId(), billPayment.getDate()
                 , billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId());
     }
 
-    public static String checkId() throws SQLException, ClassNotFoundException {
+    public String checkId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Bil_Id FROM bill_payment ORDER BY Bil_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -26,7 +24,7 @@ public class BillModel {
         return null;
     }
 
-    public static ArrayList<BillPayment> getAllBillPayments() throws SQLException, ClassNotFoundException {
+    public ArrayList<BillPayment> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<BillPayment> billPayments = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM bill_payment");
         while (resultSet.next()) {
@@ -42,17 +40,17 @@ public class BillModel {
         return billPayments;
     }
 
-    public static boolean deleteBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+    public boolean delete(BillPayment billPayment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM bill_payment WHERE Bil_Id=?", billPayment.getBilId());
     }
 
-    public static boolean updateBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+    public boolean update(BillPayment billPayment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Bill_payment SET Date=?,Description=?,Title=?,Amount_paid=?,Emp_Id=? WHERE Bil_Id=?"
                 , billPayment.getDate(), billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId()
                 , billPayment.getBilId());
     }
 
-    public static ArrayList<BillPayment> searchBill(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+    public ArrayList<BillPayment> search(BillPayment billPayment) throws SQLException, ClassNotFoundException {
         ArrayList<BillPayment> billPayments = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");

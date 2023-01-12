@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.castom.BillDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.impl.BillModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
@@ -89,10 +90,11 @@ public class ManageBillPaymentController {
 
     ArrayList<BillPayment> billPaymentArrayList;
     EmployeeDAO employeeDAO=new EmployeeModel();
+    BillDAO billPaymentDAO=new BillModel();
 
     {
         try {
-            billPaymentArrayList = BillModel.getAllBillPayments();
+            billPaymentArrayList = billPaymentDAO.getAll();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -121,7 +123,7 @@ public class ManageBillPaymentController {
 
                     try {
                         billPayment.setBilId(billPaymentId);
-                        boolean isDeleted = BillModel.deleteBillPayment(billPayment);
+                        boolean isDeleted = billPaymentDAO.delete(billPayment);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Bill Payment delete successfully");
                             alert1.show();
@@ -167,7 +169,7 @@ public class ManageBillPaymentController {
             if (amount >= 0) {
                 BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean isAdded = BillModel.addBillPaymentDetails(billPayment);
+                    boolean isAdded = billPaymentDAO.add(billPayment);
                     if (isAdded) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "added successfully");
                         alert.show();
@@ -205,7 +207,7 @@ public class ManageBillPaymentController {
             if (amount >= 0) {
                 BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean updateBillPayment = BillModel.updateBillPayment(billPayment);
+                    boolean updateBillPayment = billPaymentDAO.update(billPayment);
                     if (updateBillPayment) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Update successfully");
                         alert.show();
@@ -251,7 +253,7 @@ public class ManageBillPaymentController {
         setNextId();
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = BillModel.getAllBillPayments();
+            billPaymentArrayList = billPaymentDAO.getAll();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -260,7 +262,7 @@ public class ManageBillPaymentController {
 
     private void setNextId() {
         try {
-            String currentId = BillModel.checkId();
+            String currentId = billPaymentDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.BILL);
             lblBillId.setText(generateNextId);
 
@@ -307,7 +309,7 @@ public class ManageBillPaymentController {
             cleanTable();
             billPayment.setTitle(text);
             try {
-                billPaymentArrayList = BillModel.searchBill(billPayment);
+                billPaymentArrayList = billPaymentDAO.search(billPayment);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -322,7 +324,7 @@ public class ManageBillPaymentController {
 
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = BillModel.getAllBillPayments();
+            billPaymentArrayList = billPaymentDAO.getAll();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
