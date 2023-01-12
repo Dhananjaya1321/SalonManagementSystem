@@ -1,32 +1,36 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.to.Customer;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CustomerModel {
-    public static boolean addCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+public class CustomerModel implements CustomerDAO {
+    public boolean add(Customer customer) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO Customer VALUES (?,?,?,?,?,?)", customer.getNic(), customer.getName(),
                 customer.getPhoneNumber(), customer.getEmail(), customer.getDob(), customer.getUserName());
     }
 
-    public static boolean deleteCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+    public boolean delete(Customer customer) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Customer WHERE NIC=?", customer.getNic());
     }
 
-    public static boolean updateCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+    public boolean update(Customer customer) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Customer SET Name=?,Phone_number=?,Email=?,DOB=? WHERE NIC=?", customer.getName(),
                 customer.getPhoneNumber(), customer.getEmail(), customer.getDob(), customer.getNic());
     }
 
-    public static ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
+    @Override
+    public String checkId() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public ArrayList<Customer> getAll() throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Customer");
         while (resultSet.next()) {
@@ -41,7 +45,7 @@ public class CustomerModel {
         return customers;
     }
 
-    public static ArrayList<Customer> searchCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+    public ArrayList<Customer> search(Customer customer) throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
@@ -65,7 +69,7 @@ public class CustomerModel {
         return customers;
     }
 
-    public static ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
+    public ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Customer WHERE NIC=?", customer.getNic());
         while (resultSet.next()) {
