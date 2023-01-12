@@ -2,18 +2,19 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AppointmentModel {
-    public static boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
+public class AppointmentModel implements AppointmentDAO {
+    @Override
+    public boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
             boolean isAdded = CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
@@ -32,15 +33,25 @@ public class AppointmentModel {
         }
     }
 
-    public static boolean deleteAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
+    @Override
+    public boolean add(Appointment user) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    public boolean delete(Appointment appointment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM Appointment WHERE Apt_Id=?", appointment.getAptId());
     }
 
-    public static boolean updateAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
+    @Override
+    public ArrayList<Appointment> getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    public boolean update(Appointment appointment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Appointment SET Status=? WHERE Apt_Id=?", appointment.getStatus(), appointment.getAptId());
     }
 
-    public static String checkId() throws SQLException, ClassNotFoundException {
+    public String checkId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
@@ -48,7 +59,13 @@ public class AppointmentModel {
         return null;
     }
 
-    public static ArrayList<Appointment> getIds() throws SQLException, ClassNotFoundException {
+    @Override
+    public ArrayList<Appointment> search(Appointment supplier) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Appointment> getIds() throws SQLException, ClassNotFoundException {
         ArrayList<Appointment> appointments = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM Appointment WHERE Status='Pending'");
         while (resultSet.next()) {
@@ -59,7 +76,8 @@ public class AppointmentModel {
         return appointments;
     }
 
-    public static boolean getId(Payment payment) throws SQLException, ClassNotFoundException {
+    @Override
+    public boolean getId(Payment payment) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("select nic from appointment where Apt_Id=?", payment.getaOrBId());
         if (resultSet.next()) {
             payment.setNic(String.valueOf(resultSet.getObject(1)));
@@ -68,7 +86,8 @@ public class AppointmentModel {
         return false;
     }
 
-    public static String getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException {
+    @Override
+    public String getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT COUNT(Apt_Id) FROM Appointment WHERE Date=?", setDate);
         if (resultSet.next()) {
             String count = resultSet.getString(1);
@@ -77,7 +96,8 @@ public class AppointmentModel {
         return null;
     }
 
-    public static ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
+    @Override
+    public ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
         ArrayList<AppointmentTM> appointmentTMS = new ArrayList<>();
         String quary;
         if (time.equals("Past 7 day")) {

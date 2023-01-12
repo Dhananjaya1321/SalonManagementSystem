@@ -2,6 +2,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.PaymentDAO;
 import lk.ijse.salongeetha.to.Appointment;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 
 public class PaymentModel implements PaymentDAO {
     BookingDAO bookingDAO=new BookingModel();
+    AppointmentDAO appointmentDAO=new AppointmentModel();
     public boolean add(Payment payment) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement;
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
@@ -38,14 +40,14 @@ public class PaymentModel implements PaymentDAO {
             }
             return false;
         } else {
-            AppointmentModel.getId(payment);
+            appointmentDAO.getId(payment);
             boolean isAdded = CrudUtil.setQuery("INSERT INTO appointment_payment VALUES (?,?,?,?,?)", payment.getPayId(), payment.getPaymentMethod()
                     , payment.getNic(), payment.getAmountDue(), payment.getaOrBId());
             if (isAdded) {
                 Appointment appointment = new Appointment();
                 appointment.setAptId(payment.getaOrBId());
                 appointment.setStatus("Paid");
-                AppointmentModel.updateAppointment(appointment);
+                appointmentDAO.update(appointment);
                 return true;
             }
             return false;
