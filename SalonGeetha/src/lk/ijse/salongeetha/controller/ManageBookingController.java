@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.model.castom.impl.BookingModel;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
@@ -134,6 +135,7 @@ public class ManageBookingController {
     ObservableList<BookTM> observableList = FXCollections.observableArrayList();
     //    ArrayList<BookTM> arrayList = new ArrayList();
     RentalsDAO rentalsDAO = new RentalsModel();
+    CustomerDAO customerDAO = new CustomerModel();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -301,7 +303,7 @@ public class ManageBookingController {
         Customer customer = new Customer();
         customer.setNic(value);
         try {
-            ArrayList<Customer> customers = CustomerModel.searchCustomerDetails(customer);
+            ArrayList<Customer> customers = customerDAO.searchCustomerDetails(customer);
             if (customers.size() > 0) {
                 for (Customer c : customers) {
 //                    lblCustomerNIC.setText(c.getNic());
@@ -366,7 +368,7 @@ public class ManageBookingController {
                 cmbRentalId.getItems().addAll(ids);
             }
 
-            ArrayList<Customer> customers = CustomerModel.getAllCustomer();
+            ArrayList<Customer> customers = customerDAO.getAll();
             if (customers.size() != 0) {
                 ids = new String[customers.size()];
                 for (int i = 0; i < ids.length; i++) {

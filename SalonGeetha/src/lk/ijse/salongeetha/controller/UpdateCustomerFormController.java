@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.util.Validation;
@@ -43,6 +44,7 @@ public class UpdateCustomerFormController {
     @FXML
     private JFXDatePicker txtDOB;
     private static Customer customer;
+    CustomerDAO customerDAO=new CustomerModel();
     public static void getUpdateDetails(Customer customer){
         UpdateCustomerFormController.customer =customer;
     }
@@ -67,7 +69,7 @@ public class UpdateCustomerFormController {
 
 
                         try {
-                            boolean updateCustomer = CustomerModel.updateCustomer(customer);
+                            boolean updateCustomer = customerDAO.update(customer);
                             if (updateCustomer){
                                 ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                                 ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);

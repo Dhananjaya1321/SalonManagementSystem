@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
@@ -126,6 +127,7 @@ public class ManageAppointmentController {
     ArrayList<AppointmentTM> arrayList = new ArrayList();
     ServiceDAO serviceDAO=new ServiceModel();
     EmployeeDAO employeeDAO=new EmployeeModel();
+    CustomerDAO customerDAO=new CustomerModel();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();
@@ -307,7 +309,7 @@ public class ManageAppointmentController {
                 cmbServiceId.getItems().addAll(ids);
             }
 
-            ArrayList<Customer> customers = CustomerModel.getAllCustomer();
+            ArrayList<Customer> customers = customerDAO.getAll();
             if (customers.size() != 0) {
                 ids = new String[customers.size()];
                 for (int i = 0; i < ids.length; i++) {
@@ -335,7 +337,7 @@ public class ManageAppointmentController {
         Customer customer = new Customer();
         customer.setNic(value);
         try {
-            ArrayList<Customer> customers = CustomerModel.searchCustomerDetails(customer);
+            ArrayList<Customer> customers = customerDAO.searchCustomerDetails(customer);
             if (customers.size() > 0) {
                 for (Customer c : customers) {
 //                    lblCustomerNIC.setText(c.getNic());
