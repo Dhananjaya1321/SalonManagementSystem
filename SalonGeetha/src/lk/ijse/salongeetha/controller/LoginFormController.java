@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.LoginDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.LoginModel;
@@ -96,6 +97,7 @@ public class LoginFormController {
     @FXML
     private AnchorPane leftPane;
     LoginDAO loginDAO = new LoginModel();
+    EmployeeDAO employeeDAO=new EmployeeModel();
 
     @FXML
     void createAccountOnAction(ActionEvent event) {
@@ -193,7 +195,7 @@ public class LoginFormController {
             if (isSetUserAccount) {
 
                 if (password.equals(user.getPassword())) {
-                    Employee employeeJobTitle = EmployeeModel.getEmployeeJobTitle(user);
+                    Employee employeeJobTitle = employeeDAO.getEmployeeJobTitle(user);
                     String jobTitle = employeeJobTitle.getJobTitle();
                     if (jobTitle.equals("Admin")) {
                         Stage stage = (Stage) fullPane.getScene().getWindow();
