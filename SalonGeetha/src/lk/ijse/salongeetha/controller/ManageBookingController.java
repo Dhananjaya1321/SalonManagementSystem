@@ -19,9 +19,9 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BookingModel;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
-import lk.ijse.salongeetha.dao.castom.impl.RentalsModel;
+import lk.ijse.salongeetha.dao.castom.impl.BookingDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.RentalsDAOImpl;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.BookTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -136,9 +136,9 @@ public class ManageBookingController {
     private double calTotal = 0;
     ObservableList<BookTM> observableList = FXCollections.observableArrayList();
     //    ArrayList<BookTM> arrayList = new ArrayList();
-    RentalsDAO rentalsDAO = new RentalsModel();
-    CustomerDAO customerDAO = new CustomerModel();
-    BookingDAO bookingDAO = new BookingModel();
+    RentalsDAO rentalsDAO = new RentalsDAOImpl();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+    BookingDAO bookingDAO = new BookingDAOImpl();
 
     @FXML
     void btnAddONAction(ActionEvent event) {

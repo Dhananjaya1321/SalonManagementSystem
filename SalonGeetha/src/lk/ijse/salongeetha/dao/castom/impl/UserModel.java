@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserModel implements UserDAO {
-    EmployeeDAO employeeDAO = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public boolean add(User user) throws SQLException, ClassNotFoundException {
         String password = SetPassword.setPassword() + user.getPassword();//set password

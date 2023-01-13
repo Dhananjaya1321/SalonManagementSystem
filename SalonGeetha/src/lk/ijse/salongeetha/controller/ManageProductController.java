@@ -15,8 +15,8 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductModel;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierModel;
+import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
 import lk.ijse.salongeetha.to.Product;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.ProductTM;
@@ -100,8 +100,8 @@ public class ManageProductController {
     @FXML
     private JFXTextField txtQtyOnHand;
     ArrayList<Product> productArrayList;
-    SupplierDAO supplierDAO=new SupplierModel();
-    ProductDAO productDAO=new ProductModel();
+    SupplierDAO supplierDAO=new SupplierDAOImpl();
+    ProductDAO productDAO=new ProductDAOImpl();
     {
         try {
             productArrayList = getAllProduct();

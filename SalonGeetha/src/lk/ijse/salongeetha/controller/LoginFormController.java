@@ -19,8 +19,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.LoginModel;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.Validation;
@@ -96,8 +96,8 @@ public class LoginFormController {
 
     @FXML
     private AnchorPane leftPane;
-    LoginDAO loginDAO = new LoginModel();
-    EmployeeDAO employeeDAO=new EmployeeModel();
+    LoginDAO loginDAO = new LoginDAOImpl();
+    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
 
     @FXML
     void createAccountOnAction(ActionEvent event) {

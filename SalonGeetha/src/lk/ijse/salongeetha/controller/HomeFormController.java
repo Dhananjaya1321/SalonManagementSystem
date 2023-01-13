@@ -15,9 +15,9 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentModel;
-import lk.ijse.salongeetha.dao.castom.impl.BookingModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.BookingDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.to.tm.BookTM;
@@ -41,9 +41,9 @@ public class HomeFormController {
 
     @FXML
     private AnchorPane popUpPane;
-    EmployeeDAO employeeDAO = new EmployeeModel();
-    BookingDAO bookingDAO = new BookingModel();
-    AppointmentDAO appointmentDAO = new AppointmentModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    BookingDAO bookingDAO = new BookingDAOImpl();
+    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
     private void setLblAppointment() {
         long millis = System.currentTimeMillis();

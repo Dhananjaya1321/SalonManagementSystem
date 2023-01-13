@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierModel;
+import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.SupplierTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -89,7 +89,7 @@ public class ManageSupplierController {
     @FXML
     private JFXTextArea txtAddress;
     ArrayList<Supplier> supplierList;
-    SupplierDAO supplierDAO = new SupplierModel();
+    SupplierDAO supplierDAO = new SupplierDAOImpl();
 
     {
         try {

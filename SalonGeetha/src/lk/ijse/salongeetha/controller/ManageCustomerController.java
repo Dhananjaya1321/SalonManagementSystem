@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.tm.CustomerTM;
 import lk.ijse.salongeetha.util.SendMail;
@@ -69,7 +69,7 @@ public class ManageCustomerController {
 
     @FXML
     private AnchorPane popUpPane;
-    CustomerDAO customerDAO = new CustomerModel();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
         search();

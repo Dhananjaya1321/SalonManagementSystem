@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
@@ -44,7 +44,7 @@ public class UpdateCustomerFormController {
     @FXML
     private JFXDatePicker txtDOB;
     private static Customer customer;
-    CustomerDAO customerDAO=new CustomerModel();
+    CustomerDAO customerDAO=new CustomerDAOImpl();
     public static void getUpdateDetails(Customer customer){
         UpdateCustomerFormController.customer =customer;
     }

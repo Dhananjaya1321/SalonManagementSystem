@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.Service;
 import lk.ijse.salongeetha.to.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -75,7 +75,7 @@ public class ManageServiceController {
     @FXML
     private JFXTextArea txtDescription;
     ArrayList<Service> serviceArrayList;
-    ServiceDAO serviceDAO = new ServiceModel();
+    ServiceDAO serviceDAO = new ServiceDAOImpl();
 
     {
         try {

@@ -20,10 +20,10 @@ import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentModel;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -127,10 +127,10 @@ public class ManageAppointmentController {
 
     ObservableList<AppointmentTM> observableList = FXCollections.observableArrayList();
     ArrayList<AppointmentTM> arrayList = new ArrayList();
-    ServiceDAO serviceDAO=new ServiceModel();
-    EmployeeDAO employeeDAO=new EmployeeModel();
-    CustomerDAO customerDAO=new CustomerModel();
-    AppointmentDAO appointmentDAO=new AppointmentModel();
+    ServiceDAO serviceDAO=new ServiceDAOImpl();
+    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    CustomerDAO customerDAO=new CustomerDAOImpl();
+    AppointmentDAO appointmentDAO=new AppointmentDAOImpl();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();

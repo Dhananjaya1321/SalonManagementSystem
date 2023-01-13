@@ -11,8 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BillModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.dao.castom.impl.BillDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.to.BillPayment;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.BillPaymentTM;
@@ -92,8 +92,8 @@ public class ManageBillPaymentController {
     private JFXTextArea txtDescription;
 
     ArrayList<BillPayment> billPaymentArrayList;
-    EmployeeDAO employeeDAO=new EmployeeModel();
-    BillDAO billPaymentDAO=new BillModel();
+    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    BillDAO billPaymentDAO=new BillDAOImpl();
 
     {
         try {

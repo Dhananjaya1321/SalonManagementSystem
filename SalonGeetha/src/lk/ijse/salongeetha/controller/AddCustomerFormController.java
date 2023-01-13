@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
@@ -34,7 +34,7 @@ public class AddCustomerFormController {
     public Label lblPhoneValidation;
     public Label lblNICValidation;
     private boolean reload = false;
-    CustomerDAO customerDAO = new CustomerModel();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         String name = txtName.getText();

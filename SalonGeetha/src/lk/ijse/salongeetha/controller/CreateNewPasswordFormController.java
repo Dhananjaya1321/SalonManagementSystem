@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.LoginModel;
+import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
 import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
@@ -43,7 +43,7 @@ public class CreateNewPasswordFormController {
     @FXML
     private AnchorPane leftPane;
     static String userName;
-    LoginDAO loginDAO=new LoginModel();
+    LoginDAO loginDAO=new LoginDAOImpl();
      public static void passUserName(String userName){
         CreateNewPasswordFormController.userName =userName;
     }

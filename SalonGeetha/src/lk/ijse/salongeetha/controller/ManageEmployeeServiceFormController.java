@@ -13,10 +13,10 @@ import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeServiceModel;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeServiceDAOImpl;
 import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.EmployeeServiceTM;
 
@@ -81,9 +81,9 @@ public class ManageEmployeeServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String employeeId;
-    ServiceDAO serviceDAO = new ServiceModel();
-    EmployeeDAO employeeDAO = new EmployeeModel();
-    EmployeeServiceDAO employeeServiceDAO = new EmployeeServiceModel();
+    ServiceDAO serviceDAO = new ServiceDAOImpl();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeServiceDAO employeeServiceDAO = new EmployeeServiceDAOImpl();
     QueryDAO queryDAO = new QueryDAOImpl();
 
     @FXML

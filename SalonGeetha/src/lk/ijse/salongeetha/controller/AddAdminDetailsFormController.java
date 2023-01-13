@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
@@ -35,7 +35,7 @@ public class AddAdminDetailsFormController {
 
     @FXML
     private JFXDatePicker txtDOB;
-    EmployeeDAO employeeDAO = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {

@@ -12,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.dao.castom.impl.RentalsModel;
+import lk.ijse.salongeetha.dao.castom.impl.RentalsDAOImpl;
 import lk.ijse.salongeetha.to.Rentals;
 import lk.ijse.salongeetha.to.tm.RentalsTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -87,7 +87,7 @@ public class ManageRentalsController {
     @FXML
     private JFXTextField txtDiscount;
     ArrayList<Rentals> rentalsArrayList;
-    RentalsDAO rentalsDAO = new RentalsModel();
+    RentalsDAO rentalsDAO = new RentalsDAOImpl();
 
     {
         try {
@@ -128,7 +128,7 @@ public class ManageRentalsController {
 
                         }
 //                        tblView.getItems().clear();
-//                        rentalsArrayList = RentalsModel.getAllRentals();
+//                        rentalsArrayList = RentalsDAOImpl.getAllRentals();
 //                        loadAllData();
                     } catch (SQLException | ClassNotFoundException exception) {
                         throw new RuntimeException(exception);

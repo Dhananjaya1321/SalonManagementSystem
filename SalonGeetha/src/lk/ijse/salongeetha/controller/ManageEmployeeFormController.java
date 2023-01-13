@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.UserDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.dao.castom.impl.UserModel;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.EmployeeTM;
@@ -138,7 +138,7 @@ public class ManageEmployeeFormController extends MainFormController {
     private String setJobTitel;
     ArrayList<Employee> employeeArrayList;
     UserDAO userDAO = new UserModel();
-    EmployeeDAO employeeDAO=new EmployeeModel();
+    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
     {
         try {
             employeeArrayList = getAllEmployee();

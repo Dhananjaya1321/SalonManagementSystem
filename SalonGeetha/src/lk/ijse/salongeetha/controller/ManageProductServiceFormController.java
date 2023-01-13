@@ -12,9 +12,9 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductModel;
-import lk.ijse.salongeetha.dao.castom.impl.ProductServiceModel;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.ProductServiceDAOImpl;
+import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.Product;
 import lk.ijse.salongeetha.to.ProductServiceDetail;
 import lk.ijse.salongeetha.to.Service;
@@ -73,9 +73,9 @@ public class ManageProductServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String productId;
-    ProductDAO productDAO=new ProductModel();
-    ServiceDAO serviceDAO=new ServiceModel();
-    ProductServiceDAO productServiceDAO=new ProductServiceModel();
+    ProductDAO productDAO=new ProductDAOImpl();
+    ServiceDAO serviceDAO=new ServiceDAOImpl();
+    ProductServiceDAO productServiceDAO=new ProductServiceDAOImpl();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String productIdValue = cmbProductId.getValue();

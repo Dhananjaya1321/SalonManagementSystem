@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.LoginModel;
+import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
 import lk.ijse.salongeetha.util.GenerateOTP;
 import lk.ijse.salongeetha.util.SendMail;
 import lk.ijse.salongeetha.to.User;
@@ -42,7 +42,7 @@ public class FrogotPasswordFormController {
 
     private String otp;
     private String userName;
-    LoginDAO loginDAO = new LoginModel();
+    LoginDAO loginDAO = new LoginDAOImpl();
 
     @FXML
     void btnSendEmailOnAction(ActionEvent event) {

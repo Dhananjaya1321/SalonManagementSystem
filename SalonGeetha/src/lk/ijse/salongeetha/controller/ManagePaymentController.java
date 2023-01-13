@@ -83,12 +83,12 @@ public class ManagePaymentController {
     private String setAOrB = "Appointment payment";
     ArrayList<Payment> aPaymentArrayList;
     ArrayList<Payment> bPaymentArrayList;
-    PaymentDAO paymentDAO = new PaymentModel();
-    BookingDAO booingDAO = new BookingModel();
-    AppointmentDAO appointmentDAO = new AppointmentModel();
-    //    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentModel();
+    PaymentDAO paymentDAO = new PaymentDAOImpl();
+    BookingDAO booingDAO = new BookingDAOImpl();
+    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    //    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentDAOImpl();
     QueryDAO queryDAO = new QueryDAOImpl();
-    BookingDAO bookingDAO = new BookingModel();
+    BookingDAO bookingDAO = new BookingDAOImpl();
 
     {
         try {
