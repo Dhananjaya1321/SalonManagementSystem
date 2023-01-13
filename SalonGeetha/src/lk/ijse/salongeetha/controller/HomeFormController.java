@@ -111,7 +111,7 @@ public class HomeFormController {
             for (BookTM b : bookingForChart) {
                 seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getQty()));
             }
-            ArrayList<AppointmentTM> appointmentForChart = appointmentDAO.getAppointmentForChart(time);
+            ArrayList<AppointmentTM> appointmentForChart = getAppointmentForChart(time);
             for (AppointmentTM a : appointmentForChart) {
                 seriesBooking.getData().add(new XYChart.Data(a.getDate(), a.getCount()));
             }
@@ -121,6 +121,17 @@ public class HomeFormController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
+        ArrayList<AppointmentTM> appointmentTMS = new ArrayList<>();
+        ResultSet resultSet = appointmentDAO.getAppointmentForChart(time);
+        while (resultSet.next()) {
+            AppointmentTM appointmentTM = new AppointmentTM();
+            appointmentTM.setCount(resultSet.getInt(1));
+            appointmentTM.setDate(resultSet.getString(2));
+            appointmentTMS.add(appointmentTM);
+        }
+        return appointmentTMS;
     }
     private ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
         ArrayList<BookTM> bookTMS = new ArrayList<>();

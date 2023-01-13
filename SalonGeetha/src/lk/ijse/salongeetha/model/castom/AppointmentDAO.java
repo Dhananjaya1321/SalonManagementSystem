@@ -6,6 +6,7 @@ import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,5 +19,5 @@ public interface AppointmentDAO extends SQLUtil<Appointment> {
 
     String getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException;
 
-    ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException;
+    ResultSet getAppointmentForChart(String time) throws SQLException, ClassNotFoundException;
 }

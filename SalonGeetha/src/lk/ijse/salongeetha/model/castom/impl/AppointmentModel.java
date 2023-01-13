@@ -99,25 +99,17 @@ public class AppointmentModel implements AppointmentDAO {
     }
 
     @Override
-    public ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
-        ArrayList<AppointmentTM> appointmentTMS = new ArrayList<>();
-        String quary;
+    public ResultSet getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
+        String query;
         if (time.equals("Past 7 day")) {
-            quary = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 7";
+            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 7";
         } else if (time.equals("Past 30 day")) {
-            quary = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 30";
+            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 30";
         } else if (time.equals("Past 1 year")) {
-            quary = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 365";
+            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 365";
         } else {
-            quary = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date";
+            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date";
         }
-        ResultSet resultSet = CrudUtil.setQuery(quary);
-        while (resultSet.next()) {
-            AppointmentTM appointmentTM = new AppointmentTM();
-            appointmentTM.setCount(resultSet.getInt(1));
-            appointmentTM.setDate(resultSet.getString(2));
-            appointmentTMS.add(appointmentTM);
-        }
-        return appointmentTMS;
+        return CrudUtil.setQuery(query);
     }
 }

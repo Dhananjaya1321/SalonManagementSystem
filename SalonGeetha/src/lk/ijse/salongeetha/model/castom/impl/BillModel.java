@@ -6,9 +6,6 @@ import lk.ijse.salongeetha.to.BillPayment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BillModel implements BillDAO {
     public boolean add(BillPayment billPayment) throws SQLException, ClassNotFoundException {
