@@ -11,6 +11,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.castom.UpdateCustomerBO;
+import lk.ijse.salongeetha.bo.castom.impl.UpdateCustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
@@ -44,10 +46,13 @@ public class UpdateCustomerFormController {
     @FXML
     private JFXDatePicker txtDOB;
     private static Customer customer;
-    CustomerDAO customerDAO=new CustomerDAOImpl();
-    public static void getUpdateDetails(Customer customer){
-        UpdateCustomerFormController.customer =customer;
+    //    CustomerDAO customerDAO=new CustomerDAOImpl();
+    UpdateCustomerBO updateCustomerBO = new UpdateCustomerBOImpl();
+
+    public static void getUpdateDetails(Customer customer) {
+        UpdateCustomerFormController.customer = customer;
     }
+
     @FXML
     void btnCloseOnAction(ActionEvent event) {
         closeCustomerAddForm(event);
@@ -60,54 +65,50 @@ public class UpdateCustomerFormController {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
         String dob = String.valueOf(txtDOB.getValue());
-        customer=new Customer(nic,name,phone,email,dob);
+        customer = new Customer(nic, name, phone, email, dob);
 
 
         if (ValidityCheck.check(Validation.NAME, name)) {
-                if (ValidityCheck.check(Validation.PHONE, phone)) {
-                    if (ValidityCheck.check(Validation.EMAIL, email)) {
-
-
-                        try {
-                            boolean updateCustomer = customerDAO.update(customer);
-                            if (updateCustomer){
-                                ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-                                ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
-                                Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Save is successful", ok);
-                                Optional<ButtonType> result = alert.showAndWait();
-                                if (result.orElse(no) == ok) {
-                                    closeCustomerAddForm(event);
-
-                                }
+            if (ValidityCheck.check(Validation.PHONE, phone)) {
+                if (ValidityCheck.check(Validation.EMAIL, email)) {
+                    try {
+                        boolean updateCustomer = updateCustomerBO.updateCustomer(customer);
+                        if (updateCustomer) {
+                            ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+                            ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Save is successful", ok);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.orElse(no) == ok) {
+                                closeCustomerAddForm(event);
                             }
-
-                        } catch (SQLException | ClassNotFoundException e) {
-                            throw new RuntimeException(e);
                         }
-
-
-                    } else {
-                        txtEmail.requestFocus();
-                        txtEmail.setFocusColor(RED);
-                        lblEmailValidation.setText("Invalid email");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
                     }
                 } else {
-                    txtPhone.requestFocus();
-                    txtPhone.setFocusColor(RED);
-                    lblPhoneValidation.setText("Invalid number");
+                    txtEmail.requestFocus();
+                    txtEmail.setFocusColor(RED);
+                    lblEmailValidation.setText("Invalid email");
                 }
+            } else {
+                txtPhone.requestFocus();
+                txtPhone.setFocusColor(RED);
+                lblPhoneValidation.setText("Invalid number");
+            }
         } else {
             txtName.requestFocus();
             txtName.setFocusColor(RED);
             lblNameValidation.setText("Invalid name");
         }
     }
-    private void closeCustomerAddForm(ActionEvent actionEvent){
+
+    private void closeCustomerAddForm(ActionEvent actionEvent) {
         Node node = (Node) actionEvent.getSource();
-        Stage stage= (Stage) node.getScene().getWindow();
+        Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
-    public void initialize(){
+
+    public void initialize() {
         lblNic.setText(customer.getNic());
         txtName.setText(customer.getName());
         txtEmail.setText(customer.getEmail());
