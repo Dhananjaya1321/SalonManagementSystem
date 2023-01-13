@@ -1,4 +1,4 @@
-package lk.ijse.salongeetha.model;
+package lk.ijse.salongeetha.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

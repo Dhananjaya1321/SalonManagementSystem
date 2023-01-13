@@ -1,6 +1,6 @@
-package lk.ijse.salongeetha.model.castom.impl;
+package lk.ijse.salongeetha.dao.castom.impl;
 
-import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 
 import java.sql.ResultSet;

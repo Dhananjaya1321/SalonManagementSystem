@@ -1,4 +1,4 @@
-package lk.ijse.salongeetha.model.castom;
+package lk.ijse.salongeetha.dao.castom;
 
 public interface EmployeeServiceDAO {
 }

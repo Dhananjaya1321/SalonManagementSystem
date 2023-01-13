@@ -1,13 +1,11 @@
-package lk.ijse.salongeetha.model.castom;
+package lk.ijse.salongeetha.dao.castom;
 
-import lk.ijse.salongeetha.model.CrudUtil;
-import lk.ijse.salongeetha.model.SQLUtil;
+import lk.ijse.salongeetha.dao.SQLUtil;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.tm.BookTM;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

@@ -1,13 +1,12 @@
-package lk.ijse.salongeetha.model.castom.impl;
+package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.model.CrudUtil;
-import lk.ijse.salongeetha.model.castom.LoginDAO;
+import lk.ijse.salongeetha.dao.CrudUtil;
+import lk.ijse.salongeetha.dao.castom.LoginDAO;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.SetPassword;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

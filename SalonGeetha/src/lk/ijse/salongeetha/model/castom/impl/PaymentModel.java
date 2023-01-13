@@ -1,10 +1,10 @@
-package lk.ijse.salongeetha.model.castom.impl;
+package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.model.CrudUtil;
-import lk.ijse.salongeetha.model.castom.AppointmentDAO;
-import lk.ijse.salongeetha.model.castom.BookingDAO;
-import lk.ijse.salongeetha.model.castom.PaymentDAO;
+import lk.ijse.salongeetha.dao.CrudUtil;
+import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
+import lk.ijse.salongeetha.dao.castom.BookingDAO;
+import lk.ijse.salongeetha.dao.castom.PaymentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.Payment;
