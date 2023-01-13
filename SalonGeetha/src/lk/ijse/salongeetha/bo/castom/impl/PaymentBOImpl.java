@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class PaymentBOImpl {
+import lk.ijse.salongeetha.bo.castom.PaymentBO;
+
+public class PaymentBOImpl implements PaymentBO {
 }

@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class ServiceBOImpl {
+import lk.ijse.salongeetha.bo.castom.ServiceBO;
+
+public class ServiceBOImpl implements ServiceBO {
 }

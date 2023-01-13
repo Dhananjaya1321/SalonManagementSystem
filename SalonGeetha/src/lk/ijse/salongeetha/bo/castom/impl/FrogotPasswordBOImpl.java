@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class FrogotPasswordBOImpl {
+import lk.ijse.salongeetha.bo.castom.FrogotPasswordBO;
+
+public class FrogotPasswordBOImpl implements FrogotPasswordBO {
 }

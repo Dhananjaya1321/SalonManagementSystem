@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class AddAdminDetailsBOImpl {
+import lk.ijse.salongeetha.bo.castom.AddAdminDetailsBO;
+
+public class AddAdminDetailsBOImpl implements AddAdminDetailsBO {
 }

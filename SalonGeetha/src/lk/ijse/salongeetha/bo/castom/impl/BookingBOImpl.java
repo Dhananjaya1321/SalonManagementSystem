@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class BookingBOImpl {
+import lk.ijse.salongeetha.bo.castom.BookingBO;
+
+public class BookingBOImpl implements BookingBO {
 }

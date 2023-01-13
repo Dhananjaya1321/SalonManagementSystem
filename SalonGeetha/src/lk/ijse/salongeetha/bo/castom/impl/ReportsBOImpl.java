@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class ReportsBOImpl {
+import lk.ijse.salongeetha.bo.castom.ReportsBO;
+
+public class ReportsBOImpl implements ReportsBO {
 }

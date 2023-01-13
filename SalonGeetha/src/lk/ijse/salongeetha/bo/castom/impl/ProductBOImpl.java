@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class ProductBOImpl {
+import lk.ijse.salongeetha.bo.castom.ProductBO;
+
+public class ProductBOImpl implements ProductBO {
 }

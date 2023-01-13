@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class RentalsBOImpl {
+import lk.ijse.salongeetha.bo.castom.RentalsBO;
+
+public class RentalsBOImpl implements RentalsBO {
 }

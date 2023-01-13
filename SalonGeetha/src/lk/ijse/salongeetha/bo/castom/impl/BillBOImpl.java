@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class BillBOImpl {
+import lk.ijse.salongeetha.bo.castom.BillBO;
+
+public class BillBOImpl implements BillBO {
 }

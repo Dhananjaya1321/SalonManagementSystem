@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class LoginFormBOImpl {
+import lk.ijse.salongeetha.bo.castom.LoginFormBO;
+
+public class LoginFormBOImpl implements LoginFormBO {
 }

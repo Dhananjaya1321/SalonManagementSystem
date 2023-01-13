@@ -1,4 +1,7 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class CreateNewPasswordBOImpl {
+import lk.ijse.salongeetha.bo.castom.CreateNewPasswordBO;
+
+public class CreateNewPasswordBOImpl implements CreateNewPasswordBO {
+
 }

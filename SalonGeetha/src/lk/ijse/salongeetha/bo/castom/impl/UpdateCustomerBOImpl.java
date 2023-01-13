@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class UpdateCustomerBOImpl {
+import lk.ijse.salongeetha.bo.castom.UpdateCustomerBO;
+
+public class UpdateCustomerBOImpl implements UpdateCustomerBO {
 }

@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
-public class MainFormBOImpl {
+import lk.ijse.salongeetha.bo.castom.MainFormBO;
+
+public class MainFormBOImpl implements MainFormBO {
 }

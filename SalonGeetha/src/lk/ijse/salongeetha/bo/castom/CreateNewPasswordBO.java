@@ -1,4 +1,4 @@
 package lk.ijse.salongeetha.bo.castom;
 
-public interface ReceptionisHomeBO {
+public interface CreateNewPasswordBO {
 }
