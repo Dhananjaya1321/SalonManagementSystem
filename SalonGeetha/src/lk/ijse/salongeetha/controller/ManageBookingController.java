@@ -322,7 +322,7 @@ public class ManageBookingController {
         Customer customer = new Customer();
         customer.setNic(value);
         try {
-            ArrayList<Customer> customers = customerDAO.searchCustomerDetails(customer);
+            ArrayList<Customer> customers = searchCustomerDetails(customer);
             if (customers.size() > 0) {
                 for (Customer c : customers) {
 //                    lblCustomerNIC.setText(c.getNic());
@@ -334,7 +334,20 @@ public class ManageBookingController {
             throw new RuntimeException(e);
         }
     }
-
+    private ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ResultSet resultSet = customerDAO.searchCustomerDetails(customer);
+        while (resultSet.next()) {
+            Customer searchCustomer = new Customer();
+            searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
+            searchCustomer.setName(String.valueOf(resultSet.getObject(2)));
+            searchCustomer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            searchCustomer.setEmail(String.valueOf(resultSet.getObject(4)));
+            searchCustomer.setDob(String.valueOf(resultSet.getObject(5)));
+            customers.add(searchCustomer);
+        }
+        return customers;
+    }
     public void btnNewONAction(ActionEvent actionEvent) throws IOException {
         URL resource = getClass().getResource("/lk/ijse/salongeetha/view/AddCustomerForm.fxml");
         Parent load = FXMLLoader.load(resource);

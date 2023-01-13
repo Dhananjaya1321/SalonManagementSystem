@@ -44,18 +44,7 @@ public class CustomerModel implements CustomerDAO {
     }
 
 
-    public ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Customer WHERE NIC=?", customer.getNic());
-        while (resultSet.next()) {
-            Customer searchCustomer = new Customer();
-            searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
-            searchCustomer.setName(String.valueOf(resultSet.getObject(2)));
-            searchCustomer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            searchCustomer.setEmail(String.valueOf(resultSet.getObject(4)));
-            searchCustomer.setDob(String.valueOf(resultSet.getObject(5)));
-            customers.add(searchCustomer);
-        }
-        return customers;
+    public ResultSet searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Customer WHERE NIC=?", customer.getNic());
     }
 }
