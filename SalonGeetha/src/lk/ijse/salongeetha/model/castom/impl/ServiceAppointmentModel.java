@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ServiceAppointmentModel implements ServiceAppointmentDAO {
-@Override
+    @Override
     public boolean addDetails(ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
         int i = 0;
         for (ServiceAppointmentDetail a : serviceAppointmentDetails) {
@@ -18,24 +18,13 @@ public class ServiceAppointmentModel implements ServiceAppointmentDAO {
                 i++;
             }
         }
-
         if (i == serviceAppointmentDetails.size()) {
             return true;
         }
         return false;
     }
-    @Override
-    public ArrayList<ServiceAppointmentDetail> getAmountDue(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("select s.price,s.discount from service_appointment_detail ad join service s on ad.sev_Id = s.sev_Id where Apt_Id=?", serviceAppointmentDetail.getAptId());
-        while (resultSet.next()) {
-            ServiceAppointmentDetail setServiceAppointmentDetail = new ServiceAppointmentDetail();
-            setServiceAppointmentDetail.setPrice((Double) resultSet.getObject(1));
-            setServiceAppointmentDetail.setDiscount((Double) resultSet.getObject(2));
-            serviceAppointmentDetails.add(setServiceAppointmentDetail);
-        }
-        return serviceAppointmentDetails;
-    }
+
+
 
     @Override
     public boolean add(ServiceAppointmentDetail user) throws SQLException, ClassNotFoundException {

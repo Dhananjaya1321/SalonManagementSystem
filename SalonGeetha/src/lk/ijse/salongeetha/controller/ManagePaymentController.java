@@ -11,10 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.model.castom.AppointmentDAO;
-import lk.ijse.salongeetha.model.castom.BookingDAO;
-import lk.ijse.salongeetha.model.castom.PaymentDAO;
-import lk.ijse.salongeetha.model.castom.ServiceAppointmentDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.*;
 import lk.ijse.salongeetha.model.castom.impl.*;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.PaymentTM;
@@ -24,6 +22,7 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +86,8 @@ public class ManagePaymentController {
     PaymentDAO paymentDAO = new PaymentModel();
     BookingDAO booingDAO = new BookingModel();
     AppointmentDAO appointmentDAO = new AppointmentModel();
-    ServiceAppointmentDAO serviceAppointmentDAO=new ServiceAppointmentModel();
+//    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentModel();
+    QueryDAO queryDAO = new QueryDAOImpl();
     {
         try {
             aPaymentArrayList = paymentDAO.getAllAPayments();
@@ -270,7 +270,6 @@ public class ManagePaymentController {
 
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
         Matcher matcher = namePattern.matcher(value);
-//        System.out.println(matcher.matches());
         try {
             if (matcher.matches()) {
                 total = 0;
@@ -288,7 +287,7 @@ public class ManagePaymentController {
                 total = 0;
                 ServiceAppointmentDetail serviceAppointmentDetail = new ServiceAppointmentDetail();
                 serviceAppointmentDetail.setAptId(value);
-                ArrayList<ServiceAppointmentDetail> amountDue = serviceAppointmentDAO.getAmountDue(serviceAppointmentDetail);
+                ArrayList<ServiceAppointmentDetail> amountDue = getAmountDue(serviceAppointmentDetail);
                 if (amountDue.size() != 0) {
                     for (ServiceAppointmentDetail a : amountDue) {
                         total += a.getPrice() - (a.getPrice() * a.getDiscount()) / 100.0;
@@ -301,6 +300,19 @@ public class ManagePaymentController {
         }
 
     }
+
+    private ArrayList<ServiceAppointmentDetail> getAmountDue(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
+        ResultSet resultSet = queryDAO.getAmountDue(serviceAppointmentDetail);
+        while (resultSet.next()) {
+            ServiceAppointmentDetail setServiceAppointmentDetail = new ServiceAppointmentDetail();
+            setServiceAppointmentDetail.setPrice((Double) resultSet.getObject(1));
+            setServiceAppointmentDetail.setDiscount((Double) resultSet.getObject(2));
+            serviceAppointmentDetails.add(setServiceAppointmentDetail);
+        }
+        return serviceAppointmentDetails;
+    }
+
 
     public void txtAmountPaid(ActionEvent actionEvent) {
         double balance = Double.parseDouble(txtAmountPaid.getText()) - total;

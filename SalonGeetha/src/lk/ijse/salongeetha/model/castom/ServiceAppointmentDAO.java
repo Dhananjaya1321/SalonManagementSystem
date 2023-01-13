@@ -7,7 +7,5 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ServiceAppointmentDAO extends SQLUtil<ServiceAppointmentDetail> {
-    ArrayList<ServiceAppointmentDetail> getAmountDue(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException;
-
     boolean addDetails(ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException;
 }
