@@ -7,4 +7,6 @@ import java.sql.SQLException;
 
 public interface QueryDAO {
     ResultSet getAmountDue(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException;
+
+    ResultSet getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException;
 }

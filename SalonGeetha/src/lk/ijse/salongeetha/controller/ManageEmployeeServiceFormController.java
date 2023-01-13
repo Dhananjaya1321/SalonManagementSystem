@@ -9,10 +9,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.EmployeeServiceDAO;
+import lk.ijse.salongeetha.model.castom.QueryDAO;
 import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.model.castom.impl.EmployeeServiceModel;
+import lk.ijse.salongeetha.model.castom.impl.QueryDAOImpl;
 import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.EmployeeServiceTM;
@@ -80,6 +84,8 @@ public class ManageEmployeeServiceFormController {
     private String employeeId;
     ServiceDAO serviceDAO = new ServiceModel();
     EmployeeDAO employeeDAO = new EmployeeModel();
+    EmployeeServiceDAO employeeServiceDAO = new EmployeeServiceModel();
+    QueryDAO queryDAO = new QueryDAOImpl();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -91,14 +97,14 @@ public class ManageEmployeeServiceFormController {
         EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail(cmbEmpIdValue, serviceIdValue, serviceNameText, empNameText);
 
         try {
-            boolean checkAlreadyExists = EmployeeServiceModel.checkAlreadyExists(employeeServiceDetail);
+            boolean checkAlreadyExists = employeeServiceDAO.checkAlreadyExists(employeeServiceDetail);
             if (!checkAlreadyExists) {
-                boolean addProductService = EmployeeServiceModel.addEmployeeService(employeeServiceDetail);
+                boolean addProductService = employeeServiceDAO.add(employeeServiceDetail);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
                     tblView.getItems().clear();
-                    employeeServiceDetailArrayList = EmployeeServiceModel.getAllEmployeeServiceDetails();
+                    employeeServiceDetailArrayList = getAllEmployeeServiceDetails();
                     loadAllData();
                 }
             } else {
@@ -151,7 +157,7 @@ public class ManageEmployeeServiceFormController {
 
     {
         try {
-            employeeServiceDetailArrayList = EmployeeServiceModel.getAllEmployeeServiceDetails();
+            employeeServiceDetailArrayList = getAllEmployeeServiceDetails();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -180,7 +186,7 @@ public class ManageEmployeeServiceFormController {
                     try {
                         employeeServiceDetail.setEmpId(empId);
                         employeeServiceDetail.setSevId(sevId);
-                        boolean isDeleted = EmployeeServiceModel.deleteEmployeeService(employeeServiceDetail);
+                        boolean isDeleted = employeeServiceDAO.delete(employeeServiceDetail);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();
@@ -229,11 +235,12 @@ public class ManageEmployeeServiceFormController {
             throw new RuntimeException(e);
         }
     }
+
     public ArrayList<Employee> searchEmployee(Employee employee) throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = namePattern.matcher(employee.getName());
-        ResultSet resultSet = employeeDAO.search(matcher.matches(),employee);
+        ResultSet resultSet = employeeDAO.search(matcher.matches(), employee);
         while (resultSet.next()) {
             Employee searchEmployee = new Employee();
             searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
@@ -266,11 +273,12 @@ public class ManageEmployeeServiceFormController {
             throw new RuntimeException(e);
         }
     }
+
     private ArrayList<Service> searchService(Service service) throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = serviceDAO.search(matcher.matches(),service);
+        ResultSet resultSet = serviceDAO.search(matcher.matches(), service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -297,6 +305,7 @@ public class ManageEmployeeServiceFormController {
         }
         return services;
     }
+
     private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
         ResultSet resultSet = employeeDAO.getAll();
@@ -317,5 +326,19 @@ public class ManageEmployeeServiceFormController {
             return employees;
         }
         return new ArrayList<>();
+    }
+
+    private ArrayList<EmployeeServiceDetail> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeServiceDetail> employeeServiceDetails = new ArrayList<>();
+        ResultSet resultSet = queryDAO.getAllEmployeeServiceDetails();
+        while (resultSet.next()) {
+            EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
+            employeeServiceDetail.setEmpId(String.valueOf(resultSet.getObject(1)));
+            employeeServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
+            employeeServiceDetail.setEmpName(String.valueOf(resultSet.getObject(3)));
+            employeeServiceDetail.setSevName(String.valueOf(resultSet.getObject(4)));
+            employeeServiceDetails.add(employeeServiceDetail);
+        }
+        return employeeServiceDetails;
     }
 }

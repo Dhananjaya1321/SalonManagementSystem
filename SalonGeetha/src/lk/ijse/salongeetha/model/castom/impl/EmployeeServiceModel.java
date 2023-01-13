@@ -1,36 +1,25 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.to.EmployeeServiceDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class EmployeeServiceModel {
+public class EmployeeServiceModel implements EmployeeServiceDAO {
 
 
-    public static ArrayList<EmployeeServiceDetail> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeServiceDetail> employeeServiceDetails = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("select es.Emp_Id,es.Sev_Id,e.Name,s.Name from employee_service_detail es join \n" +
-                "service s on es.Sev_Id = s.Sev_Id join employee e on es.Emp_Id = e.Emp_Id;");
-        while (resultSet.next()) {
-            EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
-            employeeServiceDetail.setEmpId(String.valueOf(resultSet.getObject(1)));
-            employeeServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
-            employeeServiceDetail.setEmpName(String.valueOf(resultSet.getObject(3)));
-            employeeServiceDetail.setSevName(String.valueOf(resultSet.getObject(4)));
-            employeeServiceDetails.add(employeeServiceDetail);
-        }
-        return employeeServiceDetails;
-    }
 
-    public static boolean deleteEmployeeService(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
+
+    public boolean delete(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
                 employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
     }
-
-    public static boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
+@Override
+    public boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
                 employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
         if (resultSet.next()) {
@@ -39,8 +28,32 @@ public class EmployeeServiceModel {
         return false;
     }
 
-    public static boolean addEmployeeService(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
+    public boolean add(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO employee_service_detail VALUES (?,?)", employeeServiceDetail.getEmpId(),
                 employeeServiceDetail.getSevId());
+    }
+
+
+
+
+
+    @Override
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean update(EmployeeServiceDetail to) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public String checkId() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public ResultSet search(boolean value, EmployeeServiceDetail to) throws SQLException, ClassNotFoundException {
+        return null;
     }
 }
