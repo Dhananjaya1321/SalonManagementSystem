@@ -8,8 +8,6 @@ import lk.ijse.salongeetha.to.Rentals;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RentalsModel implements RentalsDAO {
     public boolean add(Rentals rentals) throws SQLException, ClassNotFoundException {
@@ -35,7 +33,6 @@ public class RentalsModel implements RentalsDAO {
     }
 
 
-
     public ResultSet getAll() throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("SELECT * FROM Rentals");
     }
@@ -50,20 +47,9 @@ public class RentalsModel implements RentalsDAO {
         return CrudUtil.setQuery(setColumn, "%" + rental.getName() + "%");
     }
 
-    public static ArrayList<Rentals> searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
-        ArrayList<Rentals> rentals = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Rentals WHERE Rent_Id=?", rental.getRntId());
-        while (resultSet.next()) {
-            Rentals searchRental = new Rentals();
-            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
-            searchRental.setName(String.valueOf(resultSet.getObject(2)));
-            searchRental.setPricePreDay((Double) resultSet.getObject(3));
-            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
-            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
-            searchRental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(searchRental);
-        }
-        return rentals;
+    @Override
+    public ResultSet searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Rentals WHERE Rent_Id=?", rental.getRntId());
     }
 
     public boolean update(ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {

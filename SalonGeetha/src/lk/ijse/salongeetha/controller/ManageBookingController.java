@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.RentalsDAO;
@@ -286,7 +287,7 @@ public class ManageBookingController {
         Rentals rental = new Rentals();
         rental.setRntId(value);
         try {
-            ArrayList<Rentals> rentals = RentalsModel.searchRentalsDetails(rental);
+            ArrayList<Rentals> rentals = searchRentalsDetails(rental);
             if (rentals.size() > 0) {
                 for (Rentals r : rentals) {
                     lblRentalName.setText(r.getName());
@@ -299,6 +300,21 @@ public class ManageBookingController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<Rentals> searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
+        ArrayList<Rentals> rentals = new ArrayList<>();
+        ResultSet resultSet = rentalsDAO.searchRentalsDetails(rental);
+        while (resultSet.next()) {
+            Rentals searchRental = new Rentals();
+            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
+            searchRental.setName(String.valueOf(resultSet.getObject(2)));
+            searchRental.setPricePreDay((Double) resultSet.getObject(3));
+            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
+            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
+            searchRental.setDiscount((Double) resultSet.getObject(6));
+            rentals.add(searchRental);
+        }
+        return rentals;
     }
 
     public void cmbCustomerId(ActionEvent actionEvent) {
