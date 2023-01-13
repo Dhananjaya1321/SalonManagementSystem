@@ -91,27 +91,18 @@ public class BookingModel implements BookingDAO {
         return null;
     }
 
-    public ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
-        ArrayList<BookTM> bookTMS = new ArrayList<>();
-        String quary;
+    public ResultSet getBookingForChart(String time) throws SQLException, ClassNotFoundException {
+        String query;
         if (time.equals("Past 7 day")) {
-            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
         } else if (time.equals("Past 30 day")) {
-            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
         } else if (time.equals("Past 1 year")) {
-            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
         } else {
-            quary = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
         }
-
-        ResultSet resultSet = CrudUtil.setQuery(quary);
-        while (resultSet.next()) {
-            BookTM bookTM = new BookTM();
-            bookTM.setQty(resultSet.getInt(1));
-            bookTM.setDate(resultSet.getString(2));
-            bookTMS.add(bookTM);
-        }
-        return bookTMS;
+        return CrudUtil.setQuery(query);
     }
 
 

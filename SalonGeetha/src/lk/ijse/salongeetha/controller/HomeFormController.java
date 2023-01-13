@@ -12,6 +12,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
@@ -23,6 +24,7 @@ import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.to.tm.BookTM;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -105,7 +107,7 @@ public class HomeFormController {
         XYChart.Series seriesBooking = new XYChart.Series();
         XYChart.Series seriesAppointment = new XYChart.Series();
         try {
-            ArrayList<BookTM> bookingForChart = bookingDAO.getBookingForChart(time);
+            ArrayList<BookTM> bookingForChart = getBookingForChart(time);
             for (BookTM b : bookingForChart) {
                 seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getQty()));
             }
@@ -120,7 +122,17 @@ public class HomeFormController {
             throw new RuntimeException(e);
         }
     }
-
+    private ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
+        ArrayList<BookTM> bookTMS = new ArrayList<>();
+        ResultSet resultSet = bookingDAO.getBookingForChart(time);
+        while (resultSet.next()) {
+            BookTM bookTM = new BookTM();
+            bookTM.setQty(resultSet.getInt(1));
+            bookTM.setDate(resultSet.getString(2));
+            bookTMS.add(bookTM);
+        }
+        return bookTMS;
+    }
     public void cmbPastTime(ActionEvent actionEvent) {
         setLineChart(cmbPastTime.getValue().toString());
     }

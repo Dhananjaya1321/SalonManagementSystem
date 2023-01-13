@@ -20,5 +20,5 @@ public interface BookingDAO extends SQLUtil<Book> {
 
     String getBookingCount(String setDate) throws SQLException, ClassNotFoundException;
 
-    ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException;
+    ResultSet getBookingForChart(String time) throws SQLException, ClassNotFoundException;
 }
