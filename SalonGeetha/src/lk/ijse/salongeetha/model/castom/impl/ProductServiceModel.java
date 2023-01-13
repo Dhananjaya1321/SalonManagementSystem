@@ -6,7 +6,6 @@ import lk.ijse.salongeetha.to.ProductServiceDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ProductServiceModel implements ProductServiceDAO {
     public boolean delete(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {

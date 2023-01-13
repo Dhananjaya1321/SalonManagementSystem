@@ -88,14 +88,41 @@ public class ManagePaymentController {
     AppointmentDAO appointmentDAO = new AppointmentModel();
 //    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentModel();
     QueryDAO queryDAO = new QueryDAOImpl();
+    BookingDAO bookingDAO=new BookingModel();
     {
         try {
-            aPaymentArrayList = paymentDAO.getAllAPayments();
-            bPaymentArrayList = paymentDAO.getAllBPayments();
+            aPaymentArrayList = getAllAPayments();
+            bPaymentArrayList = getAllBPayments();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<Payment> getAllBPayments() throws SQLException, ClassNotFoundException {
+        ArrayList<Payment> payments = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM book_payment");
+        while (resultSet.next()) {
+            Payment payment = new Payment();
+            payment.setPayId(String.valueOf(resultSet.getObject(1)));
+            payment.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
+            payment.setaOrBId(String.valueOf(resultSet.getObject(3)));
+            payment.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            payments.add(payment);
+        }
+        return payments;
+    }
+    private ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
+        ArrayList<Payment> payments = new ArrayList<>();
+        ResultSet resultSet = paymentDAO.getAllAPayments();
+        while (resultSet.next()) {
+            Payment payment = new Payment();
+            payment.setPayId(String.valueOf(resultSet.getObject(1)));
+            payment.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
+            payment.setaOrBId(String.valueOf(resultSet.getObject(3)));
+            payment.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            payments.add(payment);
+        }
+        return payments;
     }
 
     ObservableList<PaymentTM> observableList = FXCollections.observableArrayList();
@@ -209,7 +236,7 @@ public class ManagePaymentController {
         payment.setAmountDue(amountDue);
         payment.setaOrBId(appointmentIdOrBookingIdValue);
         try {
-            boolean addPayment = paymentDAO.add(payment);
+            boolean addPayment = add(payment);
             if (addPayment) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Payment add is successful");
                 alert.show();
@@ -217,7 +244,7 @@ public class ManagePaymentController {
                 tblView.getItems().clear();
 
                 if (setAOrB.equals("Appointment payment")) {
-                    aPaymentArrayList = paymentDAO.getAllAPayments();
+                    aPaymentArrayList = getAllAPayments();
                     loadAllAPaymentData();
                     setNextAId();
 
@@ -235,7 +262,7 @@ public class ManagePaymentController {
                         e.printStackTrace();
                     }
                 } else {
-                    bPaymentArrayList = paymentDAO.getAllBPayments();
+                    bPaymentArrayList = getAllBPayments();
                     loadAllBPaymentData();
                     setNextBId();
 
@@ -262,6 +289,33 @@ public class ManagePaymentController {
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+    private boolean add(Payment payment) throws SQLException, ClassNotFoundException {
+        Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
+        Matcher matcher = namePattern.matcher(payment.getaOrBId());
+        if (matcher.matches()) {
+            bookingDAO.getId(payment);
+            boolean isAdded = paymentDAO.addBookingPayment(payment);//set
+            if (isAdded) {
+                Book book = new Book();
+                book.setBokId(payment.getaOrBId());
+                book.setStatus("Paid");
+                bookingDAO.update(book);
+                return true;
+            }
+            return false;
+        } else {
+            appointmentDAO.getId(payment);
+            boolean isAdded = paymentDAO.addAppointmentPayment(payment);//set
+            if (isAdded) {
+                Appointment appointment = new Appointment();
+                appointment.setAptId(payment.getaOrBId());
+                appointment.setStatus("Paid");
+                appointmentDAO.update(appointment);
+                return true;
+            }
+            return false;
         }
     }
 

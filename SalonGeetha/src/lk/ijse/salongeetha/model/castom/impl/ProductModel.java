@@ -25,7 +25,7 @@ public class ProductModel implements ProductDAO {
                 " WHERE Pro_Id=?", product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId(), product.getProId());
     }
 
-    public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
+    /*public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
@@ -49,7 +49,7 @@ public class ProductModel implements ProductDAO {
         }
         return products;
     }
-
+*/
     public String checkId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pro_Id FROM Product ORDER BY Pro_Id DESC LIMIT 1");
         if (resultSet.next()) {
