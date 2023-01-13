@@ -47,18 +47,8 @@ public class ServiceModel implements ServiceDAO {
         return CrudUtil.setQuery(setColumn, "%" + service.getName() + "%");
     }
 
-    public static ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Service WHERE Sev_Id = ?", service.getSevId());
-        while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
-        }
-        return services;
+    @Override
+    public ResultSet searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Service WHERE Sev_Id = ?", service.getSevId());
     }
 }

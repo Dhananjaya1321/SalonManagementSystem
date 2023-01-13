@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.AppointmentDAO;
 import lk.ijse.salongeetha.model.castom.CustomerDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeDAO;
@@ -359,7 +360,7 @@ public class ManageAppointmentController {
         service.setSevId(value);
 //        if (!value.equals(null)) {
         try {
-            ArrayList<Service> services = ServiceModel.searchServiceDetails(service);
+            ArrayList<Service> services = searchServiceDetails(service);
             if (services.size() > 0) {
                 for (Service s : services) {
                     lblServiceName.setText(s.getName());
@@ -371,7 +372,21 @@ public class ManageAppointmentController {
             throw new RuntimeException(e);
 //            }
         }
+    }
 
+    private ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        ResultSet resultSet = serviceDAO.searchServiceDetails(service);
+        while (resultSet.next()) {
+            Service searchService = new Service();
+            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchService.setName(String.valueOf(resultSet.getObject(3)));
+            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(searchService);
+        }
+        return services;
     }
 
     public void cmbEmployeeIdOnAction(ActionEvent actionEvent) {

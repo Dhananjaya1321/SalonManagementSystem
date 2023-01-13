@@ -12,9 +12,7 @@ import java.util.regex.Pattern;
 
 public class SupplierModel implements SupplierDAO {
     public ResultSet getAll() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Supplier");
-
-        return resultSet;
+        return CrudUtil.setQuery("SELECT * FROM Supplier");
     }
 
     public boolean add(Supplier supplier) throws SQLException, ClassNotFoundException {
