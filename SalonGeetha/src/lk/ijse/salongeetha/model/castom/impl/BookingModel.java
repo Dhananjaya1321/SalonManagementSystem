@@ -1,9 +1,9 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.BookingDAO;
-import lk.ijse.salongeetha.dao.castom.RentalsDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.BookingDAO;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Payment;
@@ -29,6 +29,11 @@ public class BookingModel implements BookingDAO {
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
         }
+        return null;
+    }
+
+    @Override
+    public ResultSet search(boolean value, Book to) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -115,11 +120,8 @@ public class BookingModel implements BookingDAO {
 
 
     @Override
-    public ArrayList<Book> getAll() throws SQLException, ClassNotFoundException {
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
-    @Override
-    public ArrayList<Book> search(Book supplier) throws SQLException, ClassNotFoundException {
-        return null;
-    }
+
 }

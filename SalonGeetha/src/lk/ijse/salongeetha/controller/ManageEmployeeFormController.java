@@ -10,10 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.UserDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.UserModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.UserDAO;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.UserModel;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.EmployeeTM;
 import lk.ijse.salongeetha.to.User;
@@ -22,10 +23,13 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -138,7 +142,7 @@ public class ManageEmployeeFormController extends MainFormController {
     EmployeeDAO employeeDAO=new EmployeeModel();
     {
         try {
-            employeeArrayList = employeeDAO.getAll();
+            employeeArrayList = getAllEmployee();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -348,7 +352,7 @@ public class ManageEmployeeFormController extends MainFormController {
         lblVDescription.setText(null);
 
         try {
-            employeeArrayList = employeeDAO.getAll();
+            employeeArrayList = getAllEmployee();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -525,7 +529,7 @@ public class ManageEmployeeFormController extends MainFormController {
             cleanTable();
             employee.setName(text);
             try {
-                employeeArrayList = employeeDAO.search(employee);
+                employeeArrayList = search(employee);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -536,15 +540,55 @@ public class ManageEmployeeFormController extends MainFormController {
         }
     }
 
+    public ArrayList<Employee> search(Employee employee) throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = namePattern.matcher(employee.getName());
+        ResultSet resultSet = employeeDAO.search(matcher.matches(),employee);
+        while (resultSet.next()) {
+            Employee searchEmployee = new Employee();
+            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employees.add(searchEmployee);
+        }
+        return employees;
+    }
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            employeeArrayList = employeeDAO.getAll();
+            employeeArrayList = getAllEmployee();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
     }
 
-
+    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        ResultSet resultSet = employeeDAO.getAll();
+        if (resultSet.next()) {
+            do {
+                Employee employee = new Employee();
+                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employee.setName(String.valueOf(resultSet.getObject(2)));
+                employee.setAddress(String.valueOf(resultSet.getObject(3)));
+                employee.setDob(String.valueOf(resultSet.getObject(4)));
+                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employee.setDescription(String.valueOf(resultSet.getObject(6)));
+                employee.setEmail(String.valueOf(resultSet.getObject(7)));
+                employee.setNic(String.valueOf(resultSet.getObject(8)));
+                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employees.add(employee);
+            } while (resultSet.next());
+            return employees;
+        }
+        return new ArrayList<>();
+    }
 }

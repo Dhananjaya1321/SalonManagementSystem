@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.RentalsDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
 import lk.ijse.salongeetha.to.Rentals;
 
@@ -34,44 +34,20 @@ public class RentalsModel implements RentalsDAO {
         return null;
     }
 
-    public ArrayList<Rentals> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<Rentals> rentals = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Rentals");
-        while (resultSet.next()) {
-            Rentals rental = new Rentals();
-            rental.setRntId(String.valueOf(resultSet.getObject(1)));
-            rental.setName(String.valueOf(resultSet.getObject(2)));
-            rental.setPricePreDay((Double) resultSet.getObject(3));
-            rental.setDescription(String.valueOf(resultSet.getObject(4)));
-            rental.setAvaliableCount((Integer) resultSet.getObject(5));
-            rental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(rental);
-        }
-        return rentals;
+
+
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Rentals");
     }
 
-    public ArrayList<Rentals> search(Rentals rental) throws SQLException, ClassNotFoundException {
-        ArrayList<Rentals> rentals = new ArrayList<>();
+    public ResultSet search(boolean value, Rentals rental) throws SQLException, ClassNotFoundException {
         String setColumn;
-        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(rental.getName());
-        if (matcher.matches()) {
+        if (value) {
             setColumn = "SELECT * FROM Rentals WHERE Name LIKE ?";
         } else {
             setColumn = "SELECT * FROM Rentals WHERE Rent_Id LIKE ?";
         }
-        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + rental.getName() + "%");
-        while (resultSet.next()) {
-            Rentals searchRental = new Rentals();
-            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
-            searchRental.setName(String.valueOf(resultSet.getObject(2)));
-            searchRental.setPricePreDay((Double) resultSet.getObject(3));
-            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
-            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
-            searchRental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(searchRental);
-        }
-        return rentals;
+        return CrudUtil.setQuery(setColumn, "%" + rental.getName() + "%");
     }
 
     public static ArrayList<Rentals> searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {

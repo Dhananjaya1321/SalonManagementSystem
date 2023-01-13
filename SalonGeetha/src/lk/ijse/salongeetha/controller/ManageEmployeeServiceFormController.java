@@ -9,17 +9,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeServiceModel;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeServiceModel;
+import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.EmployeeServiceTM;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManageEmployeeServiceFormController {
 
@@ -111,7 +114,7 @@ public class ManageEmployeeServiceFormController {
 
     public void initialize() {
         try {
-            ArrayList<Service> services = serviceDAO.getAll();
+            ArrayList<Service> services = getAllService();
             String[] ids;
 
             if (services.size() != 0) {
@@ -123,7 +126,7 @@ public class ManageEmployeeServiceFormController {
             }
 
 
-            ArrayList<Employee> employees = employeeDAO.getAll();
+            ArrayList<Employee> employees = getAllEmployee();
             String[] eIds;
             if (employees.size() != 0) {
                 eIds = new String[employees.size()];
@@ -216,7 +219,7 @@ public class ManageEmployeeServiceFormController {
         Employee employee = new Employee();
         employee.setName(employeeId);
         try {
-            ArrayList<Employee> employees = employeeDAO.search(employee);
+            ArrayList<Employee> employees = searchEmployee(employee);
             if (employees.size() > 0) {
                 for (Employee e : employees) {
                     lblEmpName.setText(e.getName());
@@ -226,13 +229,33 @@ public class ManageEmployeeServiceFormController {
             throw new RuntimeException(e);
         }
     }
+    public ArrayList<Employee> searchEmployee(Employee employee) throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = namePattern.matcher(employee.getName());
+        ResultSet resultSet = employeeDAO.search(matcher.matches(),employee);
+        while (resultSet.next()) {
+            Employee searchEmployee = new Employee();
+            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employees.add(searchEmployee);
+        }
+        return employees;
+    }
 
     public void cmbServiceIdOnAction(ActionEvent actionEvent) {
         this.serviceId = cmbServiceId.getValue();
         Service service = new Service();
         service.setName(serviceId);
         try {
-            ArrayList<Service> services = serviceDAO.search(service);
+            ArrayList<Service> services = searchService(service);
             if (services.size() > 0) {
                 for (Service s : services) {
                     lblServiceName.setText(s.getName());
@@ -242,5 +265,57 @@ public class ManageEmployeeServiceFormController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<Service> searchService(Service service) throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(service.getName());
+        ResultSet resultSet = serviceDAO.search(matcher.matches(),service);
+        while (resultSet.next()) {
+            Service searchService = new Service();
+            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchService.setName(String.valueOf(resultSet.getObject(3)));
+            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(searchService);
+        }
+        return services;
+    }
+
+    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        ResultSet resultSet = serviceDAO.getAll();
+        while (resultSet.next()) {
+            Service service = new Service();
+            service.setSevId(String.valueOf(resultSet.getObject(1)));
+            service.setDescription(String.valueOf(resultSet.getObject(2)));
+            service.setName(String.valueOf(resultSet.getObject(3)));
+            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(service);
+        }
+        return services;
+    }
+    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        ResultSet resultSet = employeeDAO.getAll();
+        if (resultSet.next()) {
+            do {
+                Employee employee = new Employee();
+                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employee.setName(String.valueOf(resultSet.getObject(2)));
+                employee.setAddress(String.valueOf(resultSet.getObject(3)));
+                employee.setDob(String.valueOf(resultSet.getObject(4)));
+                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employee.setDescription(String.valueOf(resultSet.getObject(6)));
+                employee.setEmail(String.valueOf(resultSet.getObject(7)));
+                employee.setNic(String.valueOf(resultSet.getObject(8)));
+                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employees.add(employee);
+            } while (resultSet.next());
+            return employees;
+        }
+        return new ArrayList<>();
     }
 }

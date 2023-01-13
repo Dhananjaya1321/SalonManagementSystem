@@ -1,10 +1,10 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.BookingDAO;
-import lk.ijse.salongeetha.dao.castom.PaymentDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
+import lk.ijse.salongeetha.model.castom.BookingDAO;
+import lk.ijse.salongeetha.model.castom.PaymentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.Payment;
@@ -58,7 +58,7 @@ public class PaymentModel implements PaymentDAO {
     }
 
     @Override
-    public ArrayList<Payment> getAll() throws SQLException, ClassNotFoundException {
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -73,9 +73,10 @@ public class PaymentModel implements PaymentDAO {
     }
 
     @Override
-    public ArrayList<Payment> search(Payment supplier) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, Payment to) throws SQLException, ClassNotFoundException {
         return null;
     }
+
 
     public String checkAppointmentId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pay_Id FROM appointment_payment ORDER BY Pay_Id DESC LIMIT 1");

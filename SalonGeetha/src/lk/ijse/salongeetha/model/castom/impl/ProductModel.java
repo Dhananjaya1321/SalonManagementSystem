@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.ProductDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ProductDAO;
 import lk.ijse.salongeetha.to.Product;
 
 import java.sql.ResultSet;
@@ -58,20 +58,18 @@ public class ProductModel implements ProductDAO {
         return null;
     }
 
-    public ArrayList<Product> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Product");
-        while (resultSet.next()) {
-            Product product = new Product();
-            product.setProId(String.valueOf(resultSet.getObject(1)));
-            product.setDescription(String.valueOf(resultSet.getObject(2)));
-            product.setCategory(String.valueOf(resultSet.getObject(3)));
-            product.setBrand(String.valueOf(resultSet.getObject(4)));
-            product.setUnitPrice((Double) resultSet.getObject(5));
-            product.setQtyOnHand((Integer) resultSet.getObject(6));
-            product.setSupId(String.valueOf(resultSet.getObject(7)));
-            products.add(product);
+    @Override
+    public ResultSet search(boolean value, Product to) throws SQLException, ClassNotFoundException {
+        String setColumn;
+        if (value) {
+            setColumn = "SELECT * FROM Product WHERE Brand LIKE ?";
+        } else {
+            setColumn = "SELECT * FROM Product WHERE Pro_Id LIKE ?";
         }
-        return products;
+        return CrudUtil.setQuery(setColumn, "%" + to.getBrand() + "%");
+    }
+
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Product");
     }
 }

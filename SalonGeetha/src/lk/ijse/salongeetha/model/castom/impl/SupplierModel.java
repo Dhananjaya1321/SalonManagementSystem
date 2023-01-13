@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.SupplierDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.SupplierDAO;
 import lk.ijse.salongeetha.to.Supplier;
 
 import java.sql.ResultSet;
@@ -11,20 +11,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SupplierModel implements SupplierDAO {
-    public ArrayList<Supplier> getAll() throws SQLException, ClassNotFoundException {
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Supplier");
-        ArrayList<Supplier> suppliers = new ArrayList<>();
-        while (resultSet.next()) {
-            Supplier supplier = new Supplier();
-            supplier.setSupId(String.valueOf(resultSet.getObject(1)));
-            supplier.setDescription(String.valueOf(resultSet.getObject(2)));
-            supplier.setName(String.valueOf(resultSet.getObject(3)));
-            supplier.setAddress(String.valueOf(resultSet.getObject(4)));
-            supplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            supplier.setEmail(String.valueOf(resultSet.getObject(6)));
-            suppliers.add(supplier);
-        }
-        return suppliers;
+
+        return resultSet;
     }
 
     public boolean add(Supplier supplier) throws SQLException, ClassNotFoundException {
@@ -50,28 +40,13 @@ public class SupplierModel implements SupplierDAO {
         return null;
     }
 
-    public ArrayList<Supplier> search(Supplier supplier) throws SQLException, ClassNotFoundException {
-        ArrayList<Supplier> suppliers = new ArrayList<>();
+    public ResultSet search(boolean value,Supplier to) throws SQLException, ClassNotFoundException {
         String setColumn;
-        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(supplier.getName());
-        if (matcher.matches()) {
+        if (value) {
             setColumn = "SELECT * FROM Supplier WHERE Name LIKE ?";
         } else {
             setColumn = "SELECT * FROM Supplier WHERE Sup_Id LIKE ?";
         }
-        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + supplier.getName() + "%");
-        while (resultSet.next()) {
-            Supplier searchSupplier = new Supplier();
-            searchSupplier.setSupId(String.valueOf(resultSet.getObject(1)));
-            searchSupplier.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchSupplier.setName(String.valueOf(resultSet.getObject(3)));
-            searchSupplier.setAddress(String.valueOf(resultSet.getObject(4)));
-            searchSupplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchSupplier.setEmail(String.valueOf(resultSet.getObject(6)));
-
-            suppliers.add(searchSupplier);
-        }
-        return suppliers;
+        return CrudUtil.setQuery(setColumn, "%" + to.getName() + "%");
     }
 }

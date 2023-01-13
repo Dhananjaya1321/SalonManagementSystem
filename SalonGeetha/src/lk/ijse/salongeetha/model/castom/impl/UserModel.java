@@ -1,13 +1,14 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.UserDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.UserDAO;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.SetPassword;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class UserModel implements UserDAO {
     }
 
     @Override
-    public ArrayList<User> getAll() throws SQLException, ClassNotFoundException {
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -40,7 +41,7 @@ public class UserModel implements UserDAO {
     }
 
     @Override
-    public ArrayList<User> search(User supplier) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, User supplier) throws SQLException, ClassNotFoundException {
         return null;
     }
 

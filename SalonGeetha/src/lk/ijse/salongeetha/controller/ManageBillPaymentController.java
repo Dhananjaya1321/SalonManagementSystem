@@ -9,10 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.BillDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BillModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.BillDAO;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.impl.BillModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
 import lk.ijse.salongeetha.to.BillPayment;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.tm.BillPaymentTM;
@@ -21,10 +22,13 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -94,7 +98,7 @@ public class ManageBillPaymentController {
 
     {
         try {
-            billPaymentArrayList = billPaymentDAO.getAll();
+            billPaymentArrayList = getAllBillPayment();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -253,7 +257,7 @@ public class ManageBillPaymentController {
         setNextId();
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = billPaymentDAO.getAll();
+            billPaymentArrayList = getAllBillPayment();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -287,7 +291,7 @@ public class ManageBillPaymentController {
 
 
         try {
-            ArrayList<Employee> employeesIds = employeeDAO.getAll();
+            ArrayList<Employee> employeesIds = getAllEmployee();
             String[] ids;
             if (employeesIds.size() != 0) {
                 ids = new String[employeesIds.size()];
@@ -309,7 +313,7 @@ public class ManageBillPaymentController {
             cleanTable();
             billPayment.setTitle(text);
             try {
-                billPaymentArrayList = billPaymentDAO.search(billPayment);
+                billPaymentArrayList = search(billPayment);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -319,17 +323,69 @@ public class ManageBillPaymentController {
             loadAllData();
         }
     }
+    public ArrayList<BillPayment> search(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+        ArrayList<BillPayment> billPayments = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(billPayment.getTitle());
+        ResultSet resultSet = billPaymentDAO.search(matcher.matches(),billPayment);
+        while (resultSet.next()) {
+            BillPayment searchBillPayment = new BillPayment();
+            searchBillPayment.setBilId(String.valueOf(resultSet.getObject(1)));
+            searchBillPayment.setDate(String.valueOf(resultSet.getObject(2)));
+            searchBillPayment.setDescription(String.valueOf(resultSet.getObject(3)));
+            searchBillPayment.setTitle(String.valueOf(resultSet.getObject(4)));
+            searchBillPayment.setAmountPaid((Double) resultSet.getObject(5));
+            searchBillPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
+            billPayments.add(searchBillPayment);
+        }
+        return billPayments;
+    }
 
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = billPaymentDAO.getAll();
+            billPaymentArrayList = getAllBillPayment();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
     }
-
+    private ArrayList<BillPayment> getAllBillPayment() throws SQLException, ClassNotFoundException {
+        ArrayList<BillPayment> billPayments = new ArrayList<>();
+        ResultSet resultSet = billPaymentDAO.getAll();
+        while (resultSet.next()) {
+            BillPayment billPayment = new BillPayment();
+            billPayment.setBilId(String.valueOf(resultSet.getObject(1)));
+            billPayment.setDate(String.valueOf(resultSet.getObject(2)));
+            billPayment.setDescription(String.valueOf(resultSet.getObject(3)));
+            billPayment.setTitle(String.valueOf(resultSet.getObject(4)));
+            billPayment.setAmountPaid((Double) resultSet.getObject(5));
+            billPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
+            billPayments.add(billPayment);
+        }
+        return billPayments;
+    }
+    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        ResultSet resultSet = employeeDAO.getAll();
+        if (resultSet.next()) {
+            do {
+                Employee employee = new Employee();
+                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employee.setName(String.valueOf(resultSet.getObject(2)));
+                employee.setAddress(String.valueOf(resultSet.getObject(3)));
+                employee.setDob(String.valueOf(resultSet.getObject(4)));
+                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employee.setDescription(String.valueOf(resultSet.getObject(6)));
+                employee.setEmail(String.valueOf(resultSet.getObject(7)));
+                employee.setNic(String.valueOf(resultSet.getObject(8)));
+                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employees.add(employee);
+            } while (resultSet.next());
+            return employees;
+        }
+        return new ArrayList<>();
+    }
 
 }

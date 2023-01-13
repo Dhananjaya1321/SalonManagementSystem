@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.BillDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.BillDAO;
 import lk.ijse.salongeetha.to.BillPayment;
 
 import java.sql.ResultSet;
@@ -24,20 +24,19 @@ public class BillModel implements BillDAO {
         return null;
     }
 
-    public ArrayList<BillPayment> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<BillPayment> billPayments = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM bill_payment");
-        while (resultSet.next()) {
-            BillPayment billPayment = new BillPayment();
-            billPayment.setBilId(String.valueOf(resultSet.getObject(1)));
-            billPayment.setDate(String.valueOf(resultSet.getObject(2)));
-            billPayment.setDescription(String.valueOf(resultSet.getObject(3)));
-            billPayment.setTitle(String.valueOf(resultSet.getObject(4)));
-            billPayment.setAmountPaid((Double) resultSet.getObject(5));
-            billPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
-            billPayments.add(billPayment);
+    @Override
+    public ResultSet search(boolean value, BillPayment to) throws SQLException, ClassNotFoundException {
+        String setColumn;
+        if (value) {
+            setColumn = "SELECT * FROM Bill_payment WHERE Title LIKE ?";
+        } else {
+            setColumn = "SELECT * FROM Bill_payment WHERE Bil_Id LIKE ?";
         }
-        return billPayments;
+        return CrudUtil.setQuery(setColumn, "%" + to.getTitle() + "%");
+    }
+
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM bill_payment");
     }
 
     public boolean delete(BillPayment billPayment) throws SQLException, ClassNotFoundException {
@@ -50,27 +49,5 @@ public class BillModel implements BillDAO {
                 , billPayment.getBilId());
     }
 
-    public ArrayList<BillPayment> search(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        ArrayList<BillPayment> billPayments = new ArrayList<>();
-        String setColumn;
-        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(billPayment.getTitle());
-        if (matcher.matches()) {
-            setColumn = "SELECT * FROM Bill_payment WHERE Title LIKE ?";
-        } else {
-            setColumn = "SELECT * FROM Bill_payment WHERE Bil_Id LIKE ?";
-        }
-        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + billPayment.getTitle() + "%");
-        while (resultSet.next()) {
-            BillPayment searchBillPayment = new BillPayment();
-            searchBillPayment.setBilId(String.valueOf(resultSet.getObject(1)));
-            searchBillPayment.setDate(String.valueOf(resultSet.getObject(2)));
-            searchBillPayment.setDescription(String.valueOf(resultSet.getObject(3)));
-            searchBillPayment.setTitle(String.valueOf(resultSet.getObject(4)));
-            searchBillPayment.setAmountPaid((Double) resultSet.getObject(5));
-            searchBillPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
-            billPayments.add(searchBillPayment);
-        }
-        return billPayments;
-    }
+
 }

@@ -11,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierModel;
+import lk.ijse.salongeetha.model.castom.SupplierDAO;
+import lk.ijse.salongeetha.model.castom.impl.SupplierModel;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.SupplierTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -19,9 +20,12 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -85,11 +89,11 @@ public class ManageSupplierController {
     @FXML
     private JFXTextArea txtAddress;
     ArrayList<Supplier> supplierList;
-    SupplierModel supplierModel = new SupplierModel();
+    SupplierDAO supplierDAO = new SupplierModel();
 
     {
         try {
-            supplierList = supplierModel.getAll();
+            supplierList = getAllSupplier();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -110,7 +114,7 @@ public class ManageSupplierController {
 
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierModel.add(supplier);
+                        boolean addSupplier = supplierDAO.add(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Supplier added successful");
                             alert.show();
@@ -155,7 +159,7 @@ public class ManageSupplierController {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierModel.update(supplier);
+                        boolean addSupplier = supplierDAO.update(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -203,7 +207,7 @@ public class ManageSupplierController {
             cleanTable();
             supplier.setName(text);
             try {
-                supplierList = supplierModel.search(supplier);
+                supplierList = search(supplier);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -213,12 +217,28 @@ public class ManageSupplierController {
             loadAllData();
         }
     }
-
+    private ArrayList<Supplier> search(Supplier supplier) throws SQLException, ClassNotFoundException {
+        ArrayList<Supplier> suppliers = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(supplier.getName());
+        ResultSet resultSet = supplierDAO.search(matcher.matches(),supplier);
+        while (resultSet.next()) {
+            Supplier searchSupplier = new Supplier();
+            searchSupplier.setSupId(String.valueOf(resultSet.getObject(1)));
+            searchSupplier.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchSupplier.setName(String.valueOf(resultSet.getObject(3)));
+            searchSupplier.setAddress(String.valueOf(resultSet.getObject(4)));
+            searchSupplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchSupplier.setEmail(String.valueOf(resultSet.getObject(6)));
+            suppliers.add(searchSupplier);
+        }
+        return suppliers;
+    }
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            supplierList = supplierModel.getAll();
+            supplierList = getAllSupplier();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -266,7 +286,7 @@ public class ManageSupplierController {
                     Supplier supplier = new Supplier();
                     supplier.setSupId(supplierId);
                     try {
-                        boolean isDeleted = supplierModel.delete(supplier);
+                        boolean isDeleted = supplierDAO.delete(supplier);
                         if (isDeleted) {
                             Alert deleteSuccessfully = new Alert(Alert.AlertType.WARNING, "Employee delete successfully");
                             deleteSuccessfully.show();
@@ -301,7 +321,7 @@ public class ManageSupplierController {
     private void setNextId() {
         try {
 
-            String currentId = supplierModel.checkId();
+            String currentId = supplierDAO.checkId();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.SUPPLIER);
             lblSupplierId.setText(generateNextId);
 
@@ -323,5 +343,19 @@ public class ManageSupplierController {
         setNextId();
     }
 
-
+    private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = supplierDAO.getAll();
+        ArrayList<Supplier> suppliers = new ArrayList<>();
+        while (resultSet.next()) {
+            Supplier supplier = new Supplier();
+            supplier.setSupId(String.valueOf(resultSet.getObject(1)));
+            supplier.setDescription(String.valueOf(resultSet.getObject(2)));
+            supplier.setName(String.valueOf(resultSet.getObject(3)));
+            supplier.setAddress(String.valueOf(resultSet.getObject(4)));
+            supplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            supplier.setEmail(String.valueOf(resultSet.getObject(6)));
+            suppliers.add(supplier);
+        }
+        return suppliers;
+    }
 }

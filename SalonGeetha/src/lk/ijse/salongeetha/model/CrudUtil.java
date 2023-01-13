@@ -1,4 +1,4 @@
-package lk.ijse.salongeetha.dao;
+package lk.ijse.salongeetha.model;
 
 import lk.ijse.salongeetha.db.DBConnection;
 

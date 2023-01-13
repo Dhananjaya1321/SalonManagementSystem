@@ -1,6 +1,6 @@
-package lk.ijse.salongeetha.dao.castom;
+package lk.ijse.salongeetha.model.castom;
 
-import lk.ijse.salongeetha.dao.SQLUtil;
+import lk.ijse.salongeetha.model.SQLUtil;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 

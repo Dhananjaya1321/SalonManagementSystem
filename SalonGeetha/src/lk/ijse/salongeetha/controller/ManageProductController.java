@@ -12,10 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.ProductDAO;
-import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductModel;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ProductDAO;
+import lk.ijse.salongeetha.model.castom.SupplierDAO;
+import lk.ijse.salongeetha.model.castom.impl.ProductModel;
+import lk.ijse.salongeetha.model.castom.impl.SupplierModel;
 import lk.ijse.salongeetha.to.Product;
 import lk.ijse.salongeetha.to.Supplier;
 import lk.ijse.salongeetha.to.tm.ProductTM;
@@ -24,9 +25,12 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -100,7 +104,7 @@ public class ManageProductController {
     ProductDAO productDAO=new ProductModel();
     {
         try {
-            productArrayList = productDAO.getAll();
+            productArrayList = getAllProduct();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -191,7 +195,7 @@ public class ManageProductController {
                             alert.show();
                         }
                         tblView.getItems().clear();
-                        productArrayList = productDAO.getAll();
+                        productArrayList = getAllProduct();
                         loadAllData();
                     } catch (SQLException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
@@ -272,7 +276,7 @@ public class ManageProductController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            productArrayList = productDAO.getAll();
+            productArrayList = getAllProduct();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -308,7 +312,7 @@ public class ManageProductController {
         cmbProductCatogary.getItems().addAll(category);
 
         try {
-            ArrayList<Supplier> supplierIds = supplierDAO.getAll();
+            ArrayList<Supplier> supplierIds = getAllSupplier();
             String[] ids;
             if (supplierIds.size() != 0) {
                 ids = new String[supplierIds.size()];
@@ -339,7 +343,7 @@ public class ManageProductController {
             cleanTable();
             product.setBrand(text);
             try {
-                productArrayList = productDAO.search(product);
+                productArrayList = search(product);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -350,13 +354,65 @@ public class ManageProductController {
         }
     }
 
+    public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
+        ArrayList<Product> products = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(product.getBrand());
+        ResultSet resultSet = productDAO.search(matcher.matches(),product);
+        while (resultSet.next()) {
+            Product searchProduct = new Product();
+            searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
+            searchProduct.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchProduct.setCategory(String.valueOf(resultSet.getObject(3)));
+            searchProduct.setBrand(String.valueOf(resultSet.getObject(4)));
+            searchProduct.setUnitPrice((Double) resultSet.getObject(5));
+            searchProduct.setQtyOnHand((Integer) resultSet.getObject(6));
+            searchProduct.setSupId(String.valueOf(resultSet.getObject(7)));
+            products.add(searchProduct);
+        }
+        return products;
+    }
+
+
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            productArrayList = productDAO.getAll();
+            productArrayList = getAllProduct();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
+    }
 
+    public ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
+        ArrayList<Product> products = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Product");
+        while (resultSet.next()) {
+            Product product = new Product();
+            product.setProId(String.valueOf(resultSet.getObject(1)));
+            product.setDescription(String.valueOf(resultSet.getObject(2)));
+            product.setCategory(String.valueOf(resultSet.getObject(3)));
+            product.setBrand(String.valueOf(resultSet.getObject(4)));
+            product.setUnitPrice((Double) resultSet.getObject(5));
+            product.setQtyOnHand((Integer) resultSet.getObject(6));
+            product.setSupId(String.valueOf(resultSet.getObject(7)));
+            products.add(product);
+        }
+        return products;
+    }
+    private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = supplierDAO.getAll();
+        ArrayList<Supplier> suppliers = new ArrayList<>();
+        while (resultSet.next()) {
+            Supplier supplier = new Supplier();
+            supplier.setSupId(String.valueOf(resultSet.getObject(1)));
+            supplier.setDescription(String.valueOf(resultSet.getObject(2)));
+            supplier.setName(String.valueOf(resultSet.getObject(3)));
+            supplier.setAddress(String.valueOf(resultSet.getObject(4)));
+            supplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            supplier.setEmail(String.valueOf(resultSet.getObject(6)));
+            suppliers.add(supplier);
+        }
+        return suppliers;
     }
 }
+

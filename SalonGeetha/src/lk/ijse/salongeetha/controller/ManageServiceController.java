@@ -11,8 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
+import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.Service;
 import lk.ijse.salongeetha.to.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -20,9 +21,12 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -76,7 +80,7 @@ public class ManageServiceController {
 
     {
         try {
-            serviceArrayList = serviceDAO.getAll();
+            serviceArrayList = getAllService();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -194,7 +198,7 @@ public class ManageServiceController {
                         alert.show();
                     }
                     tblView.getItems().clear();
-                    serviceArrayList = serviceDAO.getAll();
+                    serviceArrayList = getAllService();
                     loadAllData();
                 } catch (SQLException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -223,7 +227,7 @@ public class ManageServiceController {
             cleanTable();
             service.setName(text);
             try {
-                serviceArrayList = serviceDAO.search(service);
+                serviceArrayList = search(service);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -233,13 +237,44 @@ public class ManageServiceController {
             loadAllData();
         }
     }
+    private ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(service.getName());
+        ResultSet resultSet = serviceDAO.search(matcher.matches(),service);
+        while (resultSet.next()) {
+            Service searchService = new Service();
+            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchService.setName(String.valueOf(resultSet.getObject(3)));
+            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(searchService);
+        }
+        return services;
+    }
 
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            serviceArrayList = serviceDAO.getAll();
+            serviceArrayList = getAllService();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        ResultSet resultSet = serviceDAO.getAll();
+        while (resultSet.next()) {
+            Service service = new Service();
+            service.setSevId(String.valueOf(resultSet.getObject(1)));
+            service.setDescription(String.valueOf(resultSet.getObject(2)));
+            service.setName(String.valueOf(resultSet.getObject(3)));
+            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(service);
+        }
+        return services;
     }
 }

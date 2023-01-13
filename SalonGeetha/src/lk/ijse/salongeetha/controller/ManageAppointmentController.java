@@ -16,14 +16,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentModel;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeModel;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceModel;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
+import lk.ijse.salongeetha.model.castom.EmployeeDAO;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
+import lk.ijse.salongeetha.model.castom.impl.AppointmentModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.model.castom.impl.EmployeeModel;
+import lk.ijse.salongeetha.model.castom.impl.ServiceModel;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -31,6 +31,7 @@ import lk.ijse.salongeetha.util.IdTypes;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -301,7 +302,7 @@ public class ManageAppointmentController {
 
     private void loadCmb() {
         try {
-            ArrayList<Service> allService = serviceDAO.getAll();
+            ArrayList<Service> allService = getAllService();
             String[] ids;
             if (allService.size() != 0) {
                 ids = new String[allService.size()];
@@ -311,7 +312,7 @@ public class ManageAppointmentController {
                 cmbServiceId.getItems().addAll(ids);
             }
 
-            ArrayList<Customer> customers = customerDAO.getAll();
+            ArrayList<Customer> customers = getAllCustomer();
             if (customers.size() != 0) {
                 ids = new String[customers.size()];
                 for (int i = 0; i < ids.length; i++) {
@@ -388,5 +389,33 @@ public class ManageAppointmentController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<Service> services = new ArrayList<>();
+        ResultSet resultSet = serviceDAO.getAll();
+        while (resultSet.next()) {
+            Service service = new Service();
+            service.setSevId(String.valueOf(resultSet.getObject(1)));
+            service.setDescription(String.valueOf(resultSet.getObject(2)));
+            service.setName(String.valueOf(resultSet.getObject(3)));
+            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            services.add(service);
+        }
+        return services;
+    }
+    private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ResultSet resultSet = customerDAO.getAll();
+        while (resultSet.next()) {
+            Customer customer = new Customer();
+            customer.setNic(String.valueOf(resultSet.getObject(1)));
+            customer.setName(String.valueOf(resultSet.getObject(2)));
+            customer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            customer.setEmail(String.valueOf(resultSet.getObject(4)));
+            customer.setDob(String.valueOf(resultSet.getObject(5)));
+            customers.add(customer);
+        }
+        return customers;
     }
 }

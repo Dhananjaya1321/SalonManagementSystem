@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ServiceDAO;
 import lk.ijse.salongeetha.to.Service;
 
 import java.sql.ResultSet;
@@ -33,42 +33,18 @@ public class ServiceModel implements ServiceDAO {
         return null;
     }
 
-    public ArrayList<Service> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Service");
-        while (resultSet.next()) {
-            Service service = new Service();
-            service.setSevId(String.valueOf(resultSet.getObject(1)));
-            service.setDescription(String.valueOf(resultSet.getObject(2)));
-            service.setName(String.valueOf(resultSet.getObject(3)));
-            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(service);
-        }
-        return services;
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Service");
     }
 
-    public ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    public ResultSet search(boolean value, Service service) throws SQLException, ClassNotFoundException {
         String setColumn;
-        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(service.getName());
-        if (matcher.matches()) {
+        if (value) {
             setColumn = "SELECT * FROM Service WHERE Name LIKE ?";
         } else {
             setColumn = "SELECT * FROM Service WHERE Sev_Id LIKE ?";
         }
-        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + service.getName() + "%");
-        while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
-        }
-        return services;
+        return CrudUtil.setQuery(setColumn, "%" + service.getName() + "%");
     }
 
     public static ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {

@@ -1,7 +1,7 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.to.ProductServiceDetail;
 
 import java.sql.ResultSet;
@@ -14,18 +14,8 @@ public class ProductServiceModel implements ProductServiceDAO {
                 , productServiceDetail.getProId(), productServiceDetail.getSevId());
     }
 
-    public ArrayList<ProductServiceDetail> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductServiceDetail> productServiceDetails = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("select ps.Pro_Id,ps.Sev_Id,ps.Qty,s.Name from product_service_detail ps inner join service s on ps.Sev_Id = s.Sev_Id;");
-        while (resultSet.next()) {
-            ProductServiceDetail productServiceDetail = new ProductServiceDetail();
-            productServiceDetail.setProId(String.valueOf(resultSet.getObject(1)));
-            productServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
-            productServiceDetail.setQty((Integer) resultSet.getObject(3));
-            productServiceDetail.setName(String.valueOf(resultSet.getObject(4)));
-            productServiceDetails.add(productServiceDetail);
-        }
-        return productServiceDetails;
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("select ps.Pro_Id,ps.Sev_Id,ps.Qty,s.Name from product_service_detail ps inner join service s on ps.Sev_Id = s.Sev_Id;");
     }
 
 
@@ -55,8 +45,9 @@ public class ProductServiceModel implements ProductServiceDAO {
     }
 
     @Override
-    public ArrayList<ProductServiceDetail> search(ProductServiceDetail supplier) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, ProductServiceDetail to) throws SQLException, ClassNotFoundException {
         return null;
     }
+
 
 }

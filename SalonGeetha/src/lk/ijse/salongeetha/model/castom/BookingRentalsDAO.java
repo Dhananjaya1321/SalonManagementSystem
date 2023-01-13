@@ -1,4 +1,4 @@
-package lk.ijse.salongeetha.dao.castom;
+package lk.ijse.salongeetha.model.castom;
 
 public interface BookingRentalsDAO {
 }

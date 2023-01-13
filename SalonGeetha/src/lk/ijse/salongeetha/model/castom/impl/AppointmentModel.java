@@ -1,9 +1,9 @@
-package lk.ijse.salongeetha.dao.castom.impl;
+package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceAppointmentDAO;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.AppointmentDAO;
+import lk.ijse.salongeetha.model.castom.ServiceAppointmentDAO;
 import lk.ijse.salongeetha.to.Appointment;
 import lk.ijse.salongeetha.to.Payment;
 import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
@@ -45,7 +45,7 @@ public class AppointmentModel implements AppointmentDAO {
     }
 
     @Override
-    public ArrayList<Appointment> getAll() throws SQLException, ClassNotFoundException {
+    public ResultSet getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -62,7 +62,7 @@ public class AppointmentModel implements AppointmentDAO {
     }
 
     @Override
-    public ArrayList<Appointment> search(Appointment supplier) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, Appointment to) throws SQLException, ClassNotFoundException {
         return null;
     }
 

@@ -11,8 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.dao.castom.impl.RentalsModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
+import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
 import lk.ijse.salongeetha.to.Rentals;
 import lk.ijse.salongeetha.to.tm.RentalsTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -20,9 +21,12 @@ import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -88,7 +92,7 @@ public class ManageRentalsController {
 
     {
         try {
-            rentalsArrayList = rentalsDAO.getAll();
+            rentalsArrayList = getAllRentals();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -256,7 +260,7 @@ public class ManageRentalsController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            rentalsArrayList = rentalsDAO.getAll();
+            rentalsArrayList = getAllRentals();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -304,7 +308,7 @@ public class ManageRentalsController {
             cleanTable();
             rentals.setName(text);
             try {
-                rentalsArrayList = rentalsDAO.search(rentals);
+                rentalsArrayList = search(rentals);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -314,11 +318,28 @@ public class ManageRentalsController {
             loadAllData();
         }
     }
+    private ArrayList<Rentals> search(Rentals rental) throws SQLException, ClassNotFoundException {
+        ArrayList<Rentals> rentals = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(rental.getName());
+        ResultSet resultSet = rentalsDAO.search(matcher.matches(),rental);
+        while (resultSet.next()) {
+            Rentals searchRental = new Rentals();
+            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
+            searchRental.setName(String.valueOf(resultSet.getObject(2)));
+            searchRental.setPricePreDay((Double) resultSet.getObject(3));
+            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
+            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
+            searchRental.setDiscount((Double) resultSet.getObject(6));
+            rentals.add(searchRental);
+        }
+        return rentals;
+    }
 
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            rentalsArrayList = rentalsDAO.getAll();
+            rentalsArrayList = getAllRentals();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -327,5 +348,21 @@ public class ManageRentalsController {
 
     public void btnSearchONAction(ActionEvent actionEvent) {
         search();
+    }
+
+    private ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
+        ArrayList<Rentals> rentals = new ArrayList<>();
+        ResultSet resultSet = rentalsDAO.getAll();
+        while (resultSet.next()) {
+            Rentals rental = new Rentals();
+            rental.setRntId(String.valueOf(resultSet.getObject(1)));
+            rental.setName(String.valueOf(resultSet.getObject(2)));
+            rental.setPricePreDay((Double) resultSet.getObject(3));
+            rental.setDescription(String.valueOf(resultSet.getObject(4)));
+            rental.setAvaliableCount((Integer) resultSet.getObject(5));
+            rental.setDiscount((Double) resultSet.getObject(6));
+            rentals.add(rental);
+        }
+        return rentals;
     }
 }

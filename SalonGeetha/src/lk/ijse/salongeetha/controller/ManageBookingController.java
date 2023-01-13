@@ -16,12 +16,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.dao.castom.BookingDAO;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BookingModel;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
-import lk.ijse.salongeetha.dao.castom.impl.RentalsModel;
+import lk.ijse.salongeetha.model.castom.BookingDAO;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
+import lk.ijse.salongeetha.model.castom.RentalsDAO;
+import lk.ijse.salongeetha.model.castom.impl.BookingModel;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.model.castom.impl.RentalsModel;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.BookTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -29,6 +29,7 @@ import lk.ijse.salongeetha.util.IdTypes;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -360,7 +361,7 @@ public class ManageBookingController {
 
     private void loadCmb() {
         try {
-            ArrayList<Rentals> allRentals = rentalsDAO.getAll();
+            ArrayList<Rentals> allRentals = getAllRentals();
             String[] ids;
             if (allRentals.size() != 0) {
                 ids = new String[allRentals.size()];
@@ -370,7 +371,7 @@ public class ManageBookingController {
                 cmbRentalId.getItems().addAll(ids);
             }
 
-            ArrayList<Customer> customers = customerDAO.getAll();
+            ArrayList<Customer> customers = getAllCustomer();
             if (customers.size() != 0) {
                 ids = new String[customers.size()];
                 for (int i = 0; i < ids.length; i++) {
@@ -387,5 +388,34 @@ public class ManageBookingController {
         txtDate.setValue(LocalDate.now());
     }
 
+    private ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
+        ArrayList<Rentals> rentals = new ArrayList<>();
+        ResultSet resultSet = rentalsDAO.getAll();
+        while (resultSet.next()) {
+            Rentals rental = new Rentals();
+            rental.setRntId(String.valueOf(resultSet.getObject(1)));
+            rental.setName(String.valueOf(resultSet.getObject(2)));
+            rental.setPricePreDay((Double) resultSet.getObject(3));
+            rental.setDescription(String.valueOf(resultSet.getObject(4)));
+            rental.setAvaliableCount((Integer) resultSet.getObject(5));
+            rental.setDiscount((Double) resultSet.getObject(6));
+            rentals.add(rental);
+        }
+        return rentals;
+    }
+    private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ResultSet resultSet = customerDAO.getAll();
+        while (resultSet.next()) {
+            Customer customer = new Customer();
+            customer.setNic(String.valueOf(resultSet.getObject(1)));
+            customer.setName(String.valueOf(resultSet.getObject(2)));
+            customer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            customer.setEmail(String.valueOf(resultSet.getObject(4)));
+            customer.setDob(String.valueOf(resultSet.getObject(5)));
+            customers.add(customer);
+        }
+        return customers;
+    }
 
 }

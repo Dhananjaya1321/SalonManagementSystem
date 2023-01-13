@@ -14,8 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerModel;
+import lk.ijse.salongeetha.model.CrudUtil;
+import lk.ijse.salongeetha.model.castom.CustomerDAO;
+import lk.ijse.salongeetha.model.castom.impl.CustomerModel;
 import lk.ijse.salongeetha.to.Customer;
 import lk.ijse.salongeetha.to.tm.CustomerTM;
 import lk.ijse.salongeetha.util.SendMail;
@@ -24,9 +25,12 @@ import lk.ijse.salongeetha.util.ValidityCheck;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManageCustomerController {
 
@@ -117,7 +121,7 @@ public class ManageCustomerController {
 
     {
         try {
-            customerArrayList = customerDAO.getAll();
+            customerArrayList = getAllCustomer();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -225,7 +229,7 @@ public class ManageCustomerController {
             cleanTable();
             customer.setName(text);
             try {
-                customerArrayList = customerDAO.search(customer);
+                customerArrayList = search(customer);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -235,12 +239,29 @@ public class ManageCustomerController {
             loadAllData();
         }
     }
+    public ArrayList<Customer> search(Customer customer) throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> customers = new ArrayList<>();
+        Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
+        Matcher matcher = userNamePattern.matcher(customer.getName());
+        ResultSet resultSet = customerDAO.search(matcher.matches(),customer);
+        while (resultSet.next()) {
+            Customer searchCustomer = new Customer();
+            searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
+//            System.out.println("data awo"+String.valueOf(resultSet.getObject(1)));
+            searchCustomer.setName(String.valueOf(resultSet.getObject(2)));
+            searchCustomer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            searchCustomer.setEmail(String.valueOf(resultSet.getObject(4)));
+            searchCustomer.setDob(String.valueOf(resultSet.getObject(5)));
+            customers.add(searchCustomer);
+        }
+        return customers;
+    }
 
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            customerArrayList = customerDAO.getAll();
+            customerArrayList = getAllCustomer();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -262,5 +283,18 @@ public class ManageCustomerController {
 
     }
 
-
+    private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ResultSet resultSet = customerDAO.getAll();
+        while (resultSet.next()) {
+            Customer customer = new Customer();
+            customer.setNic(String.valueOf(resultSet.getObject(1)));
+            customer.setName(String.valueOf(resultSet.getObject(2)));
+            customer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            customer.setEmail(String.valueOf(resultSet.getObject(4)));
+            customer.setDob(String.valueOf(resultSet.getObject(5)));
+            customers.add(customer);
+        }
+        return customers;
+    }
 }
