@@ -3,6 +3,7 @@ package lk.ijse.salongeetha.model.castom.impl;
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.model.CrudUtil;
 import lk.ijse.salongeetha.model.castom.BookingDAO;
+import lk.ijse.salongeetha.model.castom.BookingRentalsDAO;
 import lk.ijse.salongeetha.model.castom.RentalsDAO;
 import lk.ijse.salongeetha.to.Book;
 import lk.ijse.salongeetha.to.BookRentalsDetail;
@@ -38,11 +39,12 @@ public class BookingModel implements BookingDAO {
     }
 
     public boolean addBooking(Book book, ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
+        BookingRentalsDAO bookingRentalsDAO=new BookingRentalsModel();
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
             boolean isAdded = CrudUtil.setQuery("INSERT INTO Book (Bok_Id,Date,NIC) VALUES (?,?,?)", book.getBokId(), book.getDate(), book.getNic());
             if (isAdded) {
-                boolean addDetails = BookingRentalsModel.addDetails(bookRentalsDetails);
+                boolean addDetails = bookingRentalsDAO.addDetails(bookRentalsDetails);
                 if (addDetails) {
                     RentalsDAO rentalsDAO=new RentalsModel();
                     boolean updateRentalQty = rentalsDAO.update(bookRentalsDetails);

@@ -86,9 +86,10 @@ public class ManagePaymentController {
     PaymentDAO paymentDAO = new PaymentModel();
     BookingDAO booingDAO = new BookingModel();
     AppointmentDAO appointmentDAO = new AppointmentModel();
-//    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentModel();
+    //    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentModel();
     QueryDAO queryDAO = new QueryDAOImpl();
-    BookingDAO bookingDAO=new BookingModel();
+    BookingDAO bookingDAO = new BookingModel();
+
     {
         try {
             aPaymentArrayList = getAllAPayments();
@@ -98,6 +99,7 @@ public class ManagePaymentController {
             throw new RuntimeException(e);
         }
     }
+
     private ArrayList<Payment> getAllBPayments() throws SQLException, ClassNotFoundException {
         ArrayList<Payment> payments = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM book_payment");
@@ -111,6 +113,7 @@ public class ManagePaymentController {
         }
         return payments;
     }
+
     private ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
         ArrayList<Payment> payments = new ArrayList<>();
         ResultSet resultSet = paymentDAO.getAllAPayments();
@@ -291,6 +294,7 @@ public class ManagePaymentController {
             throw new RuntimeException(e);
         }
     }
+
     private boolean add(Payment payment) throws SQLException, ClassNotFoundException {
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
         Matcher matcher = namePattern.matcher(payment.getaOrBId());
@@ -329,8 +333,8 @@ public class ManagePaymentController {
                 total = 0;
                 BookRentalsDetail bookRentalsDetail = new BookRentalsDetail();
                 bookRentalsDetail.setBokId(value);
-
-                ArrayList<BookRentalsDetail> amountDue = BookingRentalsModel.getAmountDue(bookRentalsDetail);
+                QueryDAO queryDAO = new QueryDAOImpl();
+                ArrayList<BookRentalsDetail> amountDue = getAmountDueBookRentalsDetail(bookRentalsDetail);
                 if (amountDue.size() != 0) {
                     for (BookRentalsDetail b : amountDue) {
                         total += b.getForHowManyDays() * (b.getPrice() - (b.getPrice() * b.getDiscount()) / 100.0);
@@ -341,7 +345,7 @@ public class ManagePaymentController {
                 total = 0;
                 ServiceAppointmentDetail serviceAppointmentDetail = new ServiceAppointmentDetail();
                 serviceAppointmentDetail.setAptId(value);
-                ArrayList<ServiceAppointmentDetail> amountDue = getAmountDue(serviceAppointmentDetail);
+                ArrayList<ServiceAppointmentDetail> amountDue = getAmountDueServiceAppointmentDetail(serviceAppointmentDetail);
                 if (amountDue.size() != 0) {
                     for (ServiceAppointmentDetail a : amountDue) {
                         total += a.getPrice() - (a.getPrice() * a.getDiscount()) / 100.0;
@@ -354,10 +358,23 @@ public class ManagePaymentController {
         }
 
     }
+    private ArrayList<BookRentalsDetail> getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException {
+        ArrayList<BookRentalsDetail> bookRentalsDetails = new ArrayList<>();
+        ResultSet resultSet = queryDAO.getAmountDueBookRentalsDetail(bookRentalsDetail);
+        while (resultSet.next()) {
+            BookRentalsDetail setBookRentalsDetail = new BookRentalsDetail();
+            setBookRentalsDetail.setQty((Integer) resultSet.getObject(1));
+            setBookRentalsDetail.setForHowManyDays((Integer) resultSet.getObject(2));
+            setBookRentalsDetail.setPrice((Double) resultSet.getObject(3));
+            setBookRentalsDetail.setDiscount((Double) resultSet.getObject(4));
+            bookRentalsDetails.add(setBookRentalsDetail);
+        }
+        return bookRentalsDetails;
+    }
 
-    private ArrayList<ServiceAppointmentDetail> getAmountDue(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
+    private ArrayList<ServiceAppointmentDetail> getAmountDueServiceAppointmentDetail(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
         ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
-        ResultSet resultSet = queryDAO.getAmountDue(serviceAppointmentDetail);
+        ResultSet resultSet = queryDAO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetail);
         while (resultSet.next()) {
             ServiceAppointmentDetail setServiceAppointmentDetail = new ServiceAppointmentDetail();
             setServiceAppointmentDetail.setPrice((Double) resultSet.getObject(1));
