@@ -1,13 +1,11 @@
 package lk.ijse.salongeetha.model.castom.impl;
 
 import lk.ijse.salongeetha.model.CrudUtil;
-import lk.ijse.salongeetha.model.castom.EmployeeDAO;
 import lk.ijse.salongeetha.model.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.to.EmployeeServiceDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class EmployeeServiceModel implements EmployeeServiceDAO {
 

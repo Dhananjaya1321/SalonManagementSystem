@@ -53,7 +53,6 @@ public class EmployeeModel implements EmployeeDAO {
     }
 
 
-
     public ArrayList<Employee> getBeauticians() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Emp_Id FROM Employee WHERE Job_title='Beautician'");
         ArrayList<Employee> employees = new ArrayList<>();
@@ -66,23 +65,10 @@ public class EmployeeModel implements EmployeeDAO {
 
     }
 
-    public ArrayList<Employee> searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Employee WHERE Emp_Id = ?", employee.getEmpId());
-        while (resultSet.next()) {
-            Employee searchEmployee = new Employee();
-            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employees.add(searchEmployee);
-        }
-        return employees;
+    @Override
+    public ResultSet searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("SELECT * FROM Employee WHERE Emp_Id = ?", employee.getEmpId());
+
     }
 
 
@@ -94,7 +80,7 @@ public class EmployeeModel implements EmployeeDAO {
                     , employee.getAddress(), employee.getDob(), employee.getPhoneNumber(), employee.getDescription(), employee.getEmail()
                     , employee.getNic(), employee.getJobTitle());
             if (isAdded) {
-                UserDAO userDAO=new UserModel();
+                UserDAO userDAO = new UserModel();
                 boolean addUser = userDAO.add(user);
                 if (addUser) {
                     DBConnection.getDBConnection().getConnection().commit();

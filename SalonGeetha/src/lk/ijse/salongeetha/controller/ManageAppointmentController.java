@@ -394,7 +394,7 @@ public class ManageAppointmentController {
         Employee employee = new Employee();
         employee.setEmpId(value);
         try {
-            ArrayList<Employee> employees = employeeDAO.searchEmployeeDetails(employee);
+            ArrayList<Employee> employees = searchEmployeeDetails(employee);
             if (employees.size() > 0) {
                 for (Employee e : employees) {
                     lblEmpName.setText(e.getName());
@@ -404,6 +404,24 @@ public class ManageAppointmentController {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    private ArrayList<Employee> searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
+        ArrayList<Employee> employees = new ArrayList<>();
+        ResultSet resultSet = employeeDAO.searchEmployeeDetails(employee);
+        while (resultSet.next()) {
+            Employee searchEmployee = new Employee();
+            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employees.add(searchEmployee);
+        }
+        return employees;
     }
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
