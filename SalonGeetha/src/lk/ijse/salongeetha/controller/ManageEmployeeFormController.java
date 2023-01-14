@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.EmployeeBO;
+import lk.ijse.salongeetha.bo.castom.impl.EmployeeBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.UserDAO;
 import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
@@ -133,12 +135,11 @@ public class ManageEmployeeFormController extends MainFormController {
 
     @FXML
     private JFXPasswordField txtPassword;
-
+    EmployeeBO employeeBO = new EmployeeBOImpl();
 
     private String setJobTitel;
     ArrayList<Employee> employeeArrayList;
-    UserDAO userDAO = new UserModel();
-    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+
     {
         try {
             employeeArrayList = getAllEmployee();
@@ -216,7 +217,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void addReceptionist(User user) {
         try {
-            boolean addReceptionist = employeeDAO.addReceptionist(this.employee, user);
+            boolean addReceptionist = employeeBO.addReceptionist(this.employee, user);
             if (addReceptionist) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Receptionist added successful");
                 alert.show();
@@ -236,7 +237,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void addEmployee() {
         try {
-            boolean addEmployee = employeeDAO.add(this.employee);
+            boolean addEmployee = employeeBO.addEmployee(this.employee);
             if (addEmployee) {
                 setNextId();
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Employee added successful");
@@ -291,7 +292,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void updateEmployee() {
         try {
-            boolean isUpdated = employeeDAO.update(employee);
+            boolean isUpdated = employeeBO.updateEmployee(employee);
             if (isUpdated) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "update successful");
                 alert.show();
@@ -380,7 +381,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
                         employee.setEmpId(employeeId);
                         try {
-                            boolean isDeleted = employeeDAO.delete(employee);
+                            boolean isDeleted = employeeBO.deleteEmployee(employee);
                             if (isDeleted) {
                                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Employee delete successfully");
                                 alert1.show();
@@ -398,7 +399,7 @@ public class ManageEmployeeFormController extends MainFormController {
                         user.setEid(empId);
                         employee.setEmpId(employeeId);
                         try {
-                            boolean deleteUser = userDAO.delete(user, employee);
+                            boolean deleteUser = employeeBO.deleteReceptionist(employee,user);
                             if (deleteUser) {
                                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Receptionist and user account  delete successfully");
                                 alert1.show();
@@ -445,7 +446,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void setNextId() {
         try {
-            String currentId = employeeDAO.checkId();
+            String currentId = employeeBO.checkIdEmployee();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.EMPLOYEE);
             lblEmpId.setText(generateNextId);
 
@@ -543,7 +544,7 @@ public class ManageEmployeeFormController extends MainFormController {
         ArrayList<Employee> employees = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = namePattern.matcher(employee.getName());
-        ResultSet resultSet = employeeDAO.search(matcher.matches(),employee);
+        ResultSet resultSet = employeeBO.searchEmployee(matcher.matches(), employee);
         while (resultSet.next()) {
             Employee searchEmployee = new Employee();
             searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
@@ -559,6 +560,7 @@ public class ManageEmployeeFormController extends MainFormController {
         }
         return employees;
     }
+
     public void cleanTable() {
         try {
             tblView.getItems().clear();
@@ -571,7 +573,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = employeeDAO.getAll();
+        ResultSet resultSet = employeeBO.getAllEmployee();
         if (resultSet.next()) {
             do {
                 Employee employee = new Employee();
