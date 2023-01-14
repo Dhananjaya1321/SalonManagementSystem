@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.bo.castom.AddAdminDetailsBO;
+import lk.ijse.salongeetha.bo.castom.impl.AddAdminDetailsBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.to.Employee;
@@ -35,7 +37,7 @@ public class AddAdminDetailsFormController {
 
     @FXML
     private JFXDatePicker txtDOB;
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    AddAdminDetailsBO adminDetailsBO=new AddAdminDetailsBOImpl();
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -51,7 +53,7 @@ public class AddAdminDetailsFormController {
             employee.setPhoneNumber(phoneNumber);
             employee.setAddress(address);
             try {
-                boolean updateAdmin = employeeDAO.updateAdmin(employee);
+                boolean updateAdmin = adminDetailsBO.updateAdmin(employee);
                 if (updateAdmin) {
                     popUpPane.setVisible(false);
                 } else {
