@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.SupplierBO;
+import lk.ijse.salongeetha.bo.castom.impl.SupplierBOImpl;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
 import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
 import lk.ijse.salongeetha.to.Supplier;
@@ -89,7 +91,8 @@ public class ManageSupplierController {
     @FXML
     private JFXTextArea txtAddress;
     ArrayList<Supplier> supplierList;
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
+    //    SupplierDAO supplierDAO = new SupplierDAOImpl();
+    SupplierBO supplierBO = new SupplierBOImpl();
 
     {
         try {
@@ -114,7 +117,7 @@ public class ManageSupplierController {
 
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierDAO.add(supplier);
+                        boolean addSupplier = supplierBO.addSupplier(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Supplier added successful");
                             alert.show();
@@ -159,7 +162,7 @@ public class ManageSupplierController {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
                     Supplier supplier = new Supplier(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierDAO.update(supplier);
+                        boolean addSupplier = supplierBO.updateSupplier(supplier);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -217,11 +220,12 @@ public class ManageSupplierController {
             loadAllData();
         }
     }
+
     private ArrayList<Supplier> search(Supplier supplier) throws SQLException, ClassNotFoundException {
         ArrayList<Supplier> suppliers = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(supplier.getName());
-        ResultSet resultSet = supplierDAO.search(matcher.matches(),supplier);
+        ResultSet resultSet = supplierBO.searchSupplier(matcher.matches(), supplier);
         while (resultSet.next()) {
             Supplier searchSupplier = new Supplier();
             searchSupplier.setSupId(String.valueOf(resultSet.getObject(1)));
@@ -234,6 +238,7 @@ public class ManageSupplierController {
         }
         return suppliers;
     }
+
     public void cleanTable() {
 
         try {
@@ -286,7 +291,7 @@ public class ManageSupplierController {
                     Supplier supplier = new Supplier();
                     supplier.setSupId(supplierId);
                     try {
-                        boolean isDeleted = supplierDAO.delete(supplier);
+                        boolean isDeleted = supplierBO.deleteSupplier(supplier);
                         if (isDeleted) {
                             Alert deleteSuccessfully = new Alert(Alert.AlertType.WARNING, "Employee delete successfully");
                             deleteSuccessfully.show();
@@ -321,7 +326,7 @@ public class ManageSupplierController {
     private void setNextId() {
         try {
 
-            String currentId = supplierDAO.checkId();
+            String currentId = supplierBO.checkIdSupplier();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.SUPPLIER);
             lblSupplierId.setText(generateNextId);
 
@@ -344,7 +349,7 @@ public class ManageSupplierController {
     }
 
     private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = supplierDAO.getAll();
+        ResultSet resultSet = supplierBO.getAllSupplier();
         ArrayList<Supplier> suppliers = new ArrayList<>();
         while (resultSet.next()) {
             Supplier supplier = new Supplier();
