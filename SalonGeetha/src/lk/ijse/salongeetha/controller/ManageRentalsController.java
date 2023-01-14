@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.RentalsBO;
+import lk.ijse.salongeetha.bo.castom.impl.RentalsBOImpl;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
 import lk.ijse.salongeetha.dao.castom.impl.RentalsDAOImpl;
 import lk.ijse.salongeetha.to.Rentals;
@@ -87,7 +89,8 @@ public class ManageRentalsController {
     @FXML
     private JFXTextField txtDiscount;
     ArrayList<Rentals> rentalsArrayList;
-    RentalsDAO rentalsDAO = new RentalsDAOImpl();
+    //    RentalsDAO rentalsDAO = new RentalsDAOImpl();
+    RentalsBO rentalsBO = new RentalsBOImpl();
 
     {
         try {
@@ -120,7 +123,7 @@ public class ManageRentalsController {
 
                     rentals.setRntId(rentalId);
                     try {
-                        boolean isDeleted = rentalsDAO.delete(rentals);
+                        boolean isDeleted = rentalsBO.deleteRental(rentals);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -168,7 +171,7 @@ public class ManageRentalsController {
                 if (pricePreDay > 0) {
                     Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean addRentals = rentalsDAO.add(rentals);
+                        boolean addRentals = rentalsBO.addRental(rentals);
                         if (addRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Renal add is successful");
                             alert.show();
@@ -212,7 +215,7 @@ public class ManageRentalsController {
                 if (pricePreDay > 0) {
                     Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean updateRentals = rentalsDAO.update(rentals);
+                        boolean updateRentals = rentalsBO.updateRental(rentals);
                         if (updateRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -269,7 +272,7 @@ public class ManageRentalsController {
     private void setNextId() {
         try {
 
-            String currentId = rentalsDAO.checkId();
+            String currentId = rentalsBO.checkIdRental();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.RENTAL);
             lblRentalId.setText(generateNextId);
 
@@ -317,11 +320,12 @@ public class ManageRentalsController {
             loadAllData();
         }
     }
+
     private ArrayList<Rentals> search(Rentals rental) throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(rental.getName());
-        ResultSet resultSet = rentalsDAO.search(matcher.matches(),rental);
+        ResultSet resultSet = rentalsBO.searchRental(matcher.matches(), rental);
         while (resultSet.next()) {
             Rentals searchRental = new Rentals();
             searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
@@ -351,7 +355,7 @@ public class ManageRentalsController {
 
     private ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
-        ResultSet resultSet = rentalsDAO.getAll();
+        ResultSet resultSet = rentalsBO.getAllRental();
         while (resultSet.next()) {
             Rentals rental = new Rentals();
             rental.setRntId(String.valueOf(resultSet.getObject(1)));
