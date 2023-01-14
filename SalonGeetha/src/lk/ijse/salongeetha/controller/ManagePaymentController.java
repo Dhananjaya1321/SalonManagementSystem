@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.PaymentBO;
+import lk.ijse.salongeetha.bo.castom.impl.PaymentBOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.*;
@@ -83,12 +85,7 @@ public class ManagePaymentController {
     private String setAOrB = "Appointment payment";
     ArrayList<Payment> aPaymentArrayList;
     ArrayList<Payment> bPaymentArrayList;
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    BookingDAO booingDAO = new BookingDAOImpl();
-    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-    //    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
+    PaymentBO paymentBO = new PaymentBOImpl();
 
     {
         try {
@@ -116,7 +113,7 @@ public class ManagePaymentController {
 
     private ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
         ArrayList<Payment> payments = new ArrayList<>();
-        ResultSet resultSet = paymentDAO.getAllAPayments();
+        ResultSet resultSet = paymentBO.getAllAppointmentPayments();
         while (resultSet.next()) {
             Payment payment = new Payment();
             payment.setPayId(String.valueOf(resultSet.getObject(1)));
@@ -170,8 +167,8 @@ public class ManagePaymentController {
         ArrayList<Book> books;
 
         try {
-            appointments = appointmentDAO.getIds();
-            books = booingDAO.getIdS();
+            appointments = paymentBO.getAppointmentIds();
+            books = paymentBO.getBookingIds();
 
             String[] aIds = new String[appointments.size()];
             String[] bIds = new String[books.size()];
@@ -207,7 +204,7 @@ public class ManagePaymentController {
 
     private void setNextAId() {
         try {
-            String billPayment = paymentDAO.checkAppointmentId();
+            String billPayment = paymentBO.checkAppointmentId();
             String generateNextId = GenerateId.generateNextId(billPayment, IdTypes.APAYMENT);
             lblPaymentId.setText(generateNextId);
 
@@ -218,7 +215,7 @@ public class ManagePaymentController {
 
     private void setNextBId() {
         try {
-            String billPayment = paymentDAO.checkBookId();
+            String billPayment = paymentBO.checkBookingId();
             String generateNextId = GenerateId.generateNextId(billPayment, IdTypes.BPAYMENT);
             lblPaymentId.setText(generateNextId);
 
@@ -298,29 +295,16 @@ public class ManagePaymentController {
     private boolean add(Payment payment) throws SQLException, ClassNotFoundException {
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
         Matcher matcher = namePattern.matcher(payment.getaOrBId());
-        if (matcher.matches()) {
-            bookingDAO.getId(payment);
-            boolean isAdded = paymentDAO.addBookingPayment(payment);//set
-            if (isAdded) {
-                Book book = new Book();
-                book.setBokId(payment.getaOrBId());
-                book.setStatus("Paid");
-                bookingDAO.update(book);
-                return true;
-            }
-            return false;
-        } else {
-            appointmentDAO.getId(payment);
-            boolean isAdded = paymentDAO.addAppointmentPayment(payment);//set
-            if (isAdded) {
-                Appointment appointment = new Appointment();
-                appointment.setAptId(payment.getaOrBId());
-                appointment.setStatus("Paid");
-                appointmentDAO.update(appointment);
-                return true;
-            }
-            return false;
-        }
+
+        Book book = new Book();
+        book.setBokId(payment.getaOrBId());
+        book.setStatus("Paid");
+
+        Appointment appointment = new Appointment();
+        appointment.setAptId(payment.getaOrBId());
+        appointment.setStatus("Paid");
+
+        return paymentBO.add(matcher.matches(),payment,book,appointment);
     }
 
     public void cmbAppointmentIdOrBookingId(ActionEvent actionEvent) {
@@ -358,9 +342,10 @@ public class ManagePaymentController {
         }
 
     }
+
     private ArrayList<BookRentalsDetail> getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException {
         ArrayList<BookRentalsDetail> bookRentalsDetails = new ArrayList<>();
-        ResultSet resultSet = queryDAO.getAmountDueBookRentalsDetail(bookRentalsDetail);
+        ResultSet resultSet = paymentBO.getAmountDueBookRentalsDetail(bookRentalsDetail);
         while (resultSet.next()) {
             BookRentalsDetail setBookRentalsDetail = new BookRentalsDetail();
             setBookRentalsDetail.setQty((Integer) resultSet.getObject(1));
@@ -374,7 +359,7 @@ public class ManagePaymentController {
 
     private ArrayList<ServiceAppointmentDetail> getAmountDueServiceAppointmentDetail(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
         ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
-        ResultSet resultSet = queryDAO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetail);
+        ResultSet resultSet = paymentBO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetail);
         while (resultSet.next()) {
             ServiceAppointmentDetail setServiceAppointmentDetail = new ServiceAppointmentDetail();
             setServiceAppointmentDetail.setPrice((Double) resultSet.getObject(1));
