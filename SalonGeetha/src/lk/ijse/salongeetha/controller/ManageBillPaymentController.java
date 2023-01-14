@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.BillBO;
+import lk.ijse.salongeetha.bo.castom.impl.BillBOImpl;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.impl.BillDAOImpl;
@@ -92,8 +94,7 @@ public class ManageBillPaymentController {
     private JFXTextArea txtDescription;
 
     ArrayList<BillPayment> billPaymentArrayList;
-    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
-    BillDAO billPaymentDAO=new BillDAOImpl();
+    BillBO billBO=new BillBOImpl();
 
     {
         try {
@@ -126,7 +127,7 @@ public class ManageBillPaymentController {
 
                     try {
                         billPayment.setBilId(billPaymentId);
-                        boolean isDeleted = billPaymentDAO.delete(billPayment);
+                        boolean isDeleted = billBO.deleteBillPayment(billPayment);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Bill Payment delete successfully");
                             alert1.show();
@@ -172,7 +173,7 @@ public class ManageBillPaymentController {
             if (amount >= 0) {
                 BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean isAdded = billPaymentDAO.add(billPayment);
+                    boolean isAdded = billBO.addBillPayment(billPayment);
                     if (isAdded) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "added successfully");
                         alert.show();
@@ -210,7 +211,7 @@ public class ManageBillPaymentController {
             if (amount >= 0) {
                 BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean updateBillPayment = billPaymentDAO.update(billPayment);
+                    boolean updateBillPayment = billBO.updateBillPayment(billPayment);
                     if (updateBillPayment) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Update successfully");
                         alert.show();
@@ -265,7 +266,7 @@ public class ManageBillPaymentController {
 
     private void setNextId() {
         try {
-            String currentId = billPaymentDAO.checkId();
+            String currentId = billBO.checkIdBillPayment();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.BILL);
             lblBillId.setText(generateNextId);
 
@@ -326,7 +327,7 @@ public class ManageBillPaymentController {
         ArrayList<BillPayment> billPayments = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(billPayment.getTitle());
-        ResultSet resultSet = billPaymentDAO.search(matcher.matches(),billPayment);
+        ResultSet resultSet = billBO.searchBillPayment(matcher.matches(),billPayment);
         while (resultSet.next()) {
             BillPayment searchBillPayment = new BillPayment();
             searchBillPayment.setBilId(String.valueOf(resultSet.getObject(1)));
@@ -352,7 +353,7 @@ public class ManageBillPaymentController {
     }
     private ArrayList<BillPayment> getAllBillPayment() throws SQLException, ClassNotFoundException {
         ArrayList<BillPayment> billPayments = new ArrayList<>();
-        ResultSet resultSet = billPaymentDAO.getAll();
+        ResultSet resultSet = billBO.getAllBillPayment();
         while (resultSet.next()) {
             BillPayment billPayment = new BillPayment();
             billPayment.setBilId(String.valueOf(resultSet.getObject(1)));
@@ -367,7 +368,7 @@ public class ManageBillPaymentController {
     }
     private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = employeeDAO.getAll();
+        ResultSet resultSet = billBO.getAllEmployees();
         if (resultSet.next()) {
             do {
                 Employee employee = new Employee();
