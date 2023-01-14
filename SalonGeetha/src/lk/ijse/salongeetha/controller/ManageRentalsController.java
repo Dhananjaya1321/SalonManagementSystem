@@ -89,7 +89,6 @@ public class ManageRentalsController {
     @FXML
     private JFXTextField txtDiscount;
     ArrayList<Rentals> rentalsArrayList;
-    //    RentalsDAO rentalsDAO = new RentalsDAOImpl();
     RentalsBO rentalsBO = new RentalsBOImpl();
 
     {

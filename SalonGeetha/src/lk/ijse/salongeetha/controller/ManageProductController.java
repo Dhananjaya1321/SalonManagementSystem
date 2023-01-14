@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.ProductBO;
+import lk.ijse.salongeetha.bo.castom.impl.ProductBOImpl;
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
@@ -100,8 +102,7 @@ public class ManageProductController {
     @FXML
     private JFXTextField txtQtyOnHand;
     ArrayList<Product> productArrayList;
-    SupplierDAO supplierDAO=new SupplierDAOImpl();
-    ProductDAO productDAO=new ProductDAOImpl();
+    ProductBO productBO=new ProductBOImpl();
     {
         try {
             productArrayList = getAllProduct();
@@ -133,7 +134,7 @@ public class ManageProductController {
 
                     product.setProId(productId);
                     try {
-                        boolean isDeleted = productDAO.delete(product);
+                        boolean isDeleted = productBO.deleteProduct(product);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Product delete successfully");
                             alert1.show();
@@ -184,7 +185,7 @@ public class ManageProductController {
                 if (unitPrice >= 0) {
                     Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean addProduct = productDAO.add(product);
+                        boolean addProduct = productBO.addProduct(product);
                         if (addProduct) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Product collection is successful");
                             alert.show();
@@ -230,7 +231,7 @@ public class ManageProductController {
                 if (unitPrice >= 0) {
                     Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean updateProduct = productDAO.update(product);
+                        boolean updateProduct = productBO.updateProduct(product);
                         if (updateProduct) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -286,7 +287,7 @@ public class ManageProductController {
     private void setNextId() {
         try {
 
-            String currentId = productDAO.checkId();
+            String currentId = productBO.checkIdProduct();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.PRODUCT);
             lblProduct.setText(generateNextId);
 
@@ -358,7 +359,7 @@ public class ManageProductController {
         ArrayList<Product> products = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(product.getBrand());
-        ResultSet resultSet = productDAO.search(matcher.matches(),product);
+        ResultSet resultSet = productBO.searchProduct(matcher.matches(),product);
         while (resultSet.next()) {
             Product searchProduct = new Product();
             searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
@@ -400,7 +401,7 @@ public class ManageProductController {
         return products;
     }
     private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = supplierDAO.getAll();
+        ResultSet resultSet = productBO.getAllSupplier();
         ArrayList<Supplier> suppliers = new ArrayList<>();
         while (resultSet.next()) {
             Supplier supplier = new Supplier();
