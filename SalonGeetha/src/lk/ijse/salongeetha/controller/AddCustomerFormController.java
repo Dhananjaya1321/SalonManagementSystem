@@ -10,6 +10,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.castom.AddCustomerBO;
+import lk.ijse.salongeetha.bo.castom.impl.AddCustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
@@ -34,7 +36,7 @@ public class AddCustomerFormController {
     public Label lblPhoneValidation;
     public Label lblNICValidation;
     private boolean reload = false;
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    AddCustomerBO customerBO = new AddCustomerBOImpl();
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         String name = txtName.getText();
@@ -77,7 +79,7 @@ public class AddCustomerFormController {
 
     private void addCustomer(Customer customer) {
         try {
-            boolean addCustomer = customerDAO.add(customer);
+            boolean addCustomer = customerBO.addCustomer(customer);
             if (addCustomer) {
                 ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                 ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
