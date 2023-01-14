@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.ServiceBO;
+import lk.ijse.salongeetha.bo.castom.impl.ServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
 import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.Service;
@@ -75,7 +77,8 @@ public class ManageServiceController {
     @FXML
     private JFXTextArea txtDescription;
     ArrayList<Service> serviceArrayList;
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
+//    ServiceDAO serviceDAO = new ServiceDAOImpl();
+    ServiceBO serviceBO=new ServiceBOImpl();
 
     {
         try {
@@ -109,7 +112,7 @@ public class ManageServiceController {
 
                     service.setSevId(serviceId);
                     try {
-                        boolean isDeleted = serviceDAO.delete(service);
+                        boolean isDeleted = serviceBO.deleteService(service);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Service delete successfully");
                             alert1.show();
@@ -153,7 +156,7 @@ public class ManageServiceController {
     private void setNextId() {
         try {
 
-            String currentId = serviceDAO.checkId();
+            String currentId = serviceBO.checkIdService();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.SERVICE);
             lblServiceId.setText(generateNextId);
 
@@ -186,7 +189,7 @@ public class ManageServiceController {
 
                 Service service = new Service(serviceId, description, name, Double.parseDouble(price), Double.parseDouble(discount));
                 try {
-                    boolean addService = serviceDAO.add(service);
+                    boolean addService = serviceBO.addService(service);
                     if (addService) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Service is added");
                         alert.show();
@@ -240,7 +243,7 @@ public class ManageServiceController {
         ArrayList<Service> services = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = serviceDAO.search(matcher.matches(),service);
+        ResultSet resultSet = serviceBO.searchService(matcher.matches(),service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -264,7 +267,7 @@ public class ManageServiceController {
 
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = serviceDAO.getAll();
+        ResultSet resultSet = serviceBO.getAllService();
         while (resultSet.next()) {
             Service service = new Service();
             service.setSevId(String.valueOf(resultSet.getObject(1)));
