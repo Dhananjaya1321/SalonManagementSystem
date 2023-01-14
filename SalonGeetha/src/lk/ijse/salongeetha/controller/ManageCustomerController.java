@@ -14,6 +14,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.castom.CustomerBO;
+import lk.ijse.salongeetha.bo.castom.impl.CustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
 import lk.ijse.salongeetha.to.Customer;
@@ -69,7 +71,7 @@ public class ManageCustomerController {
 
     @FXML
     private AnchorPane popUpPane;
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO=new CustomerBOImpl();
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
         search();
@@ -149,7 +151,7 @@ public class ManageCustomerController {
                     Customer customer = new Customer();
                     customer.setNic(customerNIC);
                     try {
-                        boolean isDeleted = customerDAO.delete(customer);
+                        boolean isDeleted = customerBO.deleteCustomer(customer);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -242,7 +244,7 @@ public class ManageCustomerController {
         ArrayList<Customer> customers = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(customer.getName());
-        ResultSet resultSet = customerDAO.search(matcher.matches(),customer);
+        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(),customer);
         while (resultSet.next()) {
             Customer searchCustomer = new Customer();
             searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
@@ -284,7 +286,7 @@ public class ManageCustomerController {
 
     private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = customerDAO.getAll();
+        ResultSet resultSet = customerBO.getAllCustomer();
         while (resultSet.next()) {
             Customer customer = new Customer();
             customer.setNic(String.valueOf(resultSet.getObject(1)));
