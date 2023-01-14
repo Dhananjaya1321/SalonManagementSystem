@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.ProductServiceBO;
+import lk.ijse.salongeetha.bo.castom.impl.ProductServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
@@ -73,9 +75,7 @@ public class ManageProductServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String productId;
-    ProductDAO productDAO=new ProductDAOImpl();
-    ServiceDAO serviceDAO=new ServiceDAOImpl();
-    ProductServiceDAO productServiceDAO=new ProductServiceDAOImpl();
+    ProductServiceBO productServiceBO=new ProductServiceBOImpl();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String productIdValue = cmbProductId.getValue();
@@ -85,9 +85,9 @@ public class ManageProductServiceFormController {
         ProductServiceDetail productServiceDetail = new ProductServiceDetail(productIdValue, serviceIdValue, serviceNameText, txtQtyText);
 
         try {
-            boolean checkAlreadyExists = productServiceDAO.checkAlreadyExists(productServiceDetail);
+            boolean checkAlreadyExists = productServiceBO.checkAlreadyExists(productServiceDetail);
             if (!checkAlreadyExists) {
-                 boolean addProductService = productServiceDAO.add(productServiceDetail);
+                 boolean addProductService = productServiceBO.addProductAndServiceDetail(productServiceDetail);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
@@ -130,7 +130,7 @@ public class ManageProductServiceFormController {
         ArrayList<Service> services = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = serviceDAO.search(matcher.matches(),service);
+        ResultSet resultSet = productServiceBO.searchService(matcher.matches(),service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -216,7 +216,7 @@ public class ManageProductServiceFormController {
                     try {
                         productServiceDetail.setProId(proId);
                         productServiceDetail.setSevId(sevId);
-                        boolean isDeleted = productServiceDAO.delete(productServiceDetail);
+                        boolean isDeleted = productServiceBO.deleteProductAndServiceDetail(productServiceDetail);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();
@@ -251,7 +251,7 @@ public class ManageProductServiceFormController {
     }
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = serviceDAO.getAll();
+        ResultSet resultSet = productServiceBO.getAllService();
         while (resultSet.next()) {
             Service service = new Service();
             service.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -265,7 +265,7 @@ public class ManageProductServiceFormController {
     }
     private ArrayList<ProductServiceDetail> getAllProductServiceDetail() throws SQLException, ClassNotFoundException {
         ArrayList<ProductServiceDetail> productServiceDetails = new ArrayList<>();
-        ResultSet resultSet = productServiceDAO.getAll();
+        ResultSet resultSet = productServiceBO.getAllProductAndServiceDAO();
         while (resultSet.next()) {
             ProductServiceDetail productServiceDetail = new ProductServiceDetail();
             productServiceDetail.setProId(String.valueOf(resultSet.getObject(1)));
@@ -278,7 +278,7 @@ public class ManageProductServiceFormController {
     }
     private ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
-        ResultSet resultSet = productDAO.getAll();
+        ResultSet resultSet = productServiceBO.getAllProduct();
         while (resultSet.next()) {
             Product product = new Product();
             product.setProId(String.valueOf(resultSet.getObject(1)));
