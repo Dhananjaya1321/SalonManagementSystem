@@ -10,8 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
+import lk.ijse.salongeetha.bo.castom.ForgotPasswordBO;
+import lk.ijse.salongeetha.bo.castom.impl.ForgotPasswordBOImpl;
 import lk.ijse.salongeetha.util.GenerateOTP;
 import lk.ijse.salongeetha.util.SendMail;
 import lk.ijse.salongeetha.to.User;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 import static javafx.scene.paint.Color.RED;
 
-public class FrogotPasswordFormController {
+public class ForgotPasswordFormController {
 
     public JFXTextField txtUserName;
     public Label lblFrogotPasswordForm;
@@ -42,7 +42,7 @@ public class FrogotPasswordFormController {
 
     private String otp;
     private String userName;
-    LoginDAO loginDAO = new LoginDAOImpl();
+    ForgotPasswordBO forgotPasswordBO =new ForgotPasswordBOImpl();
 
     @FXML
     void btnSendEmailOnAction(ActionEvent event) {
@@ -52,7 +52,7 @@ public class FrogotPasswordFormController {
         user.setUserName(userName);
         try {
 
-            boolean isChecked = loginDAO.checkEmail(user);
+            boolean isChecked = forgotPasswordBO.checkEmail(user);
             if (isChecked) {
                 if (email.equals(user.getEmail())) {
                     otp = GenerateOTP.getOTP();
