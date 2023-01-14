@@ -13,25 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AppointmentDAOImpl implements AppointmentDAO {
-    ServiceAppointmentDAO serviceAppointmentDAO=new ServiceAppointmentDAOImpl();
+
     @Override
     public boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
-        DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-        try {
-            boolean isAdded = CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
+        return CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
                     , appointment.getDate(), appointment.getTime(), appointment.getNic());
-            if (isAdded) {
-                boolean addDetails = serviceAppointmentDAO.addDetails(serviceAppointmentDetails);
-                if (addDetails) {
-                    DBConnection.getDBConnection().getConnection().commit();
-                    return true;
-                }
-            }
-            DBConnection.getDBConnection().getConnection().rollback();
-            return false;
-        } finally {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-        }
     }
 
     @Override

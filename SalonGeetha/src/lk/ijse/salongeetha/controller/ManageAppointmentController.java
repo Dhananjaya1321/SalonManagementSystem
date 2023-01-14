@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.castom.AppointmentBO;
+import lk.ijse.salongeetha.bo.castom.impl.AppointmentBOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
@@ -127,10 +129,7 @@ public class ManageAppointmentController {
 
     ObservableList<AppointmentTM> observableList = FXCollections.observableArrayList();
     ArrayList<AppointmentTM> arrayList = new ArrayList();
-    ServiceDAO serviceDAO=new ServiceDAOImpl();
-    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
-    CustomerDAO customerDAO=new CustomerDAOImpl();
-    AppointmentDAO appointmentDAO=new AppointmentDAOImpl();
+    AppointmentBO appointmentBO=new AppointmentBOImpl();
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();
@@ -212,7 +211,7 @@ public class ManageAppointmentController {
         Appointment appointment = new Appointment(appointmentId, date, time, nic);
 
         try {
-            boolean addAppointment = appointmentDAO.addAppointment(appointment, serviceAppointmentDetails);
+            boolean addAppointment = appointmentBO.addAppointment(appointment, serviceAppointmentDetails);
             if (addAppointment) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Appointment added");
                 alert.show();
@@ -246,7 +245,7 @@ public class ManageAppointmentController {
 
     private void setNextId() {
         try {
-            String currentId = appointmentDAO.checkId();
+            String currentId = appointmentBO.checkIdAppointment();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.APPOINTMENT);
             lblAppointmentId.setText(generateNextId);
 
@@ -321,7 +320,7 @@ public class ManageAppointmentController {
                 cmbCustomerId.getItems().addAll(ids);
             }
 
-            ArrayList<Employee> employees = employeeDAO.getBeauticians();
+            ArrayList<Employee> employees = appointmentBO.getBeauticians();
             if (employees.size() != 0) {
                 ids = new String[employees.size()];
                 for (int i = 0; i < ids.length; i++) {
@@ -353,7 +352,7 @@ public class ManageAppointmentController {
     }
     private ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = customerDAO.searchCustomerDetails(customer);
+        ResultSet resultSet = appointmentBO.searchCustomerDetails(customer);
         while (resultSet.next()) {
             Customer searchCustomer = new Customer();
             searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
@@ -387,7 +386,7 @@ public class ManageAppointmentController {
 
     private ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = serviceDAO.searchServiceDetails(service);
+        ResultSet resultSet = appointmentBO.searchServiceDetails(service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -418,7 +417,7 @@ public class ManageAppointmentController {
     }
     private ArrayList<Employee> searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = employeeDAO.searchEmployeeDetails(employee);
+        ResultSet resultSet = appointmentBO.searchEmployeeDetails(employee);
         while (resultSet.next()) {
             Employee searchEmployee = new Employee();
             searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
@@ -436,7 +435,7 @@ public class ManageAppointmentController {
     }
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = serviceDAO.getAll();
+        ResultSet resultSet = appointmentBO.getAllServices();
         while (resultSet.next()) {
             Service service = new Service();
             service.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -450,7 +449,7 @@ public class ManageAppointmentController {
     }
     private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = customerDAO.getAll();
+        ResultSet resultSet = appointmentBO.getAllCustomers();
         while (resultSet.next()) {
             Customer customer = new Customer();
             customer.setNic(String.valueOf(resultSet.getObject(1)));
