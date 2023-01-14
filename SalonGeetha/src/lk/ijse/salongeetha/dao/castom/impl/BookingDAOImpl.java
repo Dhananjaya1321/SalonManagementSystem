@@ -38,28 +38,7 @@ public class BookingDAOImpl implements BookingDAO {
     }
 
     public boolean addBooking(Book book, ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
-        BookingRentalsDAO bookingRentalsDAO=new BookingRentalsDAOImpl();
-        DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-        try {
-            boolean isAdded = CrudUtil.setQuery("INSERT INTO Book (Bok_Id,Date,NIC) VALUES (?,?,?)", book.getBokId(), book.getDate(), book.getNic());
-            if (isAdded) {
-                boolean addDetails = bookingRentalsDAO.addDetails(bookRentalsDetails);
-                if (addDetails) {
-                    RentalsDAO rentalsDAO=new RentalsDAOImpl();
-                    boolean updateRentalQty = rentalsDAO.update(bookRentalsDetails);
-                    if (updateRentalQty) {
-                        {
-                            DBConnection.getDBConnection().getConnection().commit();
-                            return true;
-                        }
-                    }
-                }
-            }
-            DBConnection.getDBConnection().getConnection().rollback();
-            return false;
-        } finally {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-        }
+        return CrudUtil.setQuery("INSERT INTO Book (Bok_Id,Date,NIC) VALUES (?,?,?)", book.getBokId(), book.getDate(), book.getNic());
     }
 
 

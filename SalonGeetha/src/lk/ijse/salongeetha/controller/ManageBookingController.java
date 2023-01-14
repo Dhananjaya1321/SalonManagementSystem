@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.castom.BookingBO;
+import lk.ijse.salongeetha.bo.castom.impl.BookingBOImpl;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
@@ -136,9 +138,7 @@ public class ManageBookingController {
     private double calTotal = 0;
     ObservableList<BookTM> observableList = FXCollections.observableArrayList();
     //    ArrayList<BookTM> arrayList = new ArrayList();
-    RentalsDAO rentalsDAO = new RentalsDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
+    BookingBO bookingBO=new BookingBOImpl();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -244,15 +244,13 @@ public class ManageBookingController {
         Book book = new Book(bid, date, nic);
 
         try {
-            boolean addBooking = bookingDAO.addBooking(book, bookRentalsDetails);
+            boolean addBooking = bookingBO.addBooking(book, bookRentalsDetails);
             if (addBooking) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, " Booking is successful");
                 alert.show();
                 cleanAll();
                 observableList.clear();
                 setNextId();
-
-
             }
 
 
@@ -302,7 +300,7 @@ public class ManageBookingController {
     }
     private ArrayList<Rentals> searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
-        ResultSet resultSet = rentalsDAO.searchRentalsDetails(rental);
+        ResultSet resultSet = bookingBO.searchRentalsDetails(rental);
         while (resultSet.next()) {
             Rentals searchRental = new Rentals();
             searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
@@ -335,7 +333,7 @@ public class ManageBookingController {
     }
     private ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = customerDAO.searchCustomerDetails(customer);
+        ResultSet resultSet = bookingBO.searchCustomerDetails(customer);
         while (resultSet.next()) {
             Customer searchCustomer = new Customer();
             searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
@@ -378,7 +376,7 @@ public class ManageBookingController {
 
     private void setNextId() {
         try {
-            String currentId = bookingDAO.checkId();
+            String currentId = bookingBO.checkIdBooking();
             String generateNextId = GenerateId.generateNextId(currentId, IdTypes.BOOK);
             lblBookingId.setText(generateNextId);
 
@@ -418,7 +416,7 @@ public class ManageBookingController {
 
     private ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
         ArrayList<Rentals> rentals = new ArrayList<>();
-        ResultSet resultSet = rentalsDAO.getAll();
+        ResultSet resultSet = bookingBO.getAllRentals();
         while (resultSet.next()) {
             Rentals rental = new Rentals();
             rental.setRntId(String.valueOf(resultSet.getObject(1)));
@@ -433,7 +431,7 @@ public class ManageBookingController {
     }
     private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = customerDAO.getAll();
+        ResultSet resultSet = bookingBO.getAllCustomer();
         while (resultSet.next()) {
             Customer customer = new Customer();
             customer.setNic(String.valueOf(resultSet.getObject(1)));
