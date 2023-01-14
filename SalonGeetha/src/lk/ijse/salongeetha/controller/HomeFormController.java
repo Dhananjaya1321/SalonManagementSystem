@@ -12,6 +12,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.bo.castom.HomeFormBO;
+import lk.ijse.salongeetha.bo.castom.impl.HomeFormBOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
@@ -41,9 +43,7 @@ public class HomeFormController {
 
     @FXML
     private AnchorPane popUpPane;
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
-    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    HomeFormBO homeFormBO = new HomeFormBOImpl();
 
     private void setLblAppointment() {
         long millis = System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class HomeFormController {
         String setDate = String.valueOf(date);
 
         try {
-            String appointmentCount = appointmentDAO.getAppointmentCount(setDate);
+            String appointmentCount = homeFormBO.getAppointmentCount(setDate);
             if (appointmentCount != null) {
                 lblAppointment.setText(appointmentCount);
             }
@@ -65,7 +65,7 @@ public class HomeFormController {
         java.sql.Date date = new java.sql.Date(millis);
         String setDate = String.valueOf(date);
         try {
-            String bookingCount = bookingDAO.getBookingCount(setDate);
+            String bookingCount = homeFormBO.getBookingCount(setDate);
             if (bookingCount != null) {
                 lblBooking.setText(bookingCount);
             }
@@ -84,7 +84,7 @@ public class HomeFormController {
         setLblBooking();
         Employee employee = new Employee();
         try {
-            boolean isCheckedAdmin = employeeDAO.checkAdmin(employee);
+            boolean isCheckedAdmin = homeFormBO.checkAdmin(employee);
             if (isCheckedAdmin) {
                 if (employee.getPhoneNumber().equals("")) {
                     Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/AddAdminDetailsForm.fxml"));
@@ -121,9 +121,10 @@ public class HomeFormController {
             throw new RuntimeException(e);
         }
     }
+
     private ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
         ArrayList<AppointmentTM> appointmentTMS = new ArrayList<>();
-        ResultSet resultSet = appointmentDAO.getAppointmentForChart(time);
+        ResultSet resultSet = homeFormBO.getAppointmentForChart(time);
         while (resultSet.next()) {
             AppointmentTM appointmentTM = new AppointmentTM();
             appointmentTM.setCount(resultSet.getInt(1));
@@ -132,9 +133,10 @@ public class HomeFormController {
         }
         return appointmentTMS;
     }
+
     private ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
         ArrayList<BookTM> bookTMS = new ArrayList<>();
-        ResultSet resultSet = bookingDAO.getBookingForChart(time);
+        ResultSet resultSet = homeFormBO.getBookingForChart(time);
         while (resultSet.next()) {
             BookTM bookTM = new BookTM();
             bookTM.setQty(resultSet.getInt(1));
@@ -143,6 +145,7 @@ public class HomeFormController {
         }
         return bookTMS;
     }
+
     public void cmbPastTime(ActionEvent actionEvent) {
         setLineChart(cmbPastTime.getValue().toString());
     }
