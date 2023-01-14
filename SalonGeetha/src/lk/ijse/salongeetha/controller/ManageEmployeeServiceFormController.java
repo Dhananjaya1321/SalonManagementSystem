@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.castom.EmployeeServiceBO;
+import lk.ijse.salongeetha.bo.castom.impl.EmployeeServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
@@ -81,10 +83,7 @@ public class ManageEmployeeServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String employeeId;
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    EmployeeServiceDAO employeeServiceDAO = new EmployeeServiceDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
+    EmployeeServiceBO employeeServiceBO=new EmployeeServiceBOImpl();
 
     @FXML
     void btnAddONAction(ActionEvent event) {
@@ -96,9 +95,9 @@ public class ManageEmployeeServiceFormController {
         EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail(cmbEmpIdValue, serviceIdValue, serviceNameText, empNameText);
 
         try {
-            boolean checkAlreadyExists = employeeServiceDAO.checkAlreadyExists(employeeServiceDetail);
+            boolean checkAlreadyExists = employeeServiceBO.checkAlreadyExists(employeeServiceDetail);
             if (!checkAlreadyExists) {
-                boolean addProductService = employeeServiceDAO.add(employeeServiceDetail);
+                boolean addProductService = employeeServiceBO.addEmployeeAndServiceDetail(employeeServiceDetail);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
@@ -185,7 +184,7 @@ public class ManageEmployeeServiceFormController {
                     try {
                         employeeServiceDetail.setEmpId(empId);
                         employeeServiceDetail.setSevId(sevId);
-                        boolean isDeleted = employeeServiceDAO.delete(employeeServiceDetail);
+                        boolean isDeleted = employeeServiceBO.deleteEmployeeAndServiceDetail(employeeServiceDetail);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();
@@ -239,7 +238,7 @@ public class ManageEmployeeServiceFormController {
         ArrayList<Employee> employees = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = namePattern.matcher(employee.getName());
-        ResultSet resultSet = employeeDAO.search(matcher.matches(), employee);
+        ResultSet resultSet = employeeServiceBO.searchEmployee(matcher.matches(), employee);
         while (resultSet.next()) {
             Employee searchEmployee = new Employee();
             searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
@@ -277,7 +276,7 @@ public class ManageEmployeeServiceFormController {
         ArrayList<Service> services = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = serviceDAO.search(matcher.matches(), service);
+        ResultSet resultSet = employeeServiceBO.searchService(matcher.matches(), service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -292,7 +291,7 @@ public class ManageEmployeeServiceFormController {
 
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = serviceDAO.getAll();
+        ResultSet resultSet = employeeServiceBO.getAllService();
         while (resultSet.next()) {
             Service service = new Service();
             service.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -307,7 +306,7 @@ public class ManageEmployeeServiceFormController {
 
     private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
         ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = employeeDAO.getAll();
+        ResultSet resultSet = employeeServiceBO.getAllEmployee();
         if (resultSet.next()) {
             do {
                 Employee employee = new Employee();
@@ -329,7 +328,7 @@ public class ManageEmployeeServiceFormController {
 
     private ArrayList<EmployeeServiceDetail> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
         ArrayList<EmployeeServiceDetail> employeeServiceDetails = new ArrayList<>();
-        ResultSet resultSet = queryDAO.getAllEmployeeServiceDetails();
+        ResultSet resultSet = employeeServiceBO.getAllEmployeeServiceDetails();
         while (resultSet.next()) {
             EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
             employeeServiceDetail.setEmpId(String.valueOf(resultSet.getObject(1)));
