@@ -17,6 +17,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.salongeetha.bo.castom.LoginFormBO;
+import lk.ijse.salongeetha.bo.castom.impl.LoginFormBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
 import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
@@ -96,8 +98,7 @@ public class LoginFormController {
 
     @FXML
     private AnchorPane leftPane;
-    LoginDAO loginDAO = new LoginDAOImpl();
-    EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    LoginFormBO loginFormBO=new LoginFormBOImpl();
 
     @FXML
     void createAccountOnAction(ActionEvent event) {
@@ -159,7 +160,7 @@ public class LoginFormController {
 
     private void creatAccount(User user, Employee employee) {
         try {
-            boolean isAdded = loginDAO.addDetails(user, employee);
+            boolean isAdded = loginFormBO.addAdminDetails(user, employee);
             if (isAdded) {
                 TranslateTransition slide = new TranslateTransition();
                 slide.setDuration(Duration.seconds(0.7));
@@ -191,11 +192,10 @@ public class LoginFormController {
         user.setUserName(userName);
         user.setPassword(password);
         try {
-            boolean isSetUserAccount = loginDAO.setUserAccount(user);
+            boolean isSetUserAccount = loginFormBO.setUserAccount(user);
             if (isSetUserAccount) {
-
                 if (password.equals(user.getPassword())) {
-                    Employee employeeJobTitle = employeeDAO.getEmployeeJobTitle(user);
+                    Employee employeeJobTitle = loginFormBO.getEmployeeJobTitle(user);
                     String jobTitle = employeeJobTitle.getJobTitle();
                     if (jobTitle.equals("Admin")) {
                         Stage stage = (Stage) fullPane.getScene().getWindow();
@@ -270,7 +270,7 @@ public class LoginFormController {
 
     public void initialize() {
         try {
-            boolean isChecked = loginDAO.checkUserAccount();
+            boolean isChecked = loginFormBO.checkUserAccount();
             if (isChecked) {
                 setPage(isChecked);
             } else {
