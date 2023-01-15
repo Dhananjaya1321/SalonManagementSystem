@@ -18,23 +18,8 @@ public class LoginDAOImpl implements LoginDAO {
 
 
     public boolean addDetails(User user, Employee employee) throws SQLException, ClassNotFoundException {
-        boolean isAdded;
-        DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-        try {
-            isAdded = CrudUtil.setQuery("INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?)", "E001", employee.getName(), ""
+        return CrudUtil.setQuery("INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?)", "E001", employee.getName(), ""
                     , "2022-02-02", "", "", employee.getEmail(), employee.getNic(), "Admin");
-            if (isAdded) {
-                isAdded=add(user);
-                if (isAdded) {
-                    DBConnection.getDBConnection().getConnection().commit();
-                    return true;
-                }
-            }
-            DBConnection.getDBConnection().getConnection().rollback();
-            return false;
-        } finally {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-        }
     }
 
     public boolean checkUserAccount() throws SQLException, ClassNotFoundException {

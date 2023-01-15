@@ -45,20 +45,6 @@ public class UserModel implements UserDAO {
     }
 
     public boolean delete(User user, Employee employee) throws SQLException, ClassNotFoundException {
-        DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-        try {
-            boolean executeUpdate = CrudUtil.setQuery("DELETE FROM User WHERE Emp_Id=?", user.getEid());
-            if (executeUpdate) {
-                boolean deleteEmployee = employeeDAO.delete(employee);
-                if (deleteEmployee) {
-                    DBConnection.getDBConnection().getConnection().commit();
-                    return true;
-                }
-            }
-            DBConnection.getDBConnection().getConnection().rollback();
-            return false;
-        } finally {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-        }
+        return CrudUtil.setQuery("DELETE FROM User WHERE Emp_Id=?", user.getEid());
     }
 }

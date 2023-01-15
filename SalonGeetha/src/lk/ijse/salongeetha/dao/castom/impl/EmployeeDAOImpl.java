@@ -71,25 +71,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 
     public boolean addReceptionist(Employee employee, User user) throws SQLException, ClassNotFoundException {
-        try {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-
-            boolean isAdded = CrudUtil.setQuery("INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?)", employee.getEmpId(), employee.getName()
+        return CrudUtil.setQuery("INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?)", employee.getEmpId(), employee.getName()
                     , employee.getAddress(), employee.getDob(), employee.getPhoneNumber(), employee.getDescription(), employee.getEmail()
                     , employee.getNic(), employee.getJobTitle());
-            if (isAdded) {
-                UserDAO userDAO = new UserModel();
-                boolean addUser = userDAO.add(user);
-                if (addUser) {
-                    DBConnection.getDBConnection().getConnection().commit();
-                    return true;
-                }
-            }
-            DBConnection.getDBConnection().getConnection().rollback();
-            return false;
-        } finally {
-            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-        }
     }
 
     public Employee getEmployeeJobTitle(User user) throws SQLException, ClassNotFoundException {

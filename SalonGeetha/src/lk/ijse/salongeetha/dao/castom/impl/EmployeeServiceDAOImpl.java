@@ -10,13 +10,12 @@ import java.sql.SQLException;
 public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
 
 
-
-
     public boolean delete(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
                 employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
     }
-@Override
+
+    @Override
     public boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM employee_service_detail WHERE Emp_Id=? AND Sev_Id=?",
                 employeeServiceDetail.getEmpId(), employeeServiceDetail.getSevId());
@@ -30,9 +29,6 @@ public class EmployeeServiceDAOImpl implements EmployeeServiceDAO {
         return CrudUtil.setQuery("INSERT INTO employee_service_detail VALUES (?,?)", employeeServiceDetail.getEmpId(),
                 employeeServiceDetail.getSevId());
     }
-
-
-
 
 
     @Override

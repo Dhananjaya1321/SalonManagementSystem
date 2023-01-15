@@ -24,8 +24,6 @@ public class ServiceAppointmentDAOImpl implements ServiceAppointmentDAO {
         return false;
     }
 
-
-
     @Override
     public boolean add(ServiceAppointmentDetail user) throws SQLException, ClassNotFoundException {
         return false;
