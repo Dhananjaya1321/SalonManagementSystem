@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.SupplierBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
 import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
 import lk.ijse.salongeetha.to.Supplier;
@@ -9,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SupplierBOImpl implements SupplierBO {
-    SupplierDAO supplierDAO=new SupplierDAOImpl();
+    SupplierDAO supplierDAO= (SupplierDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SUPPLIER);
     @Override
     public boolean updateSupplier(Supplier supplier) throws SQLException, ClassNotFoundException {
         return supplierDAO.update(supplier);

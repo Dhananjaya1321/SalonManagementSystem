@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.AppointmentBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.*;
 import lk.ijse.salongeetha.dao.castom.impl.*;
 import lk.ijse.salongeetha.db.DBConnection;
@@ -11,11 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AppointmentBOImpl implements AppointmentBO {
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-    ServiceAppointmentDAO serviceAppointmentDAO = new ServiceAppointmentDAOImpl();
+    ServiceDAO serviceDAO = (ServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SERVICE);
+    EmployeeDAO employeeDAO = (EmployeeDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.EMPLOYEE);
+    CustomerDAO customerDAO = (CustomerDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.CUSTOMER);
+    AppointmentDAO appointmentDAO = (AppointmentDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.APPOINTMENT);
+    ServiceAppointmentDAO serviceAppointmentDAO = (ServiceAppointmentDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SERVICE_APPOINTMENT);
 
     @Override
     public String checkIdAppointment() throws SQLException, ClassNotFoundException {

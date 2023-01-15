@@ -2,6 +2,8 @@ package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.LoginFormBO;
 import lk.ijse.salongeetha.dao.CrudUtil;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
 import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
@@ -13,8 +15,8 @@ import lk.ijse.salongeetha.to.User;
 import java.sql.SQLException;
 
 public class LoginFormBOImpl implements LoginFormBO {
-    LoginDAO loginDAO = new LoginDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    LoginDAO loginDAO = (LoginDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.LOGIN);
+    EmployeeDAO employeeDAO = (EmployeeDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.EMPLOYEE);
 
     @Override
     public boolean addAdminDetails(User user, Employee employee) throws SQLException, ClassNotFoundException {

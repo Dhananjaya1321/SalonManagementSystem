@@ -11,7 +11,7 @@ import lk.ijse.salongeetha.util.SetPassword;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserModel implements UserDAO {
+public class UserDAOImpl implements UserDAO {
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public boolean add(User user) throws SQLException, ClassNotFoundException {

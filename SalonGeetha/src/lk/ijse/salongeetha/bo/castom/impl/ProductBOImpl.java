@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.ProductBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
 import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
@@ -11,8 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductBOImpl implements ProductBO {
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
-    ProductDAO productDAO = new ProductDAOImpl();
+    SupplierDAO supplierDAO = (SupplierDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SUPPLIER);
+    ProductDAO productDAO = (ProductDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PRODUCT);
 
     @Override
     public boolean deleteProduct(Product product) throws SQLException, ClassNotFoundException {

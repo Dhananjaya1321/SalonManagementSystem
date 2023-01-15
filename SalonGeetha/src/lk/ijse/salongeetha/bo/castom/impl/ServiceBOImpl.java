@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.ServiceBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
 import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.Service;
@@ -9,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ServiceBOImpl implements ServiceBO {
-    ServiceDAO serviceDAO=new ServiceDAOImpl();
+    ServiceDAO serviceDAO= (ServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SERVICE);
     @Override
     public boolean deleteService(Service service) throws SQLException, ClassNotFoundException {
        return serviceDAO.delete(service);

@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.PaymentBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.PaymentDAO;
@@ -17,11 +19,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PaymentBOImpl implements PaymentBO {
-    PaymentDAO paymentDAO = new PaymentDAOImpl();
-    BookingDAO booingDAO = new BookingDAOImpl();
-    AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
+    PaymentDAO paymentDAO = (PaymentDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PAYMENT);
+    BookingDAO booingDAO = (BookingDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BOOKING);
+    AppointmentDAO appointmentDAO = (AppointmentDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.APPOINTMENT);
+    QueryDAO queryDAO = (QueryDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.QUERY);
+    BookingDAO bookingDAO = (BookingDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BOOKING);
 
     @Override
     public ResultSet getAllAppointmentPayments() throws SQLException, ClassNotFoundException {

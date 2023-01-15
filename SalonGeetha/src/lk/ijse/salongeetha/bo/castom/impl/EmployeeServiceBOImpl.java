@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.EmployeeServiceBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
@@ -17,10 +19,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EmployeeServiceBOImpl implements EmployeeServiceBO {
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
-    EmployeeServiceDAO employeeServiceDAO = new EmployeeServiceDAOImpl();
-    QueryDAO queryDAO = new QueryDAOImpl();
+    ServiceDAO serviceDAO = (ServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SERVICE);
+    EmployeeDAO employeeDAO = (EmployeeDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.EMPLOYEE);
+    EmployeeServiceDAO employeeServiceDAO = (EmployeeServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.EMPLOYEE_SERVICE);
+    QueryDAO queryDAO = (QueryDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.QUERY);
 
     @Override
     public boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {

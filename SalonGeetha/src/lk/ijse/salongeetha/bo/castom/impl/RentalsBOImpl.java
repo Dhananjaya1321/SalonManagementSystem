@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.RentalsBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
 import lk.ijse.salongeetha.dao.castom.impl.RentalsDAOImpl;
 import lk.ijse.salongeetha.to.Rentals;
@@ -9,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RentalsBOImpl implements RentalsBO {
-   RentalsDAO rentalsDAO=new RentalsDAOImpl();
+   RentalsDAO rentalsDAO= (RentalsDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.RENTALS);
     @Override
     public boolean deleteRental(Rentals rentals) throws SQLException, ClassNotFoundException {
         return rentalsDAO.delete(rentals);

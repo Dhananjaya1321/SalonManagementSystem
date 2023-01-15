@@ -3,7 +3,7 @@ package lk.ijse.salongeetha.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface SQLUtil<T> {
+public interface SQLUtil<T> extends SupperDAOImpl{
     boolean add(T to) throws SQLException, ClassNotFoundException;
 
     boolean delete(T to) throws SQLException, ClassNotFoundException;

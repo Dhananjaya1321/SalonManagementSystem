@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.ProductServiceBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
@@ -14,9 +16,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductServiceBOImpl implements ProductServiceBO {
-    ProductDAO productDAO = new ProductDAOImpl();
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    ProductServiceDAO productServiceDAO = new ProductServiceDAOImpl();
+    ProductDAO productDAO = (ProductDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PRODUCT);
+    ServiceDAO serviceDAO = (ServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SERVICE);
+    ProductServiceDAO productServiceDAO = (ProductServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PRODUCT_SERVICE);
 
     @Override
     public boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {

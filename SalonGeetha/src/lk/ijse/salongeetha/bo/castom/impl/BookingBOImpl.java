@@ -1,6 +1,8 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.BookingBO;
+import lk.ijse.salongeetha.dao.DAOImplTypes;
+import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.BookingRentalsDAO;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
@@ -20,10 +22,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BookingBOImpl implements BookingBO {
-    RentalsDAO rentalsDAO = new RentalsDAOImpl();
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    BookingDAO bookingDAO = new BookingDAOImpl();
-    BookingRentalsDAO bookingRentalsDAO = new BookingRentalsDAOImpl();
+    RentalsDAO rentalsDAO = (RentalsDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.RENTALS);
+    CustomerDAO customerDAO = (CustomerDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.CUSTOMER);
+    BookingDAO bookingDAO = (BookingDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BOOKING);
+    BookingRentalsDAO bookingRentalsDAO = (BookingRentalsDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BOOING_RENTALS);
 
     @Override
     public ResultSet searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
