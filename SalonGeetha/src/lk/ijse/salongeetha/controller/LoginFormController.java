@@ -17,6 +17,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.LoginFormBO;
 import lk.ijse.salongeetha.bo.castom.impl.LoginFormBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
@@ -98,7 +100,7 @@ public class LoginFormController {
 
     @FXML
     private AnchorPane leftPane;
-    LoginFormBO loginFormBO=new LoginFormBOImpl();
+    LoginFormBO loginFormBO= (LoginFormBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.LOGIN);
 
     @FXML
     void createAccountOnAction(ActionEvent event) {

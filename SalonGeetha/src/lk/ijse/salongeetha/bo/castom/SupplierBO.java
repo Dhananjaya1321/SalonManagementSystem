@@ -1,11 +1,12 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.Supplier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface SupplierBO {
+public interface SupplierBO extends SuperBOImpl {
     boolean updateSupplier(Supplier supplier) throws SQLException, ClassNotFoundException;
 
     ResultSet searchSupplier(Boolean value, Supplier supplier) throws SQLException, ClassNotFoundException;

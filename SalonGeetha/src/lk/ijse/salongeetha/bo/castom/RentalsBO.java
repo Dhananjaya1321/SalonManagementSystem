@@ -1,11 +1,12 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.Rentals;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface RentalsBO {
+public interface RentalsBO extends SuperBOImpl {
     boolean deleteRental(Rentals rentals) throws SQLException, ClassNotFoundException;
 
     boolean addRental(Rentals rentals) throws SQLException, ClassNotFoundException;

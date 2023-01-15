@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductServiceBO;
 import lk.ijse.salongeetha.bo.castom.impl.ProductServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
@@ -75,7 +77,8 @@ public class ManageProductServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String productId;
-    ProductServiceBO productServiceBO=new ProductServiceBOImpl();
+    ProductServiceBO productServiceBO = (ProductServiceBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.PRODUCT_SERVICE);
+
     @FXML
     void btnAddONAction(ActionEvent event) {
         String productIdValue = cmbProductId.getValue();
@@ -87,7 +90,7 @@ public class ManageProductServiceFormController {
         try {
             boolean checkAlreadyExists = productServiceBO.checkAlreadyExists(productServiceDetail);
             if (!checkAlreadyExists) {
-                 boolean addProductService = productServiceBO.addProductAndServiceDetail(productServiceDetail);
+                boolean addProductService = productServiceBO.addProductAndServiceDetail(productServiceDetail);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
@@ -95,7 +98,7 @@ public class ManageProductServiceFormController {
                     productServiceDetailArrayList = getAllProductServiceDetail();
                     loadAllData();
                 }
-            }else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "This values is already exists");
                 alert.show();
             }
@@ -126,11 +129,12 @@ public class ManageProductServiceFormController {
         }
 
     }
+
     private ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = productServiceBO.searchService(matcher.matches(),service);
+        ResultSet resultSet = productServiceBO.searchService(matcher.matches(), service);
         while (resultSet.next()) {
             Service searchService = new Service();
             searchService.setSevId(String.valueOf(resultSet.getObject(1)));
@@ -142,6 +146,7 @@ public class ManageProductServiceFormController {
         }
         return services;
     }
+
     public void cmbProductIdOnAction(ActionEvent actionEvent) {
         this.productId = cmbProductId.getValue();
     }
@@ -249,6 +254,7 @@ public class ManageProductServiceFormController {
             tblView.setItems(observableList);
         }
     }
+
     private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
         ArrayList<Service> services = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllService();
@@ -263,6 +269,7 @@ public class ManageProductServiceFormController {
         }
         return services;
     }
+
     private ArrayList<ProductServiceDetail> getAllProductServiceDetail() throws SQLException, ClassNotFoundException {
         ArrayList<ProductServiceDetail> productServiceDetails = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllProductAndServiceDAO();
@@ -276,6 +283,7 @@ public class ManageProductServiceFormController {
         }
         return productServiceDetails;
     }
+
     private ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
         ArrayList<Product> products = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllProduct();

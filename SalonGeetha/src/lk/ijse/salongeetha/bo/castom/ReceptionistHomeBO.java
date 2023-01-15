@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom;
 
-public interface ReceptionistHomeBO {
+import lk.ijse.salongeetha.bo.SuperBOImpl;
+
+public interface ReceptionistHomeBO extends SuperBOImpl {
 }

@@ -11,6 +11,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.UpdateCustomerBO;
 import lk.ijse.salongeetha.bo.castom.impl.UpdateCustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
@@ -47,7 +49,7 @@ public class UpdateCustomerFormController {
     private JFXDatePicker txtDOB;
     private static Customer customer;
     //    CustomerDAO customerDAO=new CustomerDAOImpl();
-    UpdateCustomerBO updateCustomerBO = new UpdateCustomerBOImpl();
+    UpdateCustomerBO updateCustomerBO = (UpdateCustomerBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.UPDATE_CUSTOMER);
 
     public static void getUpdateDetails(Customer customer) {
         UpdateCustomerFormController.customer = customer;

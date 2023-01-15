@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom;
 
-public interface ReportsBO {
+import lk.ijse.salongeetha.bo.SuperBOImpl;
+
+public interface ReportsBO extends SuperBOImpl {
 }

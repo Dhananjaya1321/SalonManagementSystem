@@ -17,7 +17,7 @@ public class FactoryDAOImpl {
         }
     }
 
-    public SupperDAOImpl setDAOImpl(DAOImplTypes types) {
+    public SuperDAOImpl setDAOImpl(DAOImplTypes types) {
         switch (types) {
             case APPOINTMENT:
                 return new AppointmentDAOImpl();

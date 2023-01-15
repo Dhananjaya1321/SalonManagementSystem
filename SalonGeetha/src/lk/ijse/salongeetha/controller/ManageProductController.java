@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductBO;
 import lk.ijse.salongeetha.bo.castom.impl.ProductBOImpl;
 import lk.ijse.salongeetha.dao.CrudUtil;
@@ -102,7 +104,8 @@ public class ManageProductController {
     @FXML
     private JFXTextField txtQtyOnHand;
     ArrayList<Product> productArrayList;
-    ProductBO productBO=new ProductBOImpl();
+    ProductBO productBO = (ProductBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.PRODUCT);
+
     {
         try {
             productArrayList = getAllProduct();
@@ -359,7 +362,7 @@ public class ManageProductController {
         ArrayList<Product> products = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(product.getBrand());
-        ResultSet resultSet = productBO.searchProduct(matcher.matches(),product);
+        ResultSet resultSet = productBO.searchProduct(matcher.matches(), product);
         while (resultSet.next()) {
             Product searchProduct = new Product();
             searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
@@ -400,6 +403,7 @@ public class ManageProductController {
         }
         return products;
     }
+
     private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = productBO.getAllSupplier();
         ArrayList<Supplier> suppliers = new ArrayList<>();

@@ -1,11 +1,12 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface ServiceBO {
+public interface ServiceBO extends SuperBOImpl {
     boolean deleteService(Service service) throws SQLException, ClassNotFoundException;
 
     String checkIdService() throws SQLException, ClassNotFoundException;

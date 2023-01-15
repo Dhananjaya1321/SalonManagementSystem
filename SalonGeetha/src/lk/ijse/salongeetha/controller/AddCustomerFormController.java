@@ -10,6 +10,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddCustomerBO;
 import lk.ijse.salongeetha.bo.castom.impl.AddCustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
@@ -36,7 +38,7 @@ public class AddCustomerFormController {
     public Label lblPhoneValidation;
     public Label lblNICValidation;
     private boolean reload = false;
-    AddCustomerBO customerBO = new AddCustomerBOImpl();
+    AddCustomerBO customerBO = (AddCustomerBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.ADD_CUSTOMER);
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         String name = txtName.getText();

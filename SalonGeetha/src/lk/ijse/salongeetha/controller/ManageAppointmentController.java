@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AppointmentBO;
 import lk.ijse.salongeetha.bo.castom.impl.AppointmentBOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
@@ -129,7 +131,7 @@ public class ManageAppointmentController {
 
     ObservableList<AppointmentTM> observableList = FXCollections.observableArrayList();
     ArrayList<AppointmentTM> arrayList = new ArrayList();
-    AppointmentBO appointmentBO=new AppointmentBOImpl();
+    AppointmentBO appointmentBO= (AppointmentBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.APPOINTMENT);
     @FXML
     void btnAddONAction(ActionEvent event) {
         String employeeIdValue = cmbEmployeeId.getValue();

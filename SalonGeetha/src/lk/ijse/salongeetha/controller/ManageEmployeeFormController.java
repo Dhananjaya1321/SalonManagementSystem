@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeBO;
 import lk.ijse.salongeetha.bo.castom.impl.EmployeeBOImpl;
 import lk.ijse.salongeetha.to.Employee;
@@ -131,7 +133,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     @FXML
     private JFXPasswordField txtPassword;
-    EmployeeBO employeeBO = new EmployeeBOImpl();
+    EmployeeBO employeeBO = (EmployeeBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.EMPLOYEE);
 
     private String setJobTitel;
     ArrayList<Employee> employeeArrayList;

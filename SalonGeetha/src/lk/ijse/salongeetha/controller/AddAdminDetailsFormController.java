@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddAdminDetailsBO;
 import lk.ijse.salongeetha.bo.castom.impl.AddAdminDetailsBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
@@ -37,7 +39,7 @@ public class AddAdminDetailsFormController {
 
     @FXML
     private JFXDatePicker txtDOB;
-    AddAdminDetailsBO adminDetailsBO=new AddAdminDetailsBOImpl();
+    AddAdminDetailsBO adminDetailsBO = (AddAdminDetailsBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.ADD_ADMIN);
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {

@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.PaymentBO;
 import lk.ijse.salongeetha.bo.castom.impl.PaymentBOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
@@ -85,7 +87,7 @@ public class ManagePaymentController {
     private String setAOrB = "Appointment payment";
     ArrayList<Payment> aPaymentArrayList;
     ArrayList<Payment> bPaymentArrayList;
-    PaymentBO paymentBO = new PaymentBOImpl();
+    PaymentBO paymentBO = (PaymentBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.PAYMENT);
 
     {
         try {

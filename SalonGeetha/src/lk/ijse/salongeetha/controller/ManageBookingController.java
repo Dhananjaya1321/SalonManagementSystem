@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.BookingBO;
 import lk.ijse.salongeetha.bo.castom.impl.BookingBOImpl;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
@@ -138,7 +140,7 @@ public class ManageBookingController {
     private double calTotal = 0;
     ObservableList<BookTM> observableList = FXCollections.observableArrayList();
     //    ArrayList<BookTM> arrayList = new ArrayList();
-    BookingBO bookingBO=new BookingBOImpl();
+    BookingBO bookingBO= (BookingBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.BOOKING);
 
     @FXML
     void btnAddONAction(ActionEvent event) {

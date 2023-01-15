@@ -14,6 +14,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CustomerBO;
 import lk.ijse.salongeetha.bo.castom.impl.CustomerBOImpl;
 import lk.ijse.salongeetha.dao.castom.CustomerDAO;
@@ -71,7 +73,7 @@ public class ManageCustomerController {
 
     @FXML
     private AnchorPane popUpPane;
-    CustomerBO customerBO=new CustomerBOImpl();
+    CustomerBO customerBO = (CustomerBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.CUSTOMER);
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
         search();
@@ -240,11 +242,12 @@ public class ManageCustomerController {
             loadAllData();
         }
     }
+
     public ArrayList<Customer> search(Customer customer) throws SQLException, ClassNotFoundException {
         ArrayList<Customer> customers = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(customer.getName());
-        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(),customer);
+        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(), customer);
         while (resultSet.next()) {
             Customer searchCustomer = new Customer();
             searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));

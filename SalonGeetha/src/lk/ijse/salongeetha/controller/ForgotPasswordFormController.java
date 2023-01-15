@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ForgotPasswordBO;
 import lk.ijse.salongeetha.bo.castom.impl.ForgotPasswordBOImpl;
 import lk.ijse.salongeetha.util.GenerateOTP;
@@ -42,7 +44,7 @@ public class ForgotPasswordFormController {
 
     private String otp;
     private String userName;
-    ForgotPasswordBO forgotPasswordBO =new ForgotPasswordBOImpl();
+    ForgotPasswordBO forgotPasswordBO = (ForgotPasswordBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.FORGOT_PASSWORD);
 
     @FXML
     void btnSendEmailOnAction(ActionEvent event) {

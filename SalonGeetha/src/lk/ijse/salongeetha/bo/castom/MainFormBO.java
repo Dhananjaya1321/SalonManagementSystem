@@ -1,4 +1,6 @@
 package lk.ijse.salongeetha.bo.castom;
 
-public interface MainFormBO {
+import lk.ijse.salongeetha.bo.SuperBOImpl;
+
+public interface MainFormBO extends SuperBOImpl {
 }

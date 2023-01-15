@@ -1,11 +1,12 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface ProductBO {
+public interface ProductBO extends SuperBOImpl {
     boolean deleteProduct(Product product) throws SQLException, ClassNotFoundException;
 
     boolean addProduct(Product product) throws SQLException, ClassNotFoundException;

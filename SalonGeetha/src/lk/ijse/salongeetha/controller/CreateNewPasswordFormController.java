@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CreateNewPasswordBO;
 import lk.ijse.salongeetha.bo.castom.impl.CreateNewPasswordBOImpl;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
@@ -45,7 +47,7 @@ public class CreateNewPasswordFormController {
     @FXML
     private AnchorPane leftPane;
     static String userName;
-    CreateNewPasswordBO createNewPasswordBO=new CreateNewPasswordBOImpl();
+    CreateNewPasswordBO createNewPasswordBO= (CreateNewPasswordBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.CREATE_PASSWORD);
      public static void passUserName(String userName){
         CreateNewPasswordFormController.userName =userName;
     }

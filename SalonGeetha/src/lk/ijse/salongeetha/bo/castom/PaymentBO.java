@@ -1,12 +1,13 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface PaymentBO {
+public interface PaymentBO extends SuperBOImpl {
     ResultSet getAllAppointmentPayments() throws SQLException, ClassNotFoundException;
 
     ResultSet getAllBookingPayments() throws SQLException, ClassNotFoundException;

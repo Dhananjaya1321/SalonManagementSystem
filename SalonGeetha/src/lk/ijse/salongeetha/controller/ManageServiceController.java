@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ServiceBO;
 import lk.ijse.salongeetha.bo.castom.impl.ServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
@@ -78,7 +80,7 @@ public class ManageServiceController {
     private JFXTextArea txtDescription;
     ArrayList<Service> serviceArrayList;
 //    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    ServiceBO serviceBO=new ServiceBOImpl();
+    ServiceBO serviceBO= (ServiceBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.SERVICE);
 
     {
         try {

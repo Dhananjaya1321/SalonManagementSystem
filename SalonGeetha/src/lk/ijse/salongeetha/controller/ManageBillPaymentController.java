@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.BillBO;
 import lk.ijse.salongeetha.bo.castom.impl.BillBOImpl;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
@@ -94,7 +96,7 @@ public class ManageBillPaymentController {
     private JFXTextArea txtDescription;
 
     ArrayList<BillPayment> billPaymentArrayList;
-    BillBO billBO=new BillBOImpl();
+    BillBO billBO= (BillBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.BILL);
 
     {
         try {

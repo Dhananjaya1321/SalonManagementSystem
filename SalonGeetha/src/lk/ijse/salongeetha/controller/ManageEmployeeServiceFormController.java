@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeServiceBO;
 import lk.ijse.salongeetha.bo.castom.impl.EmployeeServiceBOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
@@ -83,7 +85,7 @@ public class ManageEmployeeServiceFormController {
     private Label lblServiceName;
     private String serviceId;
     private String employeeId;
-    EmployeeServiceBO employeeServiceBO=new EmployeeServiceBOImpl();
+    EmployeeServiceBO employeeServiceBO= (EmployeeServiceBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.EMPLOYEE_SERVICE);
 
     @FXML
     void btnAddONAction(ActionEvent event) {

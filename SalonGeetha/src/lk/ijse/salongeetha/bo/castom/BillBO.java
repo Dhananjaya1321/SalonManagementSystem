@@ -1,11 +1,12 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.BillPayment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface BillBO {
+public interface BillBO extends SuperBOImpl {
     boolean deleteBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException;
 
     boolean addBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException;

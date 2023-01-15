@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.SupplierBO;
 import lk.ijse.salongeetha.bo.castom.impl.SupplierBOImpl;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
@@ -92,7 +94,7 @@ public class ManageSupplierController {
     private JFXTextArea txtAddress;
     ArrayList<Supplier> supplierList;
     //    SupplierDAO supplierDAO = new SupplierDAOImpl();
-    SupplierBO supplierBO = new SupplierBOImpl();
+    SupplierBO supplierBO = (SupplierBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.SUPPLIER);
 
     {
         try {

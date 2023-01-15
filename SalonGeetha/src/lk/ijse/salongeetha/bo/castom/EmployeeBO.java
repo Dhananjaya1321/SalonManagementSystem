@@ -1,12 +1,13 @@
 package lk.ijse.salongeetha.bo.castom;
 
+import lk.ijse.salongeetha.bo.SuperBOImpl;
 import lk.ijse.salongeetha.to.Employee;
 import lk.ijse.salongeetha.to.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface EmployeeBO {
+public interface EmployeeBO extends SuperBOImpl {
 
     boolean addReceptionist(Employee employee, User user) throws SQLException, ClassNotFoundException;
 

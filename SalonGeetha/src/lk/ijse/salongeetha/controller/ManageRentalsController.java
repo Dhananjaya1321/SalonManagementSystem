@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.RentalsBO;
 import lk.ijse.salongeetha.bo.castom.impl.RentalsBOImpl;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
@@ -89,7 +91,7 @@ public class ManageRentalsController {
     @FXML
     private JFXTextField txtDiscount;
     ArrayList<Rentals> rentalsArrayList;
-    RentalsBO rentalsBO = new RentalsBOImpl();
+    RentalsBO rentalsBO = (RentalsBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.RENTALS);
 
     {
         try {

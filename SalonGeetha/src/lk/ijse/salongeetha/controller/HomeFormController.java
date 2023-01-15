@@ -12,6 +12,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.salongeetha.bo.BOImplTypes;
+import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.HomeFormBO;
 import lk.ijse.salongeetha.bo.castom.impl.HomeFormBOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
@@ -43,7 +45,7 @@ public class HomeFormController {
 
     @FXML
     private AnchorPane popUpPane;
-    HomeFormBO homeFormBO = new HomeFormBOImpl();
+    HomeFormBO homeFormBO = (HomeFormBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.HOME);
 
     private void setLblAppointment() {
         long millis = System.currentTimeMillis();
