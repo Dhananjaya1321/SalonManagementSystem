@@ -5,6 +5,7 @@ public class BookDTO {
     private String date;
     private String time;
     private String nic;
+    private String status;
 
     public String getStatus() {
         return status;
@@ -14,7 +15,6 @@ public class BookDTO {
         this.status = status;
     }
 
-    private String status;
 
     public BookDTO(String bokId, String date, String nic) {
         this.bokId = bokId;

@@ -1,7 +1,7 @@
 package lk.ijse.salongeetha.to;
 
 public class UserDTO {
-   private String userName;
+    private String userName;
     private String eid;
     private String name;
     private String password;
