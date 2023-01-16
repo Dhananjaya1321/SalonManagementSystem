@@ -17,10 +17,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CustomerBO;
-import lk.ijse.salongeetha.bo.castom.impl.CustomerBOImpl;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
-import lk.ijse.salongeetha.to.Customer;
+import lk.ijse.salongeetha.to.CustomerDTO;
 import lk.ijse.salongeetha.to.tm.CustomerTM;
 import lk.ijse.salongeetha.util.SendMail;
 import lk.ijse.salongeetha.util.Validation;
@@ -120,11 +117,11 @@ public class ManageCustomerController {
 
     }
 
-    ArrayList<Customer> customerArrayList;
+    ArrayList<CustomerDTO> customerDTOArrayList;
 
     {
         try {
-            customerArrayList = getAllCustomer();
+            customerDTOArrayList = getAllCustomer();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +130,7 @@ public class ManageCustomerController {
     ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Customer c : customerArrayList) {
+        for (CustomerDTO c : customerDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             JFXButton mail = new JFXButton("Set to mail");
@@ -150,10 +147,10 @@ public class ManageCustomerController {
                     CustomerTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String customerNIC = tm.getNic();
-                    Customer customer = new Customer();
-                    customer.setNic(customerNIC);
+                    CustomerDTO customerDTO = new CustomerDTO();
+                    customerDTO.setNic(customerNIC);
                     try {
-                        boolean isDeleted = customerBO.deleteCustomer(customer);
+                        boolean isDeleted = customerBO.deleteCustomer(customerDTO);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -168,8 +165,8 @@ public class ManageCustomerController {
             update.setOnAction((e) -> {
                 CustomerTM tm = tblView.getSelectionModel().getSelectedItem();
 
-                Customer customer = new Customer(tm.getNic(), tm.getName(), tm.getPhoneNumber(), tm.getEmail(), tm.getDob());
-                UpdateCustomerFormController.getUpdateDetails(customer);
+                CustomerDTO customerDTO = new CustomerDTO(tm.getNic(), tm.getName(), tm.getPhoneNumber(), tm.getEmail(), tm.getDob());
+                UpdateCustomerFormController.getUpdateDetails(customerDTO);
 
                 URL resource = getClass().getResource("/lk/ijse/salongeetha/view/UpdateCustomerForm.fxml");
                 Parent load;
@@ -191,14 +188,14 @@ public class ManageCustomerController {
                 if (email != null) {
                     txtTo.setText(email);
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Select customer");
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Select customerDTO");
                     alert.show();
                 }
 
                 /*
-                Customer customer = new Customer(tm.getNic(), tm.getName(), tm.getPhoneNumber(), tm.getEmail(), tm.getDob());
+                CustomerDTO customerDTO = new CustomerDTO(tm.getNic(), tm.getName(), tm.getPhoneNumber(), tm.getEmail(), tm.getDob());
 
-                UpdateCustomerFormController.getUpdateDetails(customer);
+                UpdateCustomerFormController.getUpdateDetails(customerDTO);
                 URL resource = getClass().getResource("/lk/ijse/salongeetha/view/UpdateCustomerForm.fxml");
                 Parent load;
                 try {
@@ -220,7 +217,7 @@ public class ManageCustomerController {
     }
 
 
-    Customer customer = new Customer();
+    CustomerDTO customerDTO = new CustomerDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         search();
@@ -230,9 +227,9 @@ public class ManageCustomerController {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            customer.setName(text);
+            customerDTO.setName(text);
             try {
-                customerArrayList = search(customer);
+                customerDTOArrayList = search(customerDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -243,29 +240,29 @@ public class ManageCustomerController {
         }
     }
 
-    public ArrayList<Customer> search(Customer customer) throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> customers = new ArrayList<>();
+    public ArrayList<CustomerDTO> search(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(customer.getName());
-        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(), customer);
+        Matcher matcher = userNamePattern.matcher(customerDTO.getName());
+        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(), customerDTO);
         while (resultSet.next()) {
-            Customer searchCustomer = new Customer();
-            searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
+            CustomerDTO searchCustomerDTO = new CustomerDTO();
+            searchCustomerDTO.setNic(String.valueOf(resultSet.getObject(1)));
 //            System.out.println("data awo"+String.valueOf(resultSet.getObject(1)));
-            searchCustomer.setName(String.valueOf(resultSet.getObject(2)));
-            searchCustomer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            searchCustomer.setEmail(String.valueOf(resultSet.getObject(4)));
-            searchCustomer.setDob(String.valueOf(resultSet.getObject(5)));
-            customers.add(searchCustomer);
+            searchCustomerDTO.setName(String.valueOf(resultSet.getObject(2)));
+            searchCustomerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            searchCustomerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
+            searchCustomerDTO.setDob(String.valueOf(resultSet.getObject(5)));
+            customerDTOS.add(searchCustomerDTO);
         }
-        return customers;
+        return customerDTOS;
     }
 
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            customerArrayList = getAllCustomer();
+            customerDTOArrayList = getAllCustomer();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -287,18 +284,18 @@ public class ManageCustomerController {
 
     }
 
-    private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> customers = new ArrayList<>();
+    private ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
         ResultSet resultSet = customerBO.getAllCustomer();
         while (resultSet.next()) {
-            Customer customer = new Customer();
-            customer.setNic(String.valueOf(resultSet.getObject(1)));
-            customer.setName(String.valueOf(resultSet.getObject(2)));
-            customer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            customer.setEmail(String.valueOf(resultSet.getObject(4)));
-            customer.setDob(String.valueOf(resultSet.getObject(5)));
-            customers.add(customer);
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setNic(String.valueOf(resultSet.getObject(1)));
+            customerDTO.setName(String.valueOf(resultSet.getObject(2)));
+            customerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            customerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
+            customerDTO.setDob(String.valueOf(resultSet.getObject(5)));
+            customerDTOS.add(customerDTO);
         }
-        return customers;
+        return customerDTOS;
     }
 }

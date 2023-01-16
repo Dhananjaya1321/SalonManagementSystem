@@ -2,39 +2,39 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
-import lk.ijse.salongeetha.to.Product;
+import lk.ijse.salongeetha.to.ProductDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductDAOImpl implements ProductDAO {
-    public boolean add(Product product) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Product VALUES (?,?,?,?,?,?,?)", product.getProId()
-                , product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId());
+    public boolean add(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Product VALUES (?,?,?,?,?,?,?)", productDTO.getProId()
+                , productDTO.getDescription(), productDTO.getCategory(), productDTO.getBrand(), productDTO.getUnitPrice(), productDTO.getQtyOnHand(), productDTO.getSupId());
     }
 
-    public boolean delete(Product product) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Product WHERE Pro_Id=?", product.getProId());
+    public boolean delete(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM Product WHERE Pro_Id=?", productDTO.getProId());
     }
 
-    public boolean update(Product product) throws SQLException, ClassNotFoundException {
+    public boolean update(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Product SET Description=?,Category=?,Brand=?,Unit_price=?,Qty_on_hand=?,Sup_Id=?" +
-                " WHERE Pro_Id=?", product.getDescription(), product.getCategory(), product.getBrand(), product.getUnitPrice(), product.getQtyOnHand(), product.getSupId(), product.getProId());
+                " WHERE Pro_Id=?", productDTO.getDescription(), productDTO.getCategory(), productDTO.getBrand(), productDTO.getUnitPrice(), productDTO.getQtyOnHand(), productDTO.getSupId(), productDTO.getProId());
     }
 
-    /*public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products = new ArrayList<>();
+    /*public ArrayList<ProductDTO> search(ProductDTO product) throws SQLException, ClassNotFoundException {
+        ArrayList<ProductDTO> products = new ArrayList<>();
         String setColumn;
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(product.getBrand());
         if (matcher.matches()) {
-            setColumn = "SELECT * FROM Product WHERE Brand LIKE ?";
+            setColumn = "SELECT * FROM ProductDTO WHERE Brand LIKE ?";
         } else {
-            setColumn = "SELECT * FROM Product WHERE Pro_Id LIKE ?";
+            setColumn = "SELECT * FROM ProductDTO WHERE Pro_Id LIKE ?";
         }
         ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + product.getBrand() + "%");
         while (resultSet.next()) {
-            Product searchProduct = new Product();
+            ProductDTO searchProduct = new ProductDTO();
             searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
             searchProduct.setDescription(String.valueOf(resultSet.getObject(2)));
             searchProduct.setCategory(String.valueOf(resultSet.getObject(3)));
@@ -56,7 +56,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, Product to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, ProductDTO to) throws SQLException, ClassNotFoundException {
         String setColumn;
         if (value) {
             setColumn = "SELECT * FROM Product WHERE Brand LIKE ?";

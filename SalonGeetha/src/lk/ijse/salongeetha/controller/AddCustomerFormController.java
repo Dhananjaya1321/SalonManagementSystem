@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddCustomerBO;
-import lk.ijse.salongeetha.bo.castom.impl.AddCustomerBOImpl;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
-import lk.ijse.salongeetha.to.Customer;
+import lk.ijse.salongeetha.to.CustomerDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -46,13 +43,13 @@ public class AddCustomerFormController {
         String phone = txtPhone.getText();
         String email = txtEmail.getText();
         String dob = String.valueOf(txtDOB.getValue());
-        Customer customer = new Customer(nic, name, phone, email, dob, userName);
+        CustomerDTO customerDTO = new CustomerDTO(nic, name, phone, email, dob, userName);
 
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (ValidityCheck.check(Validation.NIC, nic)) {
                 if (ValidityCheck.check(Validation.PHONE, phone)) {
                     if (ValidityCheck.check(Validation.EMAIL, email)) {
-                        addCustomer(customer);
+                        addCustomer(customerDTO);
                         closeCustomerAddForm(actionEvent);
                     } else {
                         txtEmail.requestFocus();
@@ -79,9 +76,9 @@ public class AddCustomerFormController {
 
     }
 
-    private void addCustomer(Customer customer) {
+    private void addCustomer(CustomerDTO customerDTO) {
         try {
-            boolean addCustomer = customerBO.addCustomer(customer);
+            boolean addCustomer = customerBO.addCustomer(customerDTO);
             if (addCustomer) {
                 ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                 ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);

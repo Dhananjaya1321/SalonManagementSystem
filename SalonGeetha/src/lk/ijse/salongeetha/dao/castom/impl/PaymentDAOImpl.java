@@ -2,7 +2,7 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.PaymentDAO;
-import lk.ijse.salongeetha.to.Payment;
+import lk.ijse.salongeetha.to.PaymentDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,23 +11,23 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 
     @Override
-    public boolean addBookingPayment(Payment payment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO book_payment VALUES (?,?,?,?,?)", payment.getPayId(),
-                payment.getPaymentMethod(), payment.getNic(), payment.getAmountDue(), payment.getaOrBId());
+    public boolean addBookingPayment(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO book_payment VALUES (?,?,?,?,?)", paymentDTO.getPayId(),
+                paymentDTO.getPaymentMethod(), paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId());
     }
 
     @Override
-    public boolean addAppointmentPayment(Payment payment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO appointment_payment VALUES (?,?,?,?,?)", payment.getPayId(), payment.getPaymentMethod()
-                , payment.getNic(), payment.getAmountDue(), payment.getaOrBId());
+    public boolean addAppointmentPayment(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO appointment_payment VALUES (?,?,?,?,?)", paymentDTO.getPayId(), paymentDTO.getPaymentMethod()
+                , paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId());
     }
-//    public boolean add(Payment payment) throws SQLException, ClassNotFoundException {
+//    public boolean add(PaymentDTO payment) throws SQLException, ClassNotFoundException {
 //        if (matcher.matches()) {
 //            bookingDAO.getId(payment);
 //            boolean isAdded =
 //
 //            if (isAdded) {
-//                Book book = new Book();
+//                BookDTO book = new BookDTO();
 //                book.setBokId(payment.getaOrBId());
 ////                book.setDate(payment.getDate());
 //                book.setStatus("Paid");
@@ -40,10 +40,10 @@ public class PaymentDAOImpl implements PaymentDAO {
 //            appointmentDAO.getId(payment);
 //            boolean isAdded =
 //            if (isAdded) {
-//                Appointment appointment = new Appointment();
-//                appointment.setAptId(payment.getaOrBId());
-//                appointment.setStatus("Paid");
-//                appointmentDAO.update(appointment);
+//                AppointmentDTO Appointment = new AppointmentDTO();
+//                Appointment.setAptId(payment.getaOrBId());
+//                Appointment.setStatus("Paid");
+//                appointmentDAO.update(Appointment);
 //                return true;
 //            }
 //            return false;
@@ -51,12 +51,12 @@ public class PaymentDAOImpl implements PaymentDAO {
 //    }
 
     @Override
-    public boolean add(Payment to) throws SQLException, ClassNotFoundException {
+    public boolean add(PaymentDTO to) throws SQLException, ClassNotFoundException {
         return false;
     }
 
-    public boolean delete(Payment payment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Payment WHERE Pay_Id=?", payment.getPayId());
+    public boolean delete(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM Payment WHERE Pay_Id=?", paymentDTO.getPayId());
     }
 
     @Override
@@ -64,9 +64,9 @@ public class PaymentDAOImpl implements PaymentDAO {
         return null;
     }
 
-    public boolean update(Payment payment) throws SQLException, ClassNotFoundException {
+    public boolean update(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Payment SET Amount_paid=?,Balance=?,Payment_method=? WHERE Pay_Id=?",
-                payment.getAmountPaid(), payment.getBalance(), payment.getPaymentMethod(), payment.getPayId());
+                paymentDTO.getAmountPaid(), paymentDTO.getBalance(), paymentDTO.getPaymentMethod(), paymentDTO.getPayId());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, Payment to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, PaymentDTO to) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -96,7 +96,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         return null;
     }
 
-    public ResultSet searchPaymentDetails(Payment payment) throws SQLException, ClassNotFoundException {
+    public ResultSet searchPaymentDetails(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("SELECT Pay_Id FROM payment ORDER BY Pay_Id DESC LIMIT 1");
     }
 

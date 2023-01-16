@@ -9,54 +9,54 @@
 	<queryString language="SQL">
 		<![CDATA[select c.name,c.nic,a.Apt_Id,a.date,a.time,s.sev_id,s.name as Service_name,
 s.price,s.Discount,(s.price-((s.price*s.Discount)/100))
-as total from customer c join appointment a on c.nic=a.nic join service_appointment_detail ad on 
-ad.Apt_Id = a.Apt_Id join service s on s.Sev_Id = ad.Sev_Id  where a.Apt_Id = 
-(SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1) and a.status = 'Paid']]>
+as total from customerDTO c join appointmentDTO a on c.nic=a.nic join service_appointment_detail ad on
+ad.Apt_Id = a.Apt_Id join serviceDTO s on s.Sev_Id = ad.Sev_Id  where a.Apt_Id =
+(SELECT Apt_Id FROM appointmentDTO ORDER BY Apt_Id DESC LIMIT 1) and a.status = 'Paid']]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="name"/>
 		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="nic" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nic"/>
 		<property name="com.jaspersoft.studio.field.label" value="nic"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="Apt_Id" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Apt_Id"/>
 		<property name="com.jaspersoft.studio.field.label" value="Apt_Id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointmentDTO"/>
 	</field>
 	<field name="date" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="date"/>
 		<property name="com.jaspersoft.studio.field.label" value="date"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointmentDTO"/>
 	</field>
 	<field name="time" class="java.sql.Time">
 		<property name="com.jaspersoft.studio.field.name" value="time"/>
 		<property name="com.jaspersoft.studio.field.label" value="time"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointmentDTO"/>
 	</field>
 	<field name="sev_id" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="sev_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="sev_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="serviceDTO"/>
 	</field>
 	<field name="Service_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="name"/>
 		<property name="com.jaspersoft.studio.field.label" value="Service_name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="serviceDTO"/>
 	</field>
 	<field name="price" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="price"/>
 		<property name="com.jaspersoft.studio.field.label" value="price"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="serviceDTO"/>
 	</field>
 	<field name="Discount" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="Discount"/>
 		<property name="com.jaspersoft.studio.field.label" value="Discount"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="service"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="serviceDTO"/>
 	</field>
 	<field name="total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="total"/>

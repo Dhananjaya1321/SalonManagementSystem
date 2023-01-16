@@ -38,7 +38,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <GridPane style="-fx-background-color: #3498db.red;" GridPane.rowIndex="1">
+      <GridPane style="-fx-background-color: #3498dbred;" GridPane.rowIndex="1">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
@@ -155,7 +155,7 @@
                                  </stops>
                               </LinearGradient>
                            </focusColor></JFXComboBox>
-                        <Label prefHeight="35.0" prefWidth="500.0" text="Select appointment Id or booking Id :">
+                        <Label prefHeight="35.0" prefWidth="500.0" text="Select appointmentDTO Id or booking Id :">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -245,15 +245,15 @@
                   <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <JFXRadioButton fx:id="bPayment" onAction="#bPayment" text="Booking payment" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  <JFXRadioButton fx:id="bPayment" onAction="#bPayment" text="Booking paymentDTO" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <toggleGroup>
-                        <ToggleGroup fx:id="payment" />
+                        <ToggleGroup fx:id="paymentDTO" />
                      </toggleGroup>
                   </JFXRadioButton>
-                  <JFXRadioButton fx:id="aPayment" onAction="#aPayment" text="Appointment payment" toggleGroup="$payment" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  <JFXRadioButton fx:id="aPayment" onAction="#aPayment" text="Appointment paymentDTO" toggleGroup="$paymentDTO" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font size="15.0" />
                      </font>

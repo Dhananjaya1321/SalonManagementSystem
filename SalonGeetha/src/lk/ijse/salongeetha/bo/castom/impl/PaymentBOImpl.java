@@ -7,10 +7,6 @@ import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.PaymentDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.BookingDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.PaymentDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.to.*;
 
@@ -36,12 +32,12 @@ public class PaymentBOImpl implements PaymentBO {
     }
 
     @Override
-    public ArrayList<Appointment> getAppointmentIds() throws SQLException, ClassNotFoundException {
+    public ArrayList<AppointmentDTO> getAppointmentIds() throws SQLException, ClassNotFoundException {
         return appointmentDAO.getIds();
     }
 
     @Override
-    public ArrayList<Book> getBookingIds() throws SQLException, ClassNotFoundException {
+    public ArrayList<BookDTO> getBookingIds() throws SQLException, ClassNotFoundException {
         return booingDAO.getIdS();
     }
 
@@ -56,23 +52,23 @@ public class PaymentBOImpl implements PaymentBO {
     }
 
     @Override
-    public ResultSet getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException {
-        return queryDAO.getAmountDueBookRentalsDetail(bookRentalsDetail);
+    public ResultSet getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException {
+        return queryDAO.getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
     }
 
     @Override
-    public ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
-        return queryDAO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetail);
+    public ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException {
+        return queryDAO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetailDTO);
     }
 
     @Override
-    public boolean add(boolean value, Payment payment, Book book, Appointment appointment) throws SQLException, ClassNotFoundException {
+    public boolean add(boolean value, PaymentDTO paymentDTO, BookDTO bookDTO, AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         if (value) {
-            bookingDAO.getId(payment);
-            boolean isAdded = paymentDAO.addBookingPayment(payment);//set
+            bookingDAO.getId(paymentDTO);
+            boolean isAdded = paymentDAO.addBookingPayment(paymentDTO);//set
             if (isAdded) {
-                bookingDAO.update(book);
+                bookingDAO.update(bookDTO);
                 DBConnection.getDBConnection().getConnection().commit();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return true;
@@ -83,10 +79,10 @@ public class PaymentBOImpl implements PaymentBO {
             }
 
         } else {
-            appointmentDAO.getId(payment);
-            boolean isAdded = paymentDAO.addAppointmentPayment(payment);//set
+            appointmentDAO.getId(paymentDTO);
+            boolean isAdded = paymentDAO.addAppointmentPayment(paymentDTO);//set
             if (isAdded) {
-                appointmentDAO.update(appointment);
+                appointmentDAO.update(appointmentDTO);
                 DBConnection.getDBConnection().getConnection().commit();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return true;

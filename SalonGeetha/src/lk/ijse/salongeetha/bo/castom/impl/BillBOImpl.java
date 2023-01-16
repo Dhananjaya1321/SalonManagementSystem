@@ -5,9 +5,7 @@ import lk.ijse.salongeetha.dao.DAOImplTypes;
 import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BillDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.to.BillPayment;
+import lk.ijse.salongeetha.to.BillPaymentDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,18 +15,18 @@ public class BillBOImpl implements BillBO {
     BillDAO billPaymentDAO = (BillDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BILL);
 
     @Override
-    public boolean deleteBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return billPaymentDAO.delete(billPayment);
+    public boolean deleteBillPayment(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return billPaymentDAO.delete(billPaymentDTO);
     }
 
     @Override
-    public boolean addBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return billPaymentDAO.add(billPayment);
+    public boolean addBillPayment(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return billPaymentDAO.add(billPaymentDTO);
     }
 
     @Override
-    public boolean updateBillPayment(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return billPaymentDAO.update(billPayment);
+    public boolean updateBillPayment(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return billPaymentDAO.update(billPaymentDTO);
     }
 
     @Override
@@ -37,8 +35,8 @@ public class BillBOImpl implements BillBO {
     }
 
     @Override
-    public ResultSet searchBillPayment(boolean value, BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return billPaymentDAO.search(value, billPayment);
+    public ResultSet searchBillPayment(boolean value, BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return billPaymentDAO.search(value, billPaymentDTO);
     }
 
     @Override

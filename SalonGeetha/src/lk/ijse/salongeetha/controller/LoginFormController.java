@@ -20,13 +20,8 @@ import javafx.util.Duration;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.LoginFormBO;
-import lk.ijse.salongeetha.bo.castom.impl.LoginFormBOImpl;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
-import lk.ijse.salongeetha.to.Employee;
-import lk.ijse.salongeetha.to.User;
+import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.to.UserDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -110,19 +105,19 @@ public class LoginFormController {
         String userName = txtUserNameCA.getText();
         String password = txtPasswordCA.getText();
         String rePassword = txtRePasswordCA.getText();
-        Employee employee = new Employee();
-        employee.setEmpId("E001");
-        employee.setNic(nic);
-        employee.setName(name);
-        employee.setEmail(email);
-        User user = new User(userName, "E001", password);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmpId("E001");
+        employeeDTO.setNic(nic);
+        employeeDTO.setName(name);
+        employeeDTO.setEmail(email);
+        UserDTO userDTO = new UserDTO(userName, "E001", password);
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (ValidityCheck.check(Validation.USERNAME, userName)) {
                 if (ValidityCheck.check(Validation.NIC, nic)) {
                     if (ValidityCheck.check(Validation.EMAIL, email)) {
                         if (ValidityCheck.check(Validation.PASSWORD, password)) {
                             if (rePassword.equals(password)) {
-                                creatAccount(user, employee);
+                                creatAccount(userDTO, employeeDTO);
                                 lblUserNameValidation.setText(null);
                                 btnClose.setVisible(false);
                                 btnClose1.setVisible(true);
@@ -160,9 +155,9 @@ public class LoginFormController {
     }
 
 
-    private void creatAccount(User user, Employee employee) {
+    private void creatAccount(UserDTO userDTO, EmployeeDTO employeeDTO) {
         try {
-            boolean isAdded = loginFormBO.addAdminDetails(user, employee);
+            boolean isAdded = loginFormBO.addAdminDetails(userDTO, employeeDTO);
             if (isAdded) {
                 TranslateTransition slide = new TranslateTransition();
                 slide.setDuration(Duration.seconds(0.7));
@@ -190,15 +185,15 @@ public class LoginFormController {
     private void setLogIn() throws IOException {
         String userName = txtUserNameLA.getText();
         String password = txtPasswordLA.getText();
-        User user = new User();
-        user.setUserName(userName);
-        user.setPassword(password);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
+        userDTO.setPassword(password);
         try {
-            boolean isSetUserAccount = loginFormBO.setUserAccount(user);
+            boolean isSetUserAccount = loginFormBO.setUserAccount(userDTO);
             if (isSetUserAccount) {
-                if (password.equals(user.getPassword())) {
-                    Employee employeeJobTitle = loginFormBO.getEmployeeJobTitle(user);
-                    String jobTitle = employeeJobTitle.getJobTitle();
+                if (password.equals(userDTO.getPassword())) {
+                    EmployeeDTO employeeDTOJobTitle = loginFormBO.getEmployeeJobTitle(userDTO);
+                    String jobTitle = employeeDTOJobTitle.getJobTitle();
                     if (jobTitle.equals("Admin")) {
                         Stage stage = (Stage) fullPane.getScene().getWindow();
                         stage.resizableProperty().setValue(true);

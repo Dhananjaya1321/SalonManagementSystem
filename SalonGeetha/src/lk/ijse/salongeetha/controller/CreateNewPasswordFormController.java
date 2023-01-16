@@ -12,10 +12,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CreateNewPasswordBO;
-import lk.ijse.salongeetha.bo.castom.impl.CreateNewPasswordBOImpl;
-import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
-import lk.ijse.salongeetha.to.User;
+import lk.ijse.salongeetha.to.UserDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -60,12 +57,12 @@ public class CreateNewPasswordFormController {
     void btnChangeOnAction(ActionEvent event) throws IOException {
         String newPassword = txtNewPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
-        User user=new User();
-        user.setPassword(newPassword);
-        user.setUserName(userName);
+        UserDTO userDTO =new UserDTO();
+        userDTO.setPassword(newPassword);
+        userDTO.setUserName(userName);
         if(ValidityCheck.check(Validation.PASSWORD,newPassword)){
             if (newPassword.equals(confirmPassword)) {
-                createNewPassword(user);
+                createNewPassword(userDTO);
             }else{
                 txtConfirmPassword.setText(null);
                 txtConfirmPassword.requestFocus();
@@ -79,9 +76,9 @@ public class CreateNewPasswordFormController {
             txtNewPassword.requestFocus();
         }
     }
-    private void createNewPassword(User user){
+    private void createNewPassword(UserDTO userDTO){
             try {
-                boolean isChangePassword = createNewPasswordBO.changePassword(user);
+                boolean isChangePassword = createNewPasswordBO.changePassword(userDTO);
                 if (isChangePassword) {
                     btnChange.setVisible(false);
                     btnGoToLogin.setVisible(true);

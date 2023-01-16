@@ -2,26 +2,26 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.to.BookRentalsDetail;
-import lk.ijse.salongeetha.to.Rentals;
+import lk.ijse.salongeetha.to.BookRentalsDetailDTO;
+import lk.ijse.salongeetha.to.RentalsDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RentalsDAOImpl implements RentalsDAO {
-    public boolean add(Rentals rentals) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Rentals VALUES (?,?,?,?,?,?)", rentals.getRntId(), rentals.getName()
-                , rentals.getPricePreDay(), rentals.getDescription(), rentals.getAvaliableCount(), rentals.getDiscount());
+    public boolean add(RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Rentals VALUES (?,?,?,?,?,?)", rentalsDTO.getRntId(), rentalsDTO.getName()
+                , rentalsDTO.getPricePreDay(), rentalsDTO.getDescription(), rentalsDTO.getAvaliableCount(), rentalsDTO.getDiscount());
     }
 
-    public boolean delete(Rentals rentals) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Rentals WHERE Rent_Id=?", rentals.getRntId());
+    public boolean delete(RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM Rentals WHERE Rent_Id=?", rentalsDTO.getRntId());
     }
 
-    public boolean update(Rentals rentals) throws SQLException, ClassNotFoundException {
+    public boolean update(RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Rentals SET Name=?,Price_pre_day=?,Description=?,Avaliable_count=?,Discount=? " +
-                "WHERE Rent_Id=?", rentals.getName(), rentals.getPricePreDay(), rentals.getDescription(), rentals.getAvaliableCount(), rentals.getDiscount(), rentals.getRntId());
+                "WHERE Rent_Id=?", rentalsDTO.getName(), rentalsDTO.getPricePreDay(), rentalsDTO.getDescription(), rentalsDTO.getAvaliableCount(), rentalsDTO.getDiscount(), rentalsDTO.getRntId());
     }
 
     public String checkId() throws SQLException, ClassNotFoundException {
@@ -37,7 +37,7 @@ public class RentalsDAOImpl implements RentalsDAO {
         return CrudUtil.setQuery("SELECT * FROM Rentals");
     }
 
-    public ResultSet search(boolean value, Rentals rental) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, RentalsDTO rental) throws SQLException, ClassNotFoundException {
         String setColumn;
         if (value) {
             setColumn = "SELECT * FROM Rentals WHERE Name LIKE ?";
@@ -48,17 +48,17 @@ public class RentalsDAOImpl implements RentalsDAO {
     }
 
     @Override
-    public ResultSet searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException {
+    public ResultSet searchRentalsDetails(RentalsDTO rental) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("SELECT * FROM Rentals WHERE Rent_Id=?", rental.getRntId());
     }
 
-    public boolean update(ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException {
+    public boolean update(ArrayList<BookRentalsDetailDTO> bookRentalsDetailDTOS) throws SQLException, ClassNotFoundException {
         int i = 0;
-        for (BookRentalsDetail b : bookRentalsDetails) {
+        for (BookRentalsDetailDTO b : bookRentalsDetailDTOS) {
             CrudUtil.setQuery("UPDATE Rentals set Avaliable_count=Avaliable_count - ? WHERE Rent_Id = ?", b.getQty(), b.getRentId());
             i++;
         }
-        if (i == bookRentalsDetails.size()) {
+        if (i == bookRentalsDetailDTOS.size()) {
             return true;
         }
         return false;

@@ -14,10 +14,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.UpdateCustomerBO;
-import lk.ijse.salongeetha.bo.castom.impl.UpdateCustomerBOImpl;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
-import lk.ijse.salongeetha.to.Customer;
+import lk.ijse.salongeetha.to.CustomerDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -47,12 +44,12 @@ public class UpdateCustomerFormController {
 
     @FXML
     private JFXDatePicker txtDOB;
-    private static Customer customer;
+    private static CustomerDTO customerDTO;
     //    CustomerDAO customerDAO=new CustomerDAOImpl();
     UpdateCustomerBO updateCustomerBO = (UpdateCustomerBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.UPDATE_CUSTOMER);
 
-    public static void getUpdateDetails(Customer customer) {
-        UpdateCustomerFormController.customer = customer;
+    public static void getUpdateDetails(CustomerDTO customerDTO) {
+        UpdateCustomerFormController.customerDTO = customerDTO;
     }
 
     @FXML
@@ -67,14 +64,14 @@ public class UpdateCustomerFormController {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
         String dob = String.valueOf(txtDOB.getValue());
-        customer = new Customer(nic, name, phone, email, dob);
+        customerDTO = new CustomerDTO(nic, name, phone, email, dob);
 
 
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (ValidityCheck.check(Validation.PHONE, phone)) {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
                     try {
-                        boolean updateCustomer = updateCustomerBO.updateCustomer(customer);
+                        boolean updateCustomer = updateCustomerBO.updateCustomer(customerDTO);
                         if (updateCustomer) {
                             ButtonType ok = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
                             ButtonType no = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -111,11 +108,11 @@ public class UpdateCustomerFormController {
     }
 
     public void initialize() {
-        lblNic.setText(customer.getNic());
-        txtName.setText(customer.getName());
-        txtEmail.setText(customer.getEmail());
-        txtPhone.setText(customer.getPhoneNumber());
-        txtDOB.setValue(LocalDate.parse(customer.getDob()));
+        lblNic.setText(customerDTO.getNic());
+        txtName.setText(customerDTO.getName());
+        txtEmail.setText(customerDTO.getEmail());
+        txtPhone.setText(customerDTO.getPhoneNumber());
+        txtDOB.setValue(LocalDate.parse(customerDTO.getDob()));
     }
 
 }

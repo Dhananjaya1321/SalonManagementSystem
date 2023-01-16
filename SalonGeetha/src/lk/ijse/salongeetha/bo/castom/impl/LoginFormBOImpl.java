@@ -1,16 +1,13 @@
 package lk.ijse.salongeetha.bo.castom.impl;
 
 import lk.ijse.salongeetha.bo.castom.LoginFormBO;
-import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.DAOImplTypes;
 import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.LoginDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.LoginDAOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.to.Employee;
-import lk.ijse.salongeetha.to.User;
+import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.to.UserDTO;
 
 import java.sql.SQLException;
 
@@ -19,13 +16,13 @@ public class LoginFormBOImpl implements LoginFormBO {
     EmployeeDAO employeeDAO = (EmployeeDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.EMPLOYEE);
 
     @Override
-    public boolean addAdminDetails(User user, Employee employee) throws SQLException, ClassNotFoundException {
+    public boolean addAdminDetails(UserDTO userDTO, EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
         boolean isAdded;
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
-            isAdded = loginDAO.addDetails(user, employee);
+            isAdded = loginDAO.addDetails(userDTO, employeeDTO);
             if (isAdded) {
-                isAdded=loginDAO.add(user);
+                isAdded=loginDAO.add(userDTO);
                 if (isAdded) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;
@@ -38,12 +35,12 @@ public class LoginFormBOImpl implements LoginFormBO {
         }
     }
     @Override
-    public boolean setUserAccount(User user) throws SQLException, ClassNotFoundException {
-        return loginDAO.setUserAccount(user);
+    public boolean setUserAccount(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+        return loginDAO.setUserAccount(userDTO);
     }
     @Override
-    public Employee getEmployeeJobTitle(User user) throws SQLException, ClassNotFoundException {
-        return employeeDAO.getEmployeeJobTitle(user);
+    public EmployeeDTO getEmployeeJobTitle(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.getEmployeeJobTitle(userDTO);
     }
     @Override
     public boolean checkUserAccount() throws SQLException, ClassNotFoundException {

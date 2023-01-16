@@ -12,13 +12,8 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.BillBO;
-import lk.ijse.salongeetha.bo.castom.impl.BillBOImpl;
-import lk.ijse.salongeetha.dao.castom.BillDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.BillDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.to.BillPayment;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.BillPaymentDTO;
+import lk.ijse.salongeetha.to.EmployeeDTO;
 import lk.ijse.salongeetha.to.tm.BillPaymentTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
@@ -95,12 +90,12 @@ public class ManageBillPaymentController {
     @FXML
     private JFXTextArea txtDescription;
 
-    ArrayList<BillPayment> billPaymentArrayList;
+    ArrayList<BillPaymentDTO> billPaymentDTOArrayList;
     BillBO billBO= (BillBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.BILL);
 
     {
         try {
-            billPaymentArrayList = getAllBillPayment();
+            billPaymentDTOArrayList = getAllBillPayment();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -110,7 +105,7 @@ public class ManageBillPaymentController {
     ObservableList<BillPaymentTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (BillPayment b : billPaymentArrayList) {
+        for (BillPaymentDTO b : billPaymentDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936);");
@@ -125,13 +120,13 @@ public class ManageBillPaymentController {
                     BillPaymentTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String billPaymentId = tm.getBilId();
-                    BillPayment billPayment = new BillPayment();
+                    BillPaymentDTO billPaymentDTO = new BillPaymentDTO();
 
                     try {
-                        billPayment.setBilId(billPaymentId);
-                        boolean isDeleted = billBO.deleteBillPayment(billPayment);
+                        billPaymentDTO.setBilId(billPaymentId);
+                        boolean isDeleted = billBO.deleteBillPayment(billPaymentDTO);
                         if (isDeleted) {
-                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "Bill Payment delete successfully");
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "Bill PaymentDTO delete successfully");
                             alert1.show();
                             setNextId();
 
@@ -173,9 +168,9 @@ public class ManageBillPaymentController {
         String employeeId = String.valueOf(cmbSelectEmployeeId.getValue());
         if (ValidityCheck.check(Validation.NAME, titel)) {
             if (amount >= 0) {
-                BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
+                BillPaymentDTO billPaymentDTO = new BillPaymentDTO(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean isAdded = billBO.addBillPayment(billPayment);
+                    boolean isAdded = billBO.addBillPayment(billPaymentDTO);
                     if (isAdded) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "added successfully");
                         alert.show();
@@ -211,9 +206,9 @@ public class ManageBillPaymentController {
         String employeeId = String.valueOf(cmbSelectEmployeeId.getValue());
         if (ValidityCheck.check(Validation.NAME, titel)) {
             if (amount >= 0) {
-                BillPayment billPayment = new BillPayment(billId, employeeId, date, description, titel, amount);
+                BillPaymentDTO billPaymentDTO = new BillPaymentDTO(billId, employeeId, date, description, titel, amount);
                 try {
-                    boolean updateBillPayment = billBO.updateBillPayment(billPayment);
+                    boolean updateBillPayment = billBO.updateBillPayment(billPaymentDTO);
                     if (updateBillPayment) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Update successfully");
                         alert.show();
@@ -259,7 +254,7 @@ public class ManageBillPaymentController {
         setNextId();
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = getAllBillPayment();
+            billPaymentDTOArrayList = getAllBillPayment();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -293,7 +288,7 @@ public class ManageBillPaymentController {
 
 
         try {
-            ArrayList<Employee> employeesIds = getAllEmployee();
+            ArrayList<EmployeeDTO> employeesIds = getAllEmployee();
             String[] ids;
             if (employeesIds.size() != 0) {
                 ids = new String[employeesIds.size()];
@@ -307,15 +302,15 @@ public class ManageBillPaymentController {
         }
     }
 
-    BillPayment billPayment = new BillPayment();
+    BillPaymentDTO billPaymentDTO = new BillPaymentDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            billPayment.setTitle(text);
+            billPaymentDTO.setTitle(text);
             try {
-                billPaymentArrayList = search(billPayment);
+                billPaymentDTOArrayList = search(billPaymentDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -325,67 +320,67 @@ public class ManageBillPaymentController {
             loadAllData();
         }
     }
-    public ArrayList<BillPayment> search(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        ArrayList<BillPayment> billPayments = new ArrayList<>();
+    public ArrayList<BillPaymentDTO> search(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<BillPaymentDTO> billPaymentDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(billPayment.getTitle());
-        ResultSet resultSet = billBO.searchBillPayment(matcher.matches(),billPayment);
+        Matcher matcher = userNamePattern.matcher(billPaymentDTO.getTitle());
+        ResultSet resultSet = billBO.searchBillPayment(matcher.matches(), billPaymentDTO);
         while (resultSet.next()) {
-            BillPayment searchBillPayment = new BillPayment();
-            searchBillPayment.setBilId(String.valueOf(resultSet.getObject(1)));
-            searchBillPayment.setDate(String.valueOf(resultSet.getObject(2)));
-            searchBillPayment.setDescription(String.valueOf(resultSet.getObject(3)));
-            searchBillPayment.setTitle(String.valueOf(resultSet.getObject(4)));
-            searchBillPayment.setAmountPaid((Double) resultSet.getObject(5));
-            searchBillPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
-            billPayments.add(searchBillPayment);
+            BillPaymentDTO searchBillPaymentDTO = new BillPaymentDTO();
+            searchBillPaymentDTO.setBilId(String.valueOf(resultSet.getObject(1)));
+            searchBillPaymentDTO.setDate(String.valueOf(resultSet.getObject(2)));
+            searchBillPaymentDTO.setDescription(String.valueOf(resultSet.getObject(3)));
+            searchBillPaymentDTO.setTitle(String.valueOf(resultSet.getObject(4)));
+            searchBillPaymentDTO.setAmountPaid((Double) resultSet.getObject(5));
+            searchBillPaymentDTO.setEmpId(String.valueOf(resultSet.getObject(6)));
+            billPaymentDTOS.add(searchBillPaymentDTO);
         }
-        return billPayments;
+        return billPaymentDTOS;
     }
 
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            billPaymentArrayList = getAllBillPayment();
+            billPaymentDTOArrayList = getAllBillPayment();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
     }
-    private ArrayList<BillPayment> getAllBillPayment() throws SQLException, ClassNotFoundException {
-        ArrayList<BillPayment> billPayments = new ArrayList<>();
+    private ArrayList<BillPaymentDTO> getAllBillPayment() throws SQLException, ClassNotFoundException {
+        ArrayList<BillPaymentDTO> billPaymentDTOS = new ArrayList<>();
         ResultSet resultSet = billBO.getAllBillPayment();
         while (resultSet.next()) {
-            BillPayment billPayment = new BillPayment();
-            billPayment.setBilId(String.valueOf(resultSet.getObject(1)));
-            billPayment.setDate(String.valueOf(resultSet.getObject(2)));
-            billPayment.setDescription(String.valueOf(resultSet.getObject(3)));
-            billPayment.setTitle(String.valueOf(resultSet.getObject(4)));
-            billPayment.setAmountPaid((Double) resultSet.getObject(5));
-            billPayment.setEmpId(String.valueOf(resultSet.getObject(6)));
-            billPayments.add(billPayment);
+            BillPaymentDTO billPaymentDTO = new BillPaymentDTO();
+            billPaymentDTO.setBilId(String.valueOf(resultSet.getObject(1)));
+            billPaymentDTO.setDate(String.valueOf(resultSet.getObject(2)));
+            billPaymentDTO.setDescription(String.valueOf(resultSet.getObject(3)));
+            billPaymentDTO.setTitle(String.valueOf(resultSet.getObject(4)));
+            billPaymentDTO.setAmountPaid((Double) resultSet.getObject(5));
+            billPaymentDTO.setEmpId(String.valueOf(resultSet.getObject(6)));
+            billPaymentDTOS.add(billPaymentDTO);
         }
-        return billPayments;
+        return billPaymentDTOS;
     }
-    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         ResultSet resultSet = billBO.getAllEmployees();
         if (resultSet.next()) {
             do {
-                Employee employee = new Employee();
-                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employee.setName(String.valueOf(resultSet.getObject(2)));
-                employee.setAddress(String.valueOf(resultSet.getObject(3)));
-                employee.setDob(String.valueOf(resultSet.getObject(4)));
-                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employee.setDescription(String.valueOf(resultSet.getObject(6)));
-                employee.setEmail(String.valueOf(resultSet.getObject(7)));
-                employee.setNic(String.valueOf(resultSet.getObject(8)));
-                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employees.add(employee);
+                EmployeeDTO employeeDTO = new EmployeeDTO();
+                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employeeDTOS.add(employeeDTO);
             } while (resultSet.next());
-            return employees;
+            return employeeDTOS;
         }
         return new ArrayList<>();
     }

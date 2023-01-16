@@ -1,12 +1,10 @@
 package lk.ijse.salongeetha.dao.castom.impl;
 
-import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceAppointmentDAO;
-import lk.ijse.salongeetha.to.Appointment;
-import lk.ijse.salongeetha.to.Payment;
-import lk.ijse.salongeetha.to.ServiceAppointmentDetail;
+import lk.ijse.salongeetha.to.AppointmentDTO;
+import lk.ijse.salongeetha.to.PaymentDTO;
+import lk.ijse.salongeetha.to.ServiceAppointmentDetailDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,18 +13,18 @@ import java.util.ArrayList;
 public class AppointmentDAOImpl implements AppointmentDAO {
 
     @Override
-    public boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointment.getAptId()
-                    , appointment.getDate(), appointment.getTime(), appointment.getNic());
+    public boolean addAppointment(AppointmentDTO appointmentDTO, ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Appointment (Apt_Id,Date,Time,NIC) VALUES (?,?,?,?)", appointmentDTO.getAptId()
+                    , appointmentDTO.getDate(), appointmentDTO.getTime(), appointmentDTO.getNic());
     }
 
     @Override
-    public boolean add(Appointment user) throws SQLException, ClassNotFoundException {
+    public boolean add(AppointmentDTO user) throws SQLException, ClassNotFoundException {
         return false;
     }
 
-    public boolean delete(Appointment appointment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Appointment WHERE Apt_Id=?", appointment.getAptId());
+    public boolean delete(AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM Appointment WHERE Apt_Id=?", appointmentDTO.getAptId());
     }
 
     @Override
@@ -34,12 +32,12 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         return null;
     }
 
-    public boolean update(Appointment appointment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("UPDATE Appointment SET Status=? WHERE Apt_Id=?", appointment.getStatus(), appointment.getAptId());
+    public boolean update(AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("UPDATE Appointment SET Status=? WHERE Apt_Id=?", appointmentDTO.getStatus(), appointmentDTO.getAptId());
     }
 
     public String checkId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM appointment ORDER BY Apt_Id DESC LIMIT 1");
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM Appointment ORDER BY Apt_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
         }
@@ -47,27 +45,27 @@ public class AppointmentDAOImpl implements AppointmentDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, Appointment to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, AppointmentDTO to) throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public ArrayList<Appointment> getIds() throws SQLException, ClassNotFoundException {
-        ArrayList<Appointment> appointments = new ArrayList<>();
+    public ArrayList<AppointmentDTO> getIds() throws SQLException, ClassNotFoundException {
+        ArrayList<AppointmentDTO> appointmentDTOS = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT Apt_Id FROM Appointment WHERE Status='Pending'");
         while (resultSet.next()) {
-            Appointment appointment = new Appointment();
-            appointment.setAptId(String.valueOf(resultSet.getObject(1)));
-            appointments.add(appointment);
+            AppointmentDTO appointmentDTO = new AppointmentDTO();
+            appointmentDTO.setAptId(String.valueOf(resultSet.getObject(1)));
+            appointmentDTOS.add(appointmentDTO);
         }
-        return appointments;
+        return appointmentDTOS;
     }
 
     @Override
-    public boolean getId(Payment payment) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.setQuery("select nic from appointment where Apt_Id=?", payment.getaOrBId());
+    public boolean getId(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = CrudUtil.setQuery("select nic from Appointment where Apt_Id=?", paymentDTO.getaOrBId());
         if (resultSet.next()) {
-            payment.setNic(String.valueOf(resultSet.getObject(1)));
+            paymentDTO.setNic(String.valueOf(resultSet.getObject(1)));
             return true;
         }
         return false;

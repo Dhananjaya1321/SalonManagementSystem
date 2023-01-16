@@ -5,9 +5,7 @@ import lk.ijse.salongeetha.dao.DAOImplTypes;
 import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
-import lk.ijse.salongeetha.to.Product;
+import lk.ijse.salongeetha.to.ProductDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,18 +15,18 @@ public class ProductBOImpl implements ProductBO {
     ProductDAO productDAO = (ProductDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PRODUCT);
 
     @Override
-    public boolean deleteProduct(Product product) throws SQLException, ClassNotFoundException {
-        return productDAO.delete(product);
+    public boolean deleteProduct(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return productDAO.delete(productDTO);
     }
 
     @Override
-    public boolean addProduct(Product product) throws SQLException, ClassNotFoundException {
-        return productDAO.add(product);
+    public boolean addProduct(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return productDAO.add(productDTO);
     }
 
     @Override
-    public boolean updateProduct(Product product) throws SQLException, ClassNotFoundException {
-        return productDAO.update(product);
+    public boolean updateProduct(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return productDAO.update(productDTO);
     }
 
     @Override
@@ -37,12 +35,17 @@ public class ProductBOImpl implements ProductBO {
     }
 
     @Override
-    public ResultSet searchProduct(boolean value, Product product) throws SQLException, ClassNotFoundException {
-        return productDAO.search(value, product);
+    public ResultSet searchProduct(boolean value, ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        return productDAO.search(value, productDTO);
     }
 
     @Override
     public ResultSet getAllSupplier() throws SQLException, ClassNotFoundException {
         return supplierDAO.getAll();
+    }
+
+    @Override
+    public ResultSet getAllProduct() throws SQLException, ClassNotFoundException {
+        return productDAO.getAll();
     }
 }

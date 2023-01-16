@@ -2,45 +2,45 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.to.Supplier;
+import lk.ijse.salongeetha.to.SupplierDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SupplierDAOImpl implements SupplierDAO {
     public ResultSet getAll() throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("SELECT * FROM Supplier");
+        return CrudUtil.setQuery("SELECT * FROM supplier");
     }
 
-    public boolean add(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Supplier VALUES (?,?,?,?,?,?)", supplier.getSupId(), supplier.getDescription()
-                , supplier.getName(), supplier.getAddress(), supplier.getPhoneNumber(), supplier.getEmail());
+    public boolean add(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO supplier VALUES (?,?,?,?,?,?)", supplierDTO.getSupId(), supplierDTO.getDescription()
+                , supplierDTO.getName(), supplierDTO.getAddress(), supplierDTO.getPhoneNumber(), supplierDTO.getEmail());
     }
 
 
-    public boolean delete(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Supplier WHERE Sup_Id=?", supplier.getSupId());
+    public boolean delete(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM supplier WHERE Sup_Id=?", supplierDTO.getSupId());
     }
 
-    public boolean update(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("UPDATE Supplier SET Description=?,Name=?,Address=?,Phone_number=?,Email=? WHERE Sup_Id=?"
-                , supplier.getDescription(), supplier.getName(), supplier.getAddress(), supplier.getPhoneNumber(), supplier.getEmail(), supplier.getSupId());
+    public boolean update(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("UPDATE supplier SET Description=?,Name=?,Address=?,Phone_number=?,Email=? WHERE Sup_Id=?"
+                , supplierDTO.getDescription(), supplierDTO.getName(), supplierDTO.getAddress(), supplierDTO.getPhoneNumber(), supplierDTO.getEmail(), supplierDTO.getSupId());
     }
 
     public String checkId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.setQuery("SELECT Sup_Id FROM Supplier ORDER BY Sup_Id DESC LIMIT 1");
+        ResultSet resultSet = CrudUtil.setQuery("SELECT Sup_Id FROM supplier ORDER BY Sup_Id DESC LIMIT 1");
         if (resultSet.next()) {
             return String.valueOf(resultSet.getObject(1));
         }
         return null;
     }
 
-    public ResultSet search(boolean value,Supplier to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, SupplierDTO to) throws SQLException, ClassNotFoundException {
         String setColumn;
         if (value) {
-            setColumn = "SELECT * FROM Supplier WHERE Name LIKE ?";
+            setColumn = "SELECT * FROM supplier WHERE Name LIKE ?";
         } else {
-            setColumn = "SELECT * FROM Supplier WHERE Sup_Id LIKE ?";
+            setColumn = "SELECT * FROM supplier WHERE Sup_Id LIKE ?";
         }
         return CrudUtil.setQuery(setColumn, "%" + to.getName() + "%");
     }

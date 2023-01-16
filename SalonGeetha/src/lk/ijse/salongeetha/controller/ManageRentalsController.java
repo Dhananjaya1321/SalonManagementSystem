@@ -14,10 +14,7 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.RentalsBO;
-import lk.ijse.salongeetha.bo.castom.impl.RentalsBOImpl;
-import lk.ijse.salongeetha.dao.castom.RentalsDAO;
-import lk.ijse.salongeetha.dao.castom.impl.RentalsDAOImpl;
-import lk.ijse.salongeetha.to.Rentals;
+import lk.ijse.salongeetha.to.RentalsDTO;
 import lk.ijse.salongeetha.to.tm.RentalsTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
@@ -90,12 +87,12 @@ public class ManageRentalsController {
 
     @FXML
     private JFXTextField txtDiscount;
-    ArrayList<Rentals> rentalsArrayList;
+    ArrayList<RentalsDTO> rentalsDTOArrayList;
     RentalsBO rentalsBO = (RentalsBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.RENTALS);
 
     {
         try {
-            rentalsArrayList = getAllRentals();
+            rentalsDTOArrayList = getAllRentals();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -105,7 +102,7 @@ public class ManageRentalsController {
     ObservableList<RentalsTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Rentals r : rentalsArrayList) {
+        for (RentalsDTO r : rentalsDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936);");
@@ -120,11 +117,11 @@ public class ManageRentalsController {
                     RentalsTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String rentalId = tm.getRntId();
-                    Rentals rentals = new Rentals();
+                    RentalsDTO rentalsDTO = new RentalsDTO();
 
-                    rentals.setRntId(rentalId);
+                    rentalsDTO.setRntId(rentalId);
                     try {
-                        boolean isDeleted = rentalsBO.deleteRental(rentals);
+                        boolean isDeleted = rentalsBO.deleteRental(rentalsDTO);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "Rental delete successfully");
                             alert1.show();
@@ -132,7 +129,7 @@ public class ManageRentalsController {
 
                         }
 //                        tblView.getItems().clear();
-//                        rentalsArrayList = RentalsDAOImpl.getAllRentals();
+//                        rentalsDTOArrayList = RentalsDAOImpl.getAllRentals();
 //                        loadAllData();
                     } catch (SQLException | ClassNotFoundException exception) {
                         throw new RuntimeException(exception);
@@ -170,9 +167,9 @@ public class ManageRentalsController {
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (avaliableCount > 0) {
                 if (pricePreDay > 0) {
-                    Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
+                    RentalsDTO rentalsDTO = new RentalsDTO(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean addRentals = rentalsBO.addRental(rentals);
+                        boolean addRentals = rentalsBO.addRental(rentalsDTO);
                         if (addRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Renal add is successful");
                             alert.show();
@@ -214,9 +211,9 @@ public class ManageRentalsController {
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (avaliableCount > 0) {
                 if (pricePreDay > 0) {
-                    Rentals rentals = new Rentals(rentalId, name, description, avaliableCount, pricePreDay, discount);
+                    RentalsDTO rentalsDTO = new RentalsDTO(rentalId, name, description, avaliableCount, pricePreDay, discount);
                     try {
-                        boolean updateRentals = rentalsBO.updateRental(rentals);
+                        boolean updateRentals = rentalsBO.updateRental(rentalsDTO);
                         if (updateRentals) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -263,7 +260,7 @@ public class ManageRentalsController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            rentalsArrayList = getAllRentals();
+            rentalsDTOArrayList = getAllRentals();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -299,7 +296,7 @@ public class ManageRentalsController {
         setNextId();
     }
 
-    private Rentals rentals = new Rentals();
+    private RentalsDTO rentalsDTO = new RentalsDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         search();
@@ -309,9 +306,9 @@ public class ManageRentalsController {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            rentals.setName(text);
+            rentalsDTO.setName(text);
             try {
-                rentalsArrayList = search(rentals);
+                rentalsDTOArrayList = search(rentalsDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -322,13 +319,13 @@ public class ManageRentalsController {
         }
     }
 
-    private ArrayList<Rentals> search(Rentals rental) throws SQLException, ClassNotFoundException {
-        ArrayList<Rentals> rentals = new ArrayList<>();
+    private ArrayList<RentalsDTO> search(RentalsDTO rental) throws SQLException, ClassNotFoundException {
+        ArrayList<RentalsDTO> rentals = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(rental.getName());
         ResultSet resultSet = rentalsBO.searchRental(matcher.matches(), rental);
         while (resultSet.next()) {
-            Rentals searchRental = new Rentals();
+            RentalsDTO searchRental = new RentalsDTO();
             searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
             searchRental.setName(String.valueOf(resultSet.getObject(2)));
             searchRental.setPricePreDay((Double) resultSet.getObject(3));
@@ -343,7 +340,7 @@ public class ManageRentalsController {
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            rentalsArrayList = getAllRentals();
+            rentalsDTOArrayList = getAllRentals();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -354,11 +351,11 @@ public class ManageRentalsController {
         search();
     }
 
-    private ArrayList<Rentals> getAllRentals() throws SQLException, ClassNotFoundException {
-        ArrayList<Rentals> rentals = new ArrayList<>();
+    private ArrayList<RentalsDTO> getAllRentals() throws SQLException, ClassNotFoundException {
+        ArrayList<RentalsDTO> rentals = new ArrayList<>();
         ResultSet resultSet = rentalsBO.getAllRental();
         while (resultSet.next()) {
-            Rentals rental = new Rentals();
+            RentalsDTO rental = new RentalsDTO();
             rental.setRntId(String.valueOf(resultSet.getObject(1)));
             rental.setName(String.valueOf(resultSet.getObject(2)));
             rental.setPricePreDay((Double) resultSet.getObject(3));

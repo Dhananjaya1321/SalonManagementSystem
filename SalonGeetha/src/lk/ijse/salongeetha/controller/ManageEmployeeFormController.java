@@ -13,10 +13,9 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeBO;
-import lk.ijse.salongeetha.bo.castom.impl.EmployeeBOImpl;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.to.UserDTO;
 import lk.ijse.salongeetha.to.tm.EmployeeTM;
-import lk.ijse.salongeetha.to.User;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
@@ -136,11 +135,11 @@ public class ManageEmployeeFormController extends MainFormController {
     EmployeeBO employeeBO = (EmployeeBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.EMPLOYEE);
 
     private String setJobTitel;
-    ArrayList<Employee> employeeArrayList;
+    ArrayList<EmployeeDTO> employeeDTOArrayList;
 
     {
         try {
-            employeeArrayList = getAllEmployee();
+            employeeDTOArrayList = getAllEmployee();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -161,9 +160,9 @@ public class ManageEmployeeFormController extends MainFormController {
         String password = txtPassword.getText();
         String rePassword = txtRePassword.getText();
 
-        this.employee = new Employee(empId, name, address, dob, phoneNumber, description, email, nic, setJobTitel);
+        this.employeeDTO = new EmployeeDTO(empId, name, address, dob, phoneNumber, description, email, nic, setJobTitel);
 
-        User user = new User(userNameText, empId, password);
+        UserDTO userDTO = new UserDTO(userNameText, empId, password);
 
 
         if (ValidityCheck.check(Validation.NAME, name)) {
@@ -173,7 +172,7 @@ public class ManageEmployeeFormController extends MainFormController {
                         if (jobTitel.equals("Receptionist")) {
                             if (ValidityCheck.check(Validation.PASSWORD, password)) {
                                 if (password.equals(rePassword)) {
-                                    addReceptionist(user);
+                                    addReceptionist(userDTO);
                                 } else {
                                     lblVRePassword.setText("password is not match");
                                     txtRePassword.requestFocus();
@@ -213,9 +212,9 @@ public class ManageEmployeeFormController extends MainFormController {
     }
 
 
-    private void addReceptionist(User user) {
+    private void addReceptionist(UserDTO userDTO) {
         try {
-            boolean addReceptionist = employeeBO.addReceptionist(this.employee, user);
+            boolean addReceptionist = employeeBO.addReceptionist(this.employeeDTO, userDTO);
             if (addReceptionist) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Receptionist added successful");
                 alert.show();
@@ -235,10 +234,10 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void addEmployee() {
         try {
-            boolean addEmployee = employeeBO.addEmployee(this.employee);
+            boolean addEmployee = employeeBO.addEmployee(this.employeeDTO);
             if (addEmployee) {
                 setNextId();
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Employee added successful");
+                Alert alert = new Alert(Alert.AlertType.WARNING, "EmployeeDTO added successful");
                 alert.show();
                 cleanAll();
                 loadAllData();
@@ -260,7 +259,7 @@ public class ManageEmployeeFormController extends MainFormController {
         String name = txtName.getText();
         String nic = txtNIC.getText();
         String phoneNumber = txtPhonenumber.getText();
-        this.employee = new Employee(empId, name, address, dob, phoneNumber, description, email, nic, setJobTitel);
+        this.employeeDTO = new EmployeeDTO(empId, name, address, dob, phoneNumber, description, email, nic, setJobTitel);
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (ValidityCheck.check(Validation.PHONE, phoneNumber)) {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
@@ -290,7 +289,7 @@ public class ManageEmployeeFormController extends MainFormController {
 
     private void updateEmployee() {
         try {
-            boolean isUpdated = employeeBO.updateEmployee(employee);
+            boolean isUpdated = employeeBO.updateEmployee(employeeDTO);
             if (isUpdated) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "update successful");
                 alert.show();
@@ -350,7 +349,7 @@ public class ManageEmployeeFormController extends MainFormController {
         lblVDescription.setText(null);
 
         try {
-            employeeArrayList = getAllEmployee();
+            employeeDTOArrayList = getAllEmployee();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -359,7 +358,7 @@ public class ManageEmployeeFormController extends MainFormController {
     ObservableList<EmployeeTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Employee emp : employeeArrayList) {
+        for (EmployeeDTO emp : employeeDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936);");
@@ -374,14 +373,14 @@ public class ManageEmployeeFormController extends MainFormController {
                     EmployeeTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String employeeId = tm.getEmpId();
-                    Employee employee = new Employee();
+                    EmployeeDTO employeeDTO = new EmployeeDTO();
                     if (!tm.getJobTitle().equals("Receptionist")) {
 
-                        employee.setEmpId(employeeId);
+                        employeeDTO.setEmpId(employeeId);
                         try {
-                            boolean isDeleted = employeeBO.deleteEmployee(employee);
+                            boolean isDeleted = employeeBO.deleteEmployee(employeeDTO);
                             if (isDeleted) {
-                                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Employee delete successfully");
+                                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "EmployeeDTO delete successfully");
                                 alert1.show();
                                 setNextId();
 
@@ -393,13 +392,13 @@ public class ManageEmployeeFormController extends MainFormController {
                     } else {
 
                         String empId = tm.getEmpId();
-                        User user = new User();
-                        user.setEid(empId);
-                        employee.setEmpId(employeeId);
+                        UserDTO userDTO = new UserDTO();
+                        userDTO.setEid(empId);
+                        employeeDTO.setEmpId(employeeId);
                         try {
-                            boolean deleteUser = employeeBO.deleteReceptionist(employee,user);
+                            boolean deleteUser = employeeBO.deleteReceptionist(employeeDTO, userDTO);
                             if (deleteUser) {
-                                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Receptionist and user account  delete successfully");
+                                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Receptionist and userDTO account  delete successfully");
                                 alert1.show();
                                 setNextId();
 
@@ -515,7 +514,7 @@ public class ManageEmployeeFormController extends MainFormController {
         setJobTitel = rbtnCleaner.getText();
     }
 
-    private Employee employee = new Employee();
+    private EmployeeDTO employeeDTO = new EmployeeDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         search();
@@ -525,9 +524,9 @@ public class ManageEmployeeFormController extends MainFormController {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            employee.setName(text);
+            employeeDTO.setName(text);
             try {
-                employeeArrayList = search(employee);
+                employeeDTOArrayList = search(employeeDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -538,55 +537,55 @@ public class ManageEmployeeFormController extends MainFormController {
         }
     }
 
-    public ArrayList<Employee> search(Employee employee) throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
+    public ArrayList<EmployeeDTO> search(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = namePattern.matcher(employee.getName());
-        ResultSet resultSet = employeeBO.searchEmployee(matcher.matches(), employee);
+        Matcher matcher = namePattern.matcher(employeeDTO.getName());
+        ResultSet resultSet = employeeBO.searchEmployee(matcher.matches(), employeeDTO);
         while (resultSet.next()) {
-            Employee searchEmployee = new Employee();
-            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employees.add(searchEmployee);
+            EmployeeDTO searchEmployeeDTO = new EmployeeDTO();
+            searchEmployeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employeeDTOS.add(searchEmployeeDTO);
         }
-        return employees;
+        return employeeDTOS;
     }
 
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            employeeArrayList = getAllEmployee();
+            employeeDTOArrayList = getAllEmployee();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
 
     }
 
-    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         ResultSet resultSet = employeeBO.getAllEmployee();
         if (resultSet.next()) {
             do {
-                Employee employee = new Employee();
-                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employee.setName(String.valueOf(resultSet.getObject(2)));
-                employee.setAddress(String.valueOf(resultSet.getObject(3)));
-                employee.setDob(String.valueOf(resultSet.getObject(4)));
-                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employee.setDescription(String.valueOf(resultSet.getObject(6)));
-                employee.setEmail(String.valueOf(resultSet.getObject(7)));
-                employee.setNic(String.valueOf(resultSet.getObject(8)));
-                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employees.add(employee);
+                EmployeeDTO employeeDTO = new EmployeeDTO();
+                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employeeDTOS.add(employeeDTO);
             } while (resultSet.next());
-            return employees;
+            return employeeDTOS;
         }
         return new ArrayList<>();
     }

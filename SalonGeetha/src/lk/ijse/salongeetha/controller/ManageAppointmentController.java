@@ -19,15 +19,6 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AppointmentBO;
-import lk.ijse.salongeetha.bo.castom.impl.AppointmentBOImpl;
-import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.CustomerDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.CustomerDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.util.GenerateId;
@@ -205,17 +196,17 @@ public class ManageAppointmentController {
         String nic = cmbCustomerId.getValue();
         String time = String.valueOf(txtTime.getValue());
         String date = String.valueOf(txtDate.getValue());
-        ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
+        ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS = new ArrayList<>();
         for (int i = 0; i < tblView.getItems().size(); i++) {
             AppointmentTM tm = observableList.get(i);
-            serviceAppointmentDetails.add(new ServiceAppointmentDetail(tm.getAptId(), tm.getSevId()));
+            serviceAppointmentDetailDTOS.add(new ServiceAppointmentDetailDTO(tm.getAptId(), tm.getSevId()));
         }
-        Appointment appointment = new Appointment(appointmentId, date, time, nic);
+        AppointmentDTO appointmentDTO = new AppointmentDTO(appointmentId, date, time, nic);
 
         try {
-            boolean addAppointment = appointmentBO.addAppointment(appointment, serviceAppointmentDetails);
+            boolean addAppointment = appointmentBO.addAppointment(appointmentDTO, serviceAppointmentDetailDTOS);
             if (addAppointment) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Appointment added");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "AppointmentDTO added");
                 alert.show();
                 setNextId();
                 cleanAll();
@@ -223,7 +214,7 @@ public class ManageAppointmentController {
 
 
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment not added");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "AppointmentDTO not added");
                 alert.show();
             }
 
@@ -303,30 +294,30 @@ public class ManageAppointmentController {
 
     private void loadCmb() {
         try {
-            ArrayList<Service> allService = getAllService();
+            ArrayList<ServiceDTO> allServiceDTO = getAllService();
             String[] ids;
-            if (allService.size() != 0) {
-                ids = new String[allService.size()];
+            if (allServiceDTO.size() != 0) {
+                ids = new String[allServiceDTO.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(allService.get(i).getSevId());
+                    ids[i] = String.valueOf(allServiceDTO.get(i).getSevId());
                 }
                 cmbServiceId.getItems().addAll(ids);
             }
 
-            ArrayList<Customer> customers = getAllCustomer();
-            if (customers.size() != 0) {
-                ids = new String[customers.size()];
+            ArrayList<CustomerDTO> customerDTOS = getAllCustomer();
+            if (customerDTOS.size() != 0) {
+                ids = new String[customerDTOS.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(customers.get(i).getNic());
+                    ids[i] = String.valueOf(customerDTOS.get(i).getNic());
                 }
                 cmbCustomerId.getItems().addAll(ids);
             }
 
-            ArrayList<Employee> employees = appointmentBO.getBeauticians();
-            if (employees.size() != 0) {
-                ids = new String[employees.size()];
+            ArrayList<EmployeeDTO> employeeDTOS = appointmentBO.getBeauticians();
+            if (employeeDTOS.size() != 0) {
+                ids = new String[employeeDTOS.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(employees.get(i).getEmpId());
+                    ids[i] = String.valueOf(employeeDTOS.get(i).getEmpId());
                 }
                 cmbEmployeeId.getItems().addAll(ids);
             }
@@ -338,12 +329,12 @@ public class ManageAppointmentController {
 
     public void cmbCustomerIdOnAction(ActionEvent actionEvent) {
         String value = cmbCustomerId.getValue();
-        Customer customer = new Customer();
-        customer.setNic(value);
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setNic(value);
         try {
-            ArrayList<Customer> customers = searchCustomerDetails(customer);
-            if (customers.size() > 0) {
-                for (Customer c : customers) {
+            ArrayList<CustomerDTO> customerDTOS = searchCustomerDetails(customerDTO);
+            if (customerDTOS.size() > 0) {
+                for (CustomerDTO c : customerDTOS) {
                     lblCustomerName.setText(c.getName());
                     lblCustomerPhone.setText(c.getPhoneNumber());
                 }
@@ -352,29 +343,29 @@ public class ManageAppointmentController {
             throw new RuntimeException(e);
         }
     }
-    private ArrayList<Customer> searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = appointmentBO.searchCustomerDetails(customer);
+    private ArrayList<CustomerDTO> searchCustomerDetails(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
+        ResultSet resultSet = appointmentBO.searchCustomerDetails(customerDTO);
         while (resultSet.next()) {
-            Customer searchCustomer = new Customer();
-            searchCustomer.setNic(String.valueOf(resultSet.getObject(1)));
-            searchCustomer.setName(String.valueOf(resultSet.getObject(2)));
-            searchCustomer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            searchCustomer.setEmail(String.valueOf(resultSet.getObject(4)));
-            searchCustomer.setDob(String.valueOf(resultSet.getObject(5)));
-            customers.add(searchCustomer);
+            CustomerDTO searchCustomerDTO = new CustomerDTO();
+            searchCustomerDTO.setNic(String.valueOf(resultSet.getObject(1)));
+            searchCustomerDTO.setName(String.valueOf(resultSet.getObject(2)));
+            searchCustomerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            searchCustomerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
+            searchCustomerDTO.setDob(String.valueOf(resultSet.getObject(5)));
+            customerDTOS.add(searchCustomerDTO);
         }
-        return customers;
+        return customerDTOS;
     }
 
     public void cmbServiceIdOnAction(ActionEvent actionEvent) {
         String value = cmbServiceId.getValue();
-        Service service = new Service();
-        service.setSevId(value);
+        ServiceDTO serviceDTO = new ServiceDTO();
+        serviceDTO.setSevId(value);
         try {
-            ArrayList<Service> services = searchServiceDetails(service);
-            if (services.size() > 0) {
-                for (Service s : services) {
+            ArrayList<ServiceDTO> serviceDTOS = searchServiceDetails(serviceDTO);
+            if (serviceDTOS.size() > 0) {
+                for (ServiceDTO s : serviceDTOS) {
                     lblServiceName.setText(s.getName());
                     lblPrice.setText(String.valueOf(s.getPrice()));
                     lblDiscount.setText(String.valueOf(s.getDiscount()));
@@ -386,29 +377,29 @@ public class ManageAppointmentController {
         }
     }
 
-    private ArrayList<Service> searchServiceDetails(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
-        ResultSet resultSet = appointmentBO.searchServiceDetails(service);
+    private ArrayList<ServiceDTO> searchServiceDetails(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
+        ResultSet resultSet = appointmentBO.searchServiceDetails(serviceDTO);
         while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
+            ServiceDTO searchServiceDTO = new ServiceDTO();
+            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(searchServiceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
     public void cmbEmployeeIdOnAction(ActionEvent actionEvent) {
         String value = cmbEmployeeId.getValue();
-        Employee employee = new Employee();
-        employee.setEmpId(value);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEmpId(value);
         try {
-            ArrayList<Employee> employees = searchEmployeeDetails(employee);
-            if (employees.size() > 0) {
-                for (Employee e : employees) {
+            ArrayList<EmployeeDTO> employeeDTOS = searchEmployeeDetails(employeeDTO);
+            if (employeeDTOS.size() > 0) {
+                for (EmployeeDTO e : employeeDTOS) {
                     lblEmpName.setText(e.getName());
                     lblEmpDescription.setText(e.getDescription());
                 }
@@ -417,50 +408,50 @@ public class ManageAppointmentController {
             throw new RuntimeException(e);
         }
     }
-    private ArrayList<Employee> searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
-        ResultSet resultSet = appointmentBO.searchEmployeeDetails(employee);
+    private ArrayList<EmployeeDTO> searchEmployeeDetails(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        ResultSet resultSet = appointmentBO.searchEmployeeDetails(employeeDTO);
         while (resultSet.next()) {
-            Employee searchEmployee = new Employee();
-            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employees.add(searchEmployee);
+            EmployeeDTO searchEmployeeDTO = new EmployeeDTO();
+            searchEmployeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employeeDTOS.add(searchEmployeeDTO);
         }
-        return employees;
+        return employeeDTOS;
     }
-    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         ResultSet resultSet = appointmentBO.getAllServices();
         while (resultSet.next()) {
-            Service service = new Service();
-            service.setSevId(String.valueOf(resultSet.getObject(1)));
-            service.setDescription(String.valueOf(resultSet.getObject(2)));
-            service.setName(String.valueOf(resultSet.getObject(3)));
-            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(service);
+            ServiceDTO serviceDTO = new ServiceDTO();
+            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(serviceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
-    private ArrayList<Customer> getAllCustomer() throws SQLException, ClassNotFoundException {
-        ArrayList<Customer> customers = new ArrayList<>();
+    private ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
         ResultSet resultSet = appointmentBO.getAllCustomers();
         while (resultSet.next()) {
-            Customer customer = new Customer();
-            customer.setNic(String.valueOf(resultSet.getObject(1)));
-            customer.setName(String.valueOf(resultSet.getObject(2)));
-            customer.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            customer.setEmail(String.valueOf(resultSet.getObject(4)));
-            customer.setDob(String.valueOf(resultSet.getObject(5)));
-            customers.add(customer);
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setNic(String.valueOf(resultSet.getObject(1)));
+            customerDTO.setName(String.valueOf(resultSet.getObject(2)));
+            customerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
+            customerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
+            customerDTO.setDob(String.valueOf(resultSet.getObject(5)));
+            customerDTOS.add(customerDTO);
         }
-        return customers;
+        return customerDTOS;
     }
 }

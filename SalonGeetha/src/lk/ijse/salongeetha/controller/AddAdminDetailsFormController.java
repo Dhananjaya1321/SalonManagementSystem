@@ -10,10 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddAdminDetailsBO;
-import lk.ijse.salongeetha.bo.castom.impl.AddAdminDetailsBOImpl;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.EmployeeDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -49,13 +46,13 @@ public class AddAdminDetailsFormController {
         String phoneNumber = txtPhoneNumber.getText();
 
         if (ValidityCheck.check(Validation.PHONE, phoneNumber)) {
-            Employee employee = new Employee();
-            employee.setDob(String.valueOf(dob));
-            employee.setDescription(description);
-            employee.setPhoneNumber(phoneNumber);
-            employee.setAddress(address);
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setDob(String.valueOf(dob));
+            employeeDTO.setDescription(description);
+            employeeDTO.setPhoneNumber(phoneNumber);
+            employeeDTO.setAddress(address);
             try {
-                boolean updateAdmin = adminDetailsBO.updateAdmin(employee);
+                boolean updateAdmin = adminDetailsBO.updateAdmin(employeeDTO);
                 if (updateAdmin) {
                     popUpPane.setVisible(false);
                 } else {

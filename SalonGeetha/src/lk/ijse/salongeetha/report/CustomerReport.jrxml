@@ -14,27 +14,27 @@ FROM `Customer`]]>
     <field name="Name" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="Name"/>
         <property name="com.jaspersoft.studio.field.label" value="Name"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
     </field>
     <field name="Phone_number" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="Phone_number"/>
         <property name="com.jaspersoft.studio.field.label" value="Phone_number"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
     </field>
     <field name="Email" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="Email"/>
         <property name="com.jaspersoft.studio.field.label" value="Email"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
     </field>
     <field name="DOB" class="java.sql.Date">
         <property name="com.jaspersoft.studio.field.name" value="DOB"/>
         <property name="com.jaspersoft.studio.field.label" value="DOB"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
     </field>
     <field name="NIC" class="java.lang.String">
         <property name="com.jaspersoft.studio.field.name" value="NIC"/>
         <property name="com.jaspersoft.studio.field.label" value="NIC"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
     </field>
     <group name="NIC">
         <groupExpression><![CDATA[$F{NIC}]]></groupExpression>

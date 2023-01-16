@@ -6,11 +6,8 @@ import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.ProductDAO;
 import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ProductServiceDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
-import lk.ijse.salongeetha.to.ProductServiceDetail;
-import lk.ijse.salongeetha.to.Service;
+import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
+import lk.ijse.salongeetha.to.ServiceDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,23 +18,23 @@ public class ProductServiceBOImpl implements ProductServiceBO {
     ProductServiceDAO productServiceDAO = (ProductServiceDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.PRODUCT_SERVICE);
 
     @Override
-    public boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return productServiceDAO.checkAlreadyExists(productServiceDetail);
+    public boolean checkAlreadyExists(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return productServiceDAO.checkAlreadyExists(productServiceDetailDTO);
     }
 
     @Override
-    public boolean addProductAndServiceDetail(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return productServiceDAO.add(productServiceDetail);
+    public boolean addProductAndServiceDetail(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return productServiceDAO.add(productServiceDetailDTO);
     }
 
     @Override
-    public ResultSet searchService(boolean value, Service service) throws SQLException, ClassNotFoundException {
-        return serviceDAO.search(value, service);
+    public ResultSet searchService(boolean value, ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        return serviceDAO.search(value, serviceDTO);
     }
 
     @Override
-    public boolean deleteProductAndServiceDetail(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return productServiceDAO.delete(productServiceDetail);
+    public boolean deleteProductAndServiceDetail(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return productServiceDAO.delete(productServiceDetailDTO);
     }
 
     @Override

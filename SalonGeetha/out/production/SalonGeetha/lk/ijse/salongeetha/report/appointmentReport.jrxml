@@ -11,17 +11,17 @@ a.Apt_Id=ap.Apt_Id]]>
 	<field name="Name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Name"/>
 		<property name="com.jaspersoft.studio.field.label" value="Name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="NIC" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="NIC"/>
 		<property name="com.jaspersoft.studio.field.label" value="NIC"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="Appointment_ID" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Apt_Id"/>
 		<property name="com.jaspersoft.studio.field.label" value="Appointment_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appointment"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appointmentDTO"/>
 	</field>
 	<field name="Amount_due" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="Amount_due"/>

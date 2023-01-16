@@ -9,19 +9,19 @@
 	<queryString language="SQL">
 		<![CDATA[select c.name,c.nic,bd.rent_id,bd.qty,bd.for_how_many_days,b.bok_id,b.date,r.name as rental_name
 ,r.Price_pre_day,r.Discount,(bd.for_how_many_days*(r.Price_pre_day-((r.Price_pre_day*r.Discount)/100)))
-as total from customer c join book b on c.nic=b.nic join book_rentals_detail bd on 
-b.bok_id = bd.bok_id join rentals r on r.Rent_Id = bd.rent_id  where b.bok_id = 
-(SELECT bok_id FROM book ORDER BY bok_id DESC LIMIT 1) and b.status = 'Paid']]>
+as total from customerDTO c join bookDTO b on c.nic=b.nic join book_rentals_detail bd on
+b.bok_id = bd.bok_id join rentalsDTO r on r.Rent_Id = bd.rent_id  where b.bok_id =
+(SELECT bok_id FROM bookDTO ORDER BY bok_id DESC LIMIT 1) and b.status = 'Paid']]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="name"/>
 		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="nic" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nic"/>
 		<property name="com.jaspersoft.studio.field.label" value="nic"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customer"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customerDTO"/>
 	</field>
 	<field name="rent_id" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="rent_id"/>
@@ -41,27 +41,27 @@ b.bok_id = bd.bok_id join rentals r on r.Rent_Id = bd.rent_id  where b.bok_id =
 	<field name="bok_id" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="bok_id"/>
 		<property name="com.jaspersoft.studio.field.label" value="bok_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="book"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bookDTO"/>
 	</field>
 	<field name="date" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="date"/>
 		<property name="com.jaspersoft.studio.field.label" value="date"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="book"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bookDTO"/>
 	</field>
 	<field name="rental_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="name"/>
 		<property name="com.jaspersoft.studio.field.label" value="rental_name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentalsDTO"/>
 	</field>
 	<field name="Price_pre_day" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="Price_pre_day"/>
 		<property name="com.jaspersoft.studio.field.label" value="Price_pre_day"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentalsDTO"/>
 	</field>
 	<field name="Discount" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="Discount"/>
 		<property name="com.jaspersoft.studio.field.label" value="Discount"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="rentals"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rentalsDTO"/>
 	</field>
 	<field name="total" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="total"/>

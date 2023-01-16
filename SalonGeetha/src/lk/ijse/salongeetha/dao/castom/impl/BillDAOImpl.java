@@ -2,15 +2,15 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
-import lk.ijse.salongeetha.to.BillPayment;
+import lk.ijse.salongeetha.to.BillPaymentDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BillDAOImpl implements BillDAO {
-    public boolean add(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Bill_payment VALUES (?,?,?,?,?,?)", billPayment.getBilId(), billPayment.getDate()
-                , billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId());
+    public boolean add(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Bill_payment VALUES (?,?,?,?,?,?)", billPaymentDTO.getBilId(), billPaymentDTO.getDate()
+                , billPaymentDTO.getDescription(), billPaymentDTO.getTitle(), billPaymentDTO.getAmountPaid(), billPaymentDTO.getEmpId());
     }
 
     public String checkId() throws SQLException, ClassNotFoundException {
@@ -22,7 +22,7 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, BillPayment to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, BillPaymentDTO to) throws SQLException, ClassNotFoundException {
         String setColumn;
         if (value) {
             setColumn = "SELECT * FROM Bill_payment WHERE Title LIKE ?";
@@ -36,14 +36,14 @@ public class BillDAOImpl implements BillDAO {
         return CrudUtil.setQuery("SELECT * FROM bill_payment");
     }
 
-    public boolean delete(BillPayment billPayment) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM bill_payment WHERE Bil_Id=?", billPayment.getBilId());
+    public boolean delete(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM bill_payment WHERE Bil_Id=?", billPaymentDTO.getBilId());
     }
 
-    public boolean update(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+    public boolean update(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Bill_payment SET Date=?,Description=?,Title=?,Amount_paid=?,Emp_Id=? WHERE Bil_Id=?"
-                , billPayment.getDate(), billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId()
-                , billPayment.getBilId());
+                , billPaymentDTO.getDate(), billPaymentDTO.getDescription(), billPaymentDTO.getTitle(), billPaymentDTO.getAmountPaid(), billPaymentDTO.getEmpId()
+                , billPaymentDTO.getBilId());
     }
 
 

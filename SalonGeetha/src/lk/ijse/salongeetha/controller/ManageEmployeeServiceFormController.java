@@ -12,15 +12,6 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeServiceBO;
-import lk.ijse.salongeetha.bo.castom.impl.EmployeeServiceBOImpl;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeServiceDAO;
-import lk.ijse.salongeetha.dao.castom.QueryDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeServiceDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
 import lk.ijse.salongeetha.to.*;
 import lk.ijse.salongeetha.to.tm.EmployeeServiceTM;
 
@@ -94,17 +85,17 @@ public class ManageEmployeeServiceFormController {
         String serviceNameText = lblServiceName.getText();
         String empNameText = lblEmpName.getText();
 
-        EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail(cmbEmpIdValue, serviceIdValue, serviceNameText, empNameText);
+        EmployeeServiceDetailDTO employeeServiceDetailDTO = new EmployeeServiceDetailDTO(cmbEmpIdValue, serviceIdValue, serviceNameText, empNameText);
 
         try {
-            boolean checkAlreadyExists = employeeServiceBO.checkAlreadyExists(employeeServiceDetail);
+            boolean checkAlreadyExists = employeeServiceBO.checkAlreadyExists(employeeServiceDetailDTO);
             if (!checkAlreadyExists) {
-                boolean addProductService = employeeServiceBO.addEmployeeAndServiceDetail(employeeServiceDetail);
+                boolean addProductService = employeeServiceBO.addEmployeeAndServiceDetail(employeeServiceDetailDTO);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
                     tblView.getItems().clear();
-                    employeeServiceDetailArrayList = getAllEmployeeServiceDetails();
+                    employeeServiceDetailDTOArrayList = getAllEmployeeServiceDetails();
                     loadAllData();
                 }
             } else {
@@ -120,24 +111,24 @@ public class ManageEmployeeServiceFormController {
 
     public void initialize() {
         try {
-            ArrayList<Service> services = getAllService();
+            ArrayList<ServiceDTO> serviceDTOS = getAllService();
             String[] ids;
 
-            if (services.size() != 0) {
-                ids = new String[services.size()];
+            if (serviceDTOS.size() != 0) {
+                ids = new String[serviceDTOS.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(services.get(i).getSevId());
+                    ids[i] = String.valueOf(serviceDTOS.get(i).getSevId());
                 }
                 cmbServiceId.getItems().addAll(ids);
             }
 
 
-            ArrayList<Employee> employees = getAllEmployee();
+            ArrayList<EmployeeDTO> employeeDTOS = getAllEmployee();
             String[] eIds;
-            if (employees.size() != 0) {
-                eIds = new String[employees.size()];
+            if (employeeDTOS.size() != 0) {
+                eIds = new String[employeeDTOS.size()];
                 for (int i = 0; i < eIds.length; i++) {
-                    eIds[i] = String.valueOf(employees.get(i).getEmpId());
+                    eIds[i] = String.valueOf(employeeDTOS.get(i).getEmpId());
                 }
                 cmbEmpId.getItems().addAll(eIds);
             }
@@ -153,11 +144,11 @@ public class ManageEmployeeServiceFormController {
         loadAllData();
     }
 
-    ArrayList<EmployeeServiceDetail> employeeServiceDetailArrayList;
+    ArrayList<EmployeeServiceDetailDTO> employeeServiceDetailDTOArrayList;
 
     {
         try {
-            employeeServiceDetailArrayList = getAllEmployeeServiceDetails();
+            employeeServiceDetailDTOArrayList = getAllEmployeeServiceDetails();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -167,7 +158,7 @@ public class ManageEmployeeServiceFormController {
     ObservableList<EmployeeServiceTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (EmployeeServiceDetail es : employeeServiceDetailArrayList) {
+        for (EmployeeServiceDetailDTO es : employeeServiceDetailDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             delete.setStyle("-fx-background-color: linear-gradient(to right, #fb0000, #fc0000, #fd0000, #fe0000, #ff0000)");
             delete.setOnAction((e) -> {
@@ -181,12 +172,12 @@ public class ManageEmployeeServiceFormController {
 
                     String empId = tm.getEmpId();
                     String sevId = tm.getSevId();
-                    EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
+                    EmployeeServiceDetailDTO employeeServiceDetailDTO = new EmployeeServiceDetailDTO();
 
                     try {
-                        employeeServiceDetail.setEmpId(empId);
-                        employeeServiceDetail.setSevId(sevId);
-                        boolean isDeleted = employeeServiceBO.deleteEmployeeAndServiceDetail(employeeServiceDetail);
+                        employeeServiceDetailDTO.setEmpId(empId);
+                        employeeServiceDetailDTO.setSevId(sevId);
+                        boolean isDeleted = employeeServiceBO.deleteEmployeeAndServiceDetail(employeeServiceDetailDTO);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();
@@ -222,12 +213,12 @@ public class ManageEmployeeServiceFormController {
 
     public void cmbEmpIdOnAction(ActionEvent actionEvent) {
         this.employeeId = cmbEmpId.getValue();
-        Employee employee = new Employee();
-        employee.setName(employeeId);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setName(employeeId);
         try {
-            ArrayList<Employee> employees = searchEmployee(employee);
-            if (employees.size() > 0) {
-                for (Employee e : employees) {
+            ArrayList<EmployeeDTO> employeeDTOS = searchEmployee(employeeDTO);
+            if (employeeDTOS.size() > 0) {
+                for (EmployeeDTO e : employeeDTOS) {
                     lblEmpName.setText(e.getName());
                 }
             }
@@ -236,35 +227,35 @@ public class ManageEmployeeServiceFormController {
         }
     }
 
-    public ArrayList<Employee> searchEmployee(Employee employee) throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
+    public ArrayList<EmployeeDTO> searchEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = namePattern.matcher(employee.getName());
-        ResultSet resultSet = employeeServiceBO.searchEmployee(matcher.matches(), employee);
+        Matcher matcher = namePattern.matcher(employeeDTO.getName());
+        ResultSet resultSet = employeeServiceBO.searchEmployee(matcher.matches(), employeeDTO);
         while (resultSet.next()) {
-            Employee searchEmployee = new Employee();
-            searchEmployee.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployee.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployee.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployee.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployee.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployee.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployee.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employees.add(searchEmployee);
+            EmployeeDTO searchEmployeeDTO = new EmployeeDTO();
+            searchEmployeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+            searchEmployeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+            searchEmployeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+            searchEmployeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+            searchEmployeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchEmployeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+            searchEmployeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+            searchEmployeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+            searchEmployeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+            employeeDTOS.add(searchEmployeeDTO);
         }
-        return employees;
+        return employeeDTOS;
     }
 
     public void cmbServiceIdOnAction(ActionEvent actionEvent) {
         this.serviceId = cmbServiceId.getValue();
-        Service service = new Service();
-        service.setName(serviceId);
+        ServiceDTO serviceDTO = new ServiceDTO();
+        serviceDTO.setName(serviceId);
         try {
-            ArrayList<Service> services = searchService(service);
-            if (services.size() > 0) {
-                for (Service s : services) {
+            ArrayList<ServiceDTO> serviceDTOS = searchService(serviceDTO);
+            if (serviceDTOS.size() > 0) {
+                for (ServiceDTO s : serviceDTOS) {
                     lblServiceName.setText(s.getName());
                     System.out.println(s.getName());
                 }
@@ -274,71 +265,71 @@ public class ManageEmployeeServiceFormController {
         }
     }
 
-    private ArrayList<Service> searchService(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> searchService(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = employeeServiceBO.searchService(matcher.matches(), service);
+        Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
+        ResultSet resultSet = employeeServiceBO.searchService(matcher.matches(), serviceDTO);
         while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
+            ServiceDTO searchServiceDTO = new ServiceDTO();
+            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(searchServiceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
-    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         ResultSet resultSet = employeeServiceBO.getAllService();
         while (resultSet.next()) {
-            Service service = new Service();
-            service.setSevId(String.valueOf(resultSet.getObject(1)));
-            service.setDescription(String.valueOf(resultSet.getObject(2)));
-            service.setName(String.valueOf(resultSet.getObject(3)));
-            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(service);
+            ServiceDTO serviceDTO = new ServiceDTO();
+            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(serviceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
-    private ArrayList<Employee> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         ResultSet resultSet = employeeServiceBO.getAllEmployee();
         if (resultSet.next()) {
             do {
-                Employee employee = new Employee();
-                employee.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employee.setName(String.valueOf(resultSet.getObject(2)));
-                employee.setAddress(String.valueOf(resultSet.getObject(3)));
-                employee.setDob(String.valueOf(resultSet.getObject(4)));
-                employee.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employee.setDescription(String.valueOf(resultSet.getObject(6)));
-                employee.setEmail(String.valueOf(resultSet.getObject(7)));
-                employee.setNic(String.valueOf(resultSet.getObject(8)));
-                employee.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employees.add(employee);
+                EmployeeDTO employeeDTO = new EmployeeDTO();
+                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
+                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
+                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
+                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
+                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
+                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
+                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
+                employeeDTOS.add(employeeDTO);
             } while (resultSet.next());
-            return employees;
+            return employeeDTOS;
         }
         return new ArrayList<>();
     }
 
-    private ArrayList<EmployeeServiceDetail> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeServiceDetail> employeeServiceDetails = new ArrayList<>();
+    private ArrayList<EmployeeServiceDetailDTO> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
+        ArrayList<EmployeeServiceDetailDTO> employeeServiceDetailDTOS = new ArrayList<>();
         ResultSet resultSet = employeeServiceBO.getAllEmployeeServiceDetails();
         while (resultSet.next()) {
-            EmployeeServiceDetail employeeServiceDetail = new EmployeeServiceDetail();
-            employeeServiceDetail.setEmpId(String.valueOf(resultSet.getObject(1)));
-            employeeServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
-            employeeServiceDetail.setEmpName(String.valueOf(resultSet.getObject(3)));
-            employeeServiceDetail.setSevName(String.valueOf(resultSet.getObject(4)));
-            employeeServiceDetails.add(employeeServiceDetail);
+            EmployeeServiceDetailDTO employeeServiceDetailDTO = new EmployeeServiceDetailDTO();
+            employeeServiceDetailDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
+            employeeServiceDetailDTO.setSevId(String.valueOf(resultSet.getObject(2)));
+            employeeServiceDetailDTO.setEmpName(String.valueOf(resultSet.getObject(3)));
+            employeeServiceDetailDTO.setSevName(String.valueOf(resultSet.getObject(4)));
+            employeeServiceDetailDTOS.add(employeeServiceDetailDTO);
         }
-        return employeeServiceDetails;
+        return employeeServiceDetailDTOS;
     }
 }

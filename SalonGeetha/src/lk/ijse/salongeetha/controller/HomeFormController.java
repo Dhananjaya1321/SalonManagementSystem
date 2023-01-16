@@ -15,14 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.HomeFormBO;
-import lk.ijse.salongeetha.bo.castom.impl.HomeFormBOImpl;
-import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
-import lk.ijse.salongeetha.dao.castom.BookingDAO;
-import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.BookingDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.EmployeeDTO;
 import lk.ijse.salongeetha.to.tm.AppointmentTM;
 import lk.ijse.salongeetha.to.tm.BookTM;
 
@@ -84,11 +77,11 @@ public class HomeFormController {
         setLineChart(cmbPastTime.getValue().toString());
         setLblAppointment();
         setLblBooking();
-        Employee employee = new Employee();
+        EmployeeDTO employeeDTO = new EmployeeDTO();
         try {
-            boolean isCheckedAdmin = homeFormBO.checkAdmin(employee);
+            boolean isCheckedAdmin = homeFormBO.checkAdmin(employeeDTO);
             if (isCheckedAdmin) {
-                if (employee.getPhoneNumber().equals("")) {
+                if (employeeDTO.getPhoneNumber().equals("")) {
                     Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/AddAdminDetailsForm.fxml"));
                     popUpPane.getChildren().clear();
                     popUpPane.getChildren().add(load);

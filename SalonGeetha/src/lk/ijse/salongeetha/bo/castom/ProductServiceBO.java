@@ -1,20 +1,20 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.ProductServiceDetail;
-import lk.ijse.salongeetha.to.Service;
+import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
+import lk.ijse.salongeetha.to.ServiceDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface ProductServiceBO extends SuperBOImpl {
-    boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException;
+    boolean checkAlreadyExists(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException;
 
-    boolean addProductAndServiceDetail(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException;
+    boolean addProductAndServiceDetail(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException;
 
-    ResultSet searchService(boolean value, Service service) throws SQLException, ClassNotFoundException;
+    ResultSet searchService(boolean value, ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException;
 
-    boolean deleteProductAndServiceDetail(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException;
+    boolean deleteProductAndServiceDetail(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException;
 
     ResultSet getAllService() throws SQLException, ClassNotFoundException;
 

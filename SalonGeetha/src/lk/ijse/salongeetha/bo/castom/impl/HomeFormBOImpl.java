@@ -6,10 +6,7 @@ import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.AppointmentDAO;
 import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
-import lk.ijse.salongeetha.dao.castom.impl.AppointmentDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.BookingDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.EmployeeDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,7 +34,7 @@ public class HomeFormBOImpl implements HomeFormBO {
         return bookingDAO.getBookingCount(setDate);
     }
     @Override
-    public boolean checkAdmin(Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.checkAdmin(employee);
+    public boolean checkAdmin(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.checkAdmin(employeeDTO);
     }
 }

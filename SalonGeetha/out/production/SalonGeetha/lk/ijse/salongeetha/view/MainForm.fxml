@@ -211,7 +211,7 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton buttonType="RAISED" maxHeight="50.0" onAction="#btnBillPaymentOnAction" prefHeight="45.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);; -fx-background-radius: 0 60 50;" text="  Bill payment                " textFill="WHITE" GridPane.rowIndex="9">
+            <JFXButton buttonType="RAISED" maxHeight="50.0" onAction="#btnBillPaymentOnAction" prefHeight="45.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);; -fx-background-radius: 0 60 50;" text="  Bill paymentDTO                " textFill="WHITE" GridPane.rowIndex="9">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

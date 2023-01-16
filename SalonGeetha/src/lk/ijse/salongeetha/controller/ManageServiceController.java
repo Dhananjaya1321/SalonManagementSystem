@@ -14,10 +14,7 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ServiceBO;
-import lk.ijse.salongeetha.bo.castom.impl.ServiceBOImpl;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
-import lk.ijse.salongeetha.to.Service;
+import lk.ijse.salongeetha.to.ServiceDTO;
 import lk.ijse.salongeetha.to.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
@@ -78,13 +75,13 @@ public class ManageServiceController {
 
     @FXML
     private JFXTextArea txtDescription;
-    ArrayList<Service> serviceArrayList;
+    ArrayList<ServiceDTO> serviceDTOArrayList;
 //    ServiceDAO serviceDAO = new ServiceDAOImpl();
     ServiceBO serviceBO= (ServiceBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.SERVICE);
 
     {
         try {
-            serviceArrayList = getAllService();
+            serviceDTOArrayList = getAllService();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -94,7 +91,7 @@ public class ManageServiceController {
     ObservableList<ServiceTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Service s : serviceArrayList) {
+        for (ServiceDTO s : serviceDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936);");
@@ -109,14 +106,14 @@ public class ManageServiceController {
                     ServiceTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String serviceId = tm.getSevId();
-                    Service service = new Service();
+                    ServiceDTO serviceDTO = new ServiceDTO();
 //                    if(!tm.getJobTitle().equals("Receptionist")) {
 
-                    service.setSevId(serviceId);
+                    serviceDTO.setSevId(serviceId);
                     try {
-                        boolean isDeleted = serviceBO.deleteService(service);
+                        boolean isDeleted = serviceBO.deleteService(serviceDTO);
                         if (isDeleted) {
-                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "Service delete successfully");
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "ServiceDTO delete successfully");
                             alert1.show();
                             setNextId();
 
@@ -189,11 +186,11 @@ public class ManageServiceController {
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (Double.parseDouble(price) >= 0) {
 
-                Service service = new Service(serviceId, description, name, Double.parseDouble(price), Double.parseDouble(discount));
+                ServiceDTO serviceDTO = new ServiceDTO(serviceId, description, name, Double.parseDouble(price), Double.parseDouble(discount));
                 try {
-                    boolean addService = serviceBO.addService(service);
+                    boolean addService = serviceBO.addService(serviceDTO);
                     if (addService) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Service is added");
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "ServiceDTO is added");
                         alert.show();
                         setNextId();
                         cleanAll();
@@ -202,7 +199,7 @@ public class ManageServiceController {
                         alert.show();
                     }
                     tblView.getItems().clear();
-                    serviceArrayList = getAllService();
+                    serviceDTOArrayList = getAllService();
                     loadAllData();
                 } catch (SQLException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -219,7 +216,7 @@ public class ManageServiceController {
         }
     }
 
-    private Service service = new Service();
+    private ServiceDTO serviceDTO = new ServiceDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         search();
@@ -229,9 +226,9 @@ public class ManageServiceController {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            service.setName(text);
+            serviceDTO.setName(text);
             try {
-                serviceArrayList = search(service);
+                serviceDTOArrayList = search(serviceDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -241,44 +238,44 @@ public class ManageServiceController {
             loadAllData();
         }
     }
-    private ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> search(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = serviceBO.searchService(matcher.matches(),service);
+        Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
+        ResultSet resultSet = serviceBO.searchService(matcher.matches(), serviceDTO);
         while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
+            ServiceDTO searchServiceDTO = new ServiceDTO();
+            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(searchServiceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            serviceArrayList = getAllService();
+            serviceDTOArrayList = getAllService();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         ResultSet resultSet = serviceBO.getAllService();
         while (resultSet.next()) {
-            Service service = new Service();
-            service.setSevId(String.valueOf(resultSet.getObject(1)));
-            service.setDescription(String.valueOf(resultSet.getObject(2)));
-            service.setName(String.valueOf(resultSet.getObject(3)));
-            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(service);
+            ServiceDTO serviceDTO = new ServiceDTO();
+            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(serviceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 }

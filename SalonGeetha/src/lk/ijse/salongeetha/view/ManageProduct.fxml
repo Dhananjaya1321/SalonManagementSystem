@@ -253,7 +253,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cmbProductCatogary" prefHeight="35.0" prefWidth="500.0" promptText="Select product category " style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <JFXComboBox fx:id="cmbProductCatogary" prefHeight="35.0" prefWidth="500.0" promptText="Select productDTO category " style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <focusColor>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
@@ -279,7 +279,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cmbSupplierId" prefHeight="35.0" prefWidth="500.0" promptText="Select supplier Id" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <JFXComboBox fx:id="cmbSupplierId" prefHeight="35.0" prefWidth="500.0" promptText="Select supplierDTO Id" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <focusColor>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>

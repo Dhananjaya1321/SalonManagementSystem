@@ -2,15 +2,15 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
-import lk.ijse.salongeetha.to.ProductServiceDetail;
+import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductServiceDAOImpl implements ProductServiceDAO {
-    public boolean delete(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
+    public boolean delete(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("DELETE FROM product_service_detail WHERE Pro_Id=? AND Sev_Id=?"
-                , productServiceDetail.getProId(), productServiceDetail.getSevId());
+                , productServiceDetailDTO.getProId(), productServiceDetailDTO.getSevId());
     }
 
     public ResultSet getAll() throws SQLException, ClassNotFoundException {
@@ -18,15 +18,15 @@ public class ProductServiceDAOImpl implements ProductServiceDAO {
     }
 
 
-    public boolean add(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO product_service_detail VALUES (?,?,?)", productServiceDetail.getProId(),
-                productServiceDetail.getSevId(), productServiceDetail.getQty());
+    public boolean add(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO product_service_detail VALUES (?,?,?)", productServiceDetailDTO.getProId(),
+                productServiceDetailDTO.getSevId(), productServiceDetailDTO.getQty());
     }
 
     @Override
-    public boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM product_service_detail WHERE Pro_Id=? AND Sev_Id=?", productServiceDetail.getProId()
-                , productServiceDetail.getSevId());
+    public boolean checkAlreadyExists(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM product_service_detail WHERE Pro_Id=? AND Sev_Id=?", productServiceDetailDTO.getProId()
+                , productServiceDetailDTO.getSevId());
         if (resultSet.next()) {
             return true;
         }
@@ -34,7 +34,7 @@ public class ProductServiceDAOImpl implements ProductServiceDAO {
     }
 
     @Override
-    public boolean update(ProductServiceDetail supplier) throws SQLException, ClassNotFoundException {
+    public boolean update(ProductServiceDetailDTO supplier) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -44,7 +44,7 @@ public class ProductServiceDAOImpl implements ProductServiceDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, ProductServiceDetail to) throws SQLException, ClassNotFoundException {
+    public ResultSet search(boolean value, ProductServiceDetailDTO to) throws SQLException, ClassNotFoundException {
         return null;
     }
 

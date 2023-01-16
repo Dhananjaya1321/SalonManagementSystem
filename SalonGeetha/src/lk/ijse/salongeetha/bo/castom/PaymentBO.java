@@ -12,17 +12,17 @@ public interface PaymentBO extends SuperBOImpl {
 
     ResultSet getAllBookingPayments() throws SQLException, ClassNotFoundException;
 
-    ArrayList<Appointment> getAppointmentIds() throws SQLException, ClassNotFoundException;
+    ArrayList<AppointmentDTO> getAppointmentIds() throws SQLException, ClassNotFoundException;
 
-    ArrayList<Book> getBookingIds() throws SQLException, ClassNotFoundException;
+    ArrayList<BookDTO> getBookingIds() throws SQLException, ClassNotFoundException;
 
     String checkAppointmentId() throws SQLException, ClassNotFoundException;
 
     String checkBookingId() throws SQLException, ClassNotFoundException;
 
-    ResultSet getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException;
+    ResultSet getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException;
 
-    ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException;
+    ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException;
 
-    boolean add(boolean value, Payment payment, Book book, Appointment appointment) throws SQLException, ClassNotFoundException;
+    boolean add(boolean value, PaymentDTO paymentDTO, BookDTO bookDTO, AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException;
 }

@@ -1,8 +1,8 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SQLUtil;
-import lk.ijse.salongeetha.to.BillPayment;
+import lk.ijse.salongeetha.to.BillPaymentDTO;
 
-public interface BillDAO extends SQLUtil<BillPayment> {
+public interface BillDAO extends SQLUtil<BillPaymentDTO> {
 
 }

@@ -14,10 +14,7 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.SupplierBO;
-import lk.ijse.salongeetha.bo.castom.impl.SupplierBOImpl;
-import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
-import lk.ijse.salongeetha.to.Supplier;
+import lk.ijse.salongeetha.to.SupplierDTO;
 import lk.ijse.salongeetha.to.tm.SupplierTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
@@ -92,13 +89,13 @@ public class ManageSupplierController {
 
     @FXML
     private JFXTextArea txtAddress;
-    ArrayList<Supplier> supplierList;
+    ArrayList<SupplierDTO> supplierDTOList;
     //    SupplierDAO supplierDAO = new SupplierDAOImpl();
     SupplierBO supplierBO = (SupplierBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.SUPPLIER);
 
     {
         try {
-            supplierList = getAllSupplier();
+            supplierDTOList = getAllSupplier();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -117,11 +114,11 @@ public class ManageSupplierController {
             if (ValidityCheck.check(Validation.PHONE, phone)) {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
 
-                    Supplier supplier = new Supplier(supId, description, name, address, phone, email);
+                    SupplierDTO supplierDTO = new SupplierDTO(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierBO.addSupplier(supplier);
+                        boolean addSupplier = supplierBO.addSupplier(supplierDTO);
                         if (addSupplier) {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Supplier added successful");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "SupplierDTO added successful");
                             alert.show();
                             cleanAll();
                             setNextId();
@@ -162,9 +159,9 @@ public class ManageSupplierController {
         if (ValidityCheck.check(Validation.NAME, name)) {
             if (ValidityCheck.check(Validation.PHONE, phone)) {
                 if (ValidityCheck.check(Validation.EMAIL, email)) {
-                    Supplier supplier = new Supplier(supId, description, name, address, phone, email);
+                    SupplierDTO supplierDTO = new SupplierDTO(supId, description, name, address, phone, email);
                     try {
-                        boolean addSupplier = supplierBO.updateSupplier(supplier);
+                        boolean addSupplier = supplierBO.updateSupplier(supplierDTO);
                         if (addSupplier) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -204,15 +201,15 @@ public class ManageSupplierController {
     }
 
 
-    Supplier supplier = new Supplier();
+    SupplierDTO supplierDTO = new SupplierDTO();
 
     private void search() {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            supplier.setName(text);
+            supplierDTO.setName(text);
             try {
-                supplierList = search(supplier);
+                supplierDTOList = search(supplierDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -223,29 +220,29 @@ public class ManageSupplierController {
         }
     }
 
-    private ArrayList<Supplier> search(Supplier supplier) throws SQLException, ClassNotFoundException {
-        ArrayList<Supplier> suppliers = new ArrayList<>();
+    private ArrayList<SupplierDTO> search(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(supplier.getName());
-        ResultSet resultSet = supplierBO.searchSupplier(matcher.matches(), supplier);
+        Matcher matcher = userNamePattern.matcher(supplierDTO.getName());
+        ResultSet resultSet = supplierBO.searchSupplier(matcher.matches(), supplierDTO);
         while (resultSet.next()) {
-            Supplier searchSupplier = new Supplier();
-            searchSupplier.setSupId(String.valueOf(resultSet.getObject(1)));
-            searchSupplier.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchSupplier.setName(String.valueOf(resultSet.getObject(3)));
-            searchSupplier.setAddress(String.valueOf(resultSet.getObject(4)));
-            searchSupplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchSupplier.setEmail(String.valueOf(resultSet.getObject(6)));
-            suppliers.add(searchSupplier);
+            SupplierDTO searchSupplierDTO = new SupplierDTO();
+            searchSupplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
+            searchSupplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchSupplierDTO.setName(String.valueOf(resultSet.getObject(3)));
+            searchSupplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
+            searchSupplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            searchSupplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
+            supplierDTOS.add(searchSupplierDTO);
         }
-        return suppliers;
+        return supplierDTOS;
     }
 
     public void cleanTable() {
 
         try {
             tblView.getItems().clear();
-            supplierList = getAllSupplier();
+            supplierDTOList = getAllSupplier();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -274,7 +271,7 @@ public class ManageSupplierController {
     ObservableList<SupplierTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Supplier s : supplierList) {
+        for (SupplierDTO s : supplierDTOList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936);");
@@ -290,12 +287,12 @@ public class ManageSupplierController {
 
 
                     String supplierId = tm.getSupId();
-                    Supplier supplier = new Supplier();
-                    supplier.setSupId(supplierId);
+                    SupplierDTO supplierDTO = new SupplierDTO();
+                    supplierDTO.setSupId(supplierId);
                     try {
-                        boolean isDeleted = supplierBO.deleteSupplier(supplier);
+                        boolean isDeleted = supplierBO.deleteSupplier(supplierDTO);
                         if (isDeleted) {
-                            Alert deleteSuccessfully = new Alert(Alert.AlertType.WARNING, "Employee delete successfully");
+                            Alert deleteSuccessfully = new Alert(Alert.AlertType.WARNING, "EmployeeDTO delete successfully");
                             deleteSuccessfully.show();
                             setNextId();
                         }
@@ -350,19 +347,19 @@ public class ManageSupplierController {
         setNextId();
     }
 
-    private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
+    private ArrayList<SupplierDTO> getAllSupplier() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = supplierBO.getAllSupplier();
-        ArrayList<Supplier> suppliers = new ArrayList<>();
+        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
         while (resultSet.next()) {
-            Supplier supplier = new Supplier();
-            supplier.setSupId(String.valueOf(resultSet.getObject(1)));
-            supplier.setDescription(String.valueOf(resultSet.getObject(2)));
-            supplier.setName(String.valueOf(resultSet.getObject(3)));
-            supplier.setAddress(String.valueOf(resultSet.getObject(4)));
-            supplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            supplier.setEmail(String.valueOf(resultSet.getObject(6)));
-            suppliers.add(supplier);
+            SupplierDTO supplierDTO = new SupplierDTO();
+            supplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
+            supplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            supplierDTO.setName(String.valueOf(resultSet.getObject(3)));
+            supplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
+            supplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            supplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
+            supplierDTOS.add(supplierDTO);
         }
-        return suppliers;
+        return supplierDTOS;
     }
 }

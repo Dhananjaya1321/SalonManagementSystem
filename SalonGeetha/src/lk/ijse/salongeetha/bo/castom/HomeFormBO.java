@@ -1,7 +1,7 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.Employee;
+import lk.ijse.salongeetha.to.EmployeeDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,5 +15,5 @@ public interface HomeFormBO extends SuperBOImpl {
 
     String getBookingCount(String setDate) throws SQLException, ClassNotFoundException;
 
-    boolean checkAdmin(Employee employee) throws SQLException, ClassNotFoundException;
+    boolean checkAdmin(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException;
 }

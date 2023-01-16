@@ -13,10 +13,9 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ForgotPasswordBO;
-import lk.ijse.salongeetha.bo.castom.impl.ForgotPasswordBOImpl;
+import lk.ijse.salongeetha.to.UserDTO;
 import lk.ijse.salongeetha.util.GenerateOTP;
 import lk.ijse.salongeetha.util.SendMail;
-import lk.ijse.salongeetha.to.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -50,13 +49,13 @@ public class ForgotPasswordFormController {
     void btnSendEmailOnAction(ActionEvent event) {
         userName = txtUserName.getText();
         String email = txtEmail.getText();
-        User user = new User();
-        user.setUserName(userName);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(userName);
         try {
 
-            boolean isChecked = forgotPasswordBO.checkEmail(user);
+            boolean isChecked = forgotPasswordBO.checkEmail(userDTO);
             if (isChecked) {
-                if (email.equals(user.getEmail())) {
+                if (email.equals(userDTO.getEmail())) {
                     otp = GenerateOTP.getOTP();
                     boolean isSend = SendMail.Authentication("Authentication", email, otp);
                     if (isSend) {

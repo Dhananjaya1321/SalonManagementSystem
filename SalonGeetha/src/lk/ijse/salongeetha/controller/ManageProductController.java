@@ -15,14 +15,9 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductBO;
-import lk.ijse.salongeetha.bo.castom.impl.ProductBOImpl;
 import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.ProductDAO;
-import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
-import lk.ijse.salongeetha.to.Product;
-import lk.ijse.salongeetha.to.Supplier;
+import lk.ijse.salongeetha.to.ProductDTO;
+import lk.ijse.salongeetha.to.SupplierDTO;
 import lk.ijse.salongeetha.to.tm.ProductTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
@@ -103,12 +98,12 @@ public class ManageProductController {
 
     @FXML
     private JFXTextField txtQtyOnHand;
-    ArrayList<Product> productArrayList;
+    ArrayList<ProductDTO> productDTOArrayList;
     ProductBO productBO = (ProductBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.PRODUCT);
 
     {
         try {
-            productArrayList = getAllProduct();
+            productDTOArrayList = getAllProduct();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -118,7 +113,7 @@ public class ManageProductController {
     ObservableList<ProductTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (Product p : productArrayList) {
+        for (ProductDTO p : productDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             JFXButton update = new JFXButton("Update");
             update.setStyle("-fx-background-color: linear-gradient(to right, #17ff00, #12fe18, #0bfc25, #05fb2e, #00f936)");
@@ -133,13 +128,13 @@ public class ManageProductController {
                     ProductTM tm = tblView.getSelectionModel().getSelectedItem();
 
                     String productId = tm.getProId();
-                    Product product = new Product();
+                    ProductDTO productDTO = new ProductDTO();
 
-                    product.setProId(productId);
+                    productDTO.setProId(productId);
                     try {
-                        boolean isDeleted = productBO.deleteProduct(product);
+                        boolean isDeleted = productBO.deleteProduct(productDTO);
                         if (isDeleted) {
-                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "Product delete successfully");
+                            Alert alert1 = new Alert(Alert.AlertType.WARNING, "ProductDTO delete successfully");
                             alert1.show();
                             setNextId();
 
@@ -186,11 +181,11 @@ public class ManageProductController {
         if (ValidityCheck.check(Validation.NAME, brand)) {
             if (qtyOnHand >= 0) {
                 if (unitPrice >= 0) {
-                    Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
+                    ProductDTO productDTO = new ProductDTO(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean addProduct = productBO.addProduct(product);
+                        boolean addProduct = productBO.addProduct(productDTO);
                         if (addProduct) {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Product collection is successful");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "ProductDTO collection is successful");
                             alert.show();
                             setNextId();
                             cleanAll();
@@ -199,7 +194,7 @@ public class ManageProductController {
                             alert.show();
                         }
                         tblView.getItems().clear();
-                        productArrayList = getAllProduct();
+                        productDTOArrayList = getAllProduct();
                         loadAllData();
                     } catch (SQLException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
@@ -232,9 +227,9 @@ public class ManageProductController {
         if (ValidityCheck.check(Validation.NAME, brand)) {
             if (qtyOnHand >= 0) {
                 if (unitPrice >= 0) {
-                    Product product = new Product(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
+                    ProductDTO productDTO = new ProductDTO(productId, description, catogary, brand, supplierId, unitPrice, qtyOnHand);
                     try {
-                        boolean updateProduct = productBO.updateProduct(product);
+                        boolean updateProduct = productBO.updateProduct(productDTO);
                         if (updateProduct) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update successful");
                             alert.show();
@@ -280,7 +275,7 @@ public class ManageProductController {
         lblVQty.setText(null);
         try {
             tblView.getItems().clear();
-            productArrayList = getAllProduct();
+            productDTOArrayList = getAllProduct();
             loadAllData();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -316,12 +311,12 @@ public class ManageProductController {
         cmbProductCatogary.getItems().addAll(category);
 
         try {
-            ArrayList<Supplier> supplierIds = getAllSupplier();
+            ArrayList<SupplierDTO> supplierDTOIds = getAllSupplier();
             String[] ids;
-            if (supplierIds.size() != 0) {
-                ids = new String[supplierIds.size()];
+            if (supplierDTOIds.size() != 0) {
+                ids = new String[supplierDTOIds.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(supplierIds.get(i).getSupId());
+                    ids[i] = String.valueOf(supplierDTOIds.get(i).getSupId());
                 }
                 cmbSupplierId.getItems().addAll(ids);
             }
@@ -335,7 +330,7 @@ public class ManageProductController {
         search();
     }
 
-    private Product product = new Product();
+    private ProductDTO productDTO = new ProductDTO();
 
     public void txtSearchOnAction(KeyEvent keyEvent) {
         search();
@@ -345,9 +340,9 @@ public class ManageProductController {
         String text = txtSearch.getText();
         if (!text.equals("")) {
             cleanTable();
-            product.setBrand(text);
+            productDTO.setBrand(text);
             try {
-                productArrayList = search(product);
+                productDTOArrayList = search(productDTO);
                 loadAllData();
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -358,66 +353,66 @@ public class ManageProductController {
         }
     }
 
-    public ArrayList<Product> search(Product product) throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products = new ArrayList<>();
+    public ArrayList<ProductDTO> search(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(product.getBrand());
-        ResultSet resultSet = productBO.searchProduct(matcher.matches(), product);
+        Matcher matcher = userNamePattern.matcher(productDTO.getBrand());
+        ResultSet resultSet = productBO.searchProduct(matcher.matches(), productDTO);
         while (resultSet.next()) {
-            Product searchProduct = new Product();
-            searchProduct.setProId(String.valueOf(resultSet.getObject(1)));
-            searchProduct.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchProduct.setCategory(String.valueOf(resultSet.getObject(3)));
-            searchProduct.setBrand(String.valueOf(resultSet.getObject(4)));
-            searchProduct.setUnitPrice((Double) resultSet.getObject(5));
-            searchProduct.setQtyOnHand((Integer) resultSet.getObject(6));
-            searchProduct.setSupId(String.valueOf(resultSet.getObject(7)));
-            products.add(searchProduct);
+            ProductDTO searchProductDTO = new ProductDTO();
+            searchProductDTO.setProId(String.valueOf(resultSet.getObject(1)));
+            searchProductDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchProductDTO.setCategory(String.valueOf(resultSet.getObject(3)));
+            searchProductDTO.setBrand(String.valueOf(resultSet.getObject(4)));
+            searchProductDTO.setUnitPrice((Double) resultSet.getObject(5));
+            searchProductDTO.setQtyOnHand((Integer) resultSet.getObject(6));
+            searchProductDTO.setSupId(String.valueOf(resultSet.getObject(7)));
+            productDTOS.add(searchProductDTO);
         }
-        return products;
+        return productDTOS;
     }
 
 
     public void cleanTable() {
         try {
             tblView.getItems().clear();
-            productArrayList = getAllProduct();
+            productDTOArrayList = getAllProduct();
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Product");
+    public ArrayList<ProductDTO> getAllProduct() throws SQLException, ClassNotFoundException {
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
+        ResultSet resultSet = productBO.getAllProduct();
         while (resultSet.next()) {
-            Product product = new Product();
-            product.setProId(String.valueOf(resultSet.getObject(1)));
-            product.setDescription(String.valueOf(resultSet.getObject(2)));
-            product.setCategory(String.valueOf(resultSet.getObject(3)));
-            product.setBrand(String.valueOf(resultSet.getObject(4)));
-            product.setUnitPrice((Double) resultSet.getObject(5));
-            product.setQtyOnHand((Integer) resultSet.getObject(6));
-            product.setSupId(String.valueOf(resultSet.getObject(7)));
-            products.add(product);
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setProId(String.valueOf(resultSet.getObject(1)));
+            productDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            productDTO.setCategory(String.valueOf(resultSet.getObject(3)));
+            productDTO.setBrand(String.valueOf(resultSet.getObject(4)));
+            productDTO.setUnitPrice((Double) resultSet.getObject(5));
+            productDTO.setQtyOnHand((Integer) resultSet.getObject(6));
+            productDTO.setSupId(String.valueOf(resultSet.getObject(7)));
+            productDTOS.add(productDTO);
         }
-        return products;
+        return productDTOS;
     }
 
-    private ArrayList<Supplier> getAllSupplier() throws SQLException, ClassNotFoundException {
+    private ArrayList<SupplierDTO> getAllSupplier() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = productBO.getAllSupplier();
-        ArrayList<Supplier> suppliers = new ArrayList<>();
+        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
         while (resultSet.next()) {
-            Supplier supplier = new Supplier();
-            supplier.setSupId(String.valueOf(resultSet.getObject(1)));
-            supplier.setDescription(String.valueOf(resultSet.getObject(2)));
-            supplier.setName(String.valueOf(resultSet.getObject(3)));
-            supplier.setAddress(String.valueOf(resultSet.getObject(4)));
-            supplier.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            supplier.setEmail(String.valueOf(resultSet.getObject(6)));
-            suppliers.add(supplier);
+            SupplierDTO supplierDTO = new SupplierDTO();
+            supplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
+            supplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            supplierDTO.setName(String.valueOf(resultSet.getObject(3)));
+            supplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
+            supplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
+            supplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
+            supplierDTOS.add(supplierDTO);
         }
-        return suppliers;
+        return supplierDTOS;
     }
 }
 

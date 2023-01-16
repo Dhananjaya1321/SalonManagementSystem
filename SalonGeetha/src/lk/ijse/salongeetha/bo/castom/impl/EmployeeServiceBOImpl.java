@@ -7,13 +7,9 @@ import lk.ijse.salongeetha.dao.castom.EmployeeDAO;
 import lk.ijse.salongeetha.dao.castom.EmployeeServiceDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
 import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.EmployeeServiceDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
-import lk.ijse.salongeetha.to.Employee;
-import lk.ijse.salongeetha.to.EmployeeServiceDetail;
-import lk.ijse.salongeetha.to.Service;
+import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.to.EmployeeServiceDetailDTO;
+import lk.ijse.salongeetha.to.ServiceDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,29 +21,29 @@ public class EmployeeServiceBOImpl implements EmployeeServiceBO {
     QueryDAO queryDAO = (QueryDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.QUERY);
 
     @Override
-    public boolean checkAlreadyExists(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        return employeeServiceDAO.checkAlreadyExists(employeeServiceDetail);
+    public boolean checkAlreadyExists(EmployeeServiceDetailDTO employeeServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return employeeServiceDAO.checkAlreadyExists(employeeServiceDetailDTO);
     }
 
 
     @Override
-    public boolean addEmployeeAndServiceDetail(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        return employeeServiceDAO.add(employeeServiceDetail);
+    public boolean addEmployeeAndServiceDetail(EmployeeServiceDetailDTO employeeServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return employeeServiceDAO.add(employeeServiceDetailDTO);
     }
 
     @Override
-    public ResultSet searchEmployee(boolean value, Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.search(value, employee);
+    public ResultSet searchEmployee(boolean value, EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.search(value, employeeDTO);
     }
 
     @Override
-    public ResultSet searchService(boolean value, Service service) throws SQLException, ClassNotFoundException {
-        return serviceDAO.search(value, service);
+    public ResultSet searchService(boolean value, ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        return serviceDAO.search(value, serviceDTO);
     }
 
     @Override
-    public boolean deleteEmployeeAndServiceDetail(EmployeeServiceDetail employeeServiceDetail) throws SQLException, ClassNotFoundException {
-        return employeeServiceDAO.delete(employeeServiceDetail);
+    public boolean deleteEmployeeAndServiceDetail(EmployeeServiceDetailDTO employeeServiceDetailDTO) throws SQLException, ClassNotFoundException {
+        return employeeServiceDAO.delete(employeeServiceDetailDTO);
     }
 
     @Override

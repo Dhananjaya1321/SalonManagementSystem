@@ -1,19 +1,19 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.Book;
-import lk.ijse.salongeetha.to.BookRentalsDetail;
-import lk.ijse.salongeetha.to.Customer;
-import lk.ijse.salongeetha.to.Rentals;
+import lk.ijse.salongeetha.to.BookDTO;
+import lk.ijse.salongeetha.to.BookRentalsDetailDTO;
+import lk.ijse.salongeetha.to.CustomerDTO;
+import lk.ijse.salongeetha.to.RentalsDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface BookingBO extends SuperBOImpl {
-    ResultSet searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException;
+    ResultSet searchRentalsDetails(RentalsDTO rental) throws SQLException, ClassNotFoundException;
 
-    ResultSet searchCustomerDetails(Customer customer) throws SQLException, ClassNotFoundException;
+    ResultSet searchCustomerDetails(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
 
     String checkIdBooking() throws SQLException, ClassNotFoundException;
 
@@ -21,5 +21,5 @@ public interface BookingBO extends SuperBOImpl {
 
     ResultSet getAllCustomer() throws SQLException, ClassNotFoundException;
 
-    boolean addBooking(Book book, ArrayList<BookRentalsDetail> bookRentalsDetails) throws SQLException, ClassNotFoundException;
+    boolean addBooking(BookDTO bookDTO, ArrayList<BookRentalsDetailDTO> bookRentalsDetailDTOS) throws SQLException, ClassNotFoundException;
 }

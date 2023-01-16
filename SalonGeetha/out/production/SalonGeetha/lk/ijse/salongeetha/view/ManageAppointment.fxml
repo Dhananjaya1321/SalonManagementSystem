@@ -580,7 +580,7 @@
                   </Label>
                </children>
             </GridPane>
-            <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnMakeAppointmentOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #46b9b1; -fx-background-radius: 5;" text="Make appointment" GridPane.columnIndex="7">
+            <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnMakeAppointmentOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #46b9b1; -fx-background-radius: 5;" text="Make appointmentDTO" GridPane.columnIndex="7">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

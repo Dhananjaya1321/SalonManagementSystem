@@ -132,7 +132,7 @@
                         <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXComboBox fx:id="cmbSelectEmployeeId" prefHeight="38.0" prefWidth="500.0" promptText="Select employee Id" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <JFXComboBox fx:id="cmbSelectEmployeeId" prefHeight="38.0" prefWidth="500.0" promptText="Select employeeDTO Id" style="-fx-background-color: #F5F5F5; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <focusColor>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>

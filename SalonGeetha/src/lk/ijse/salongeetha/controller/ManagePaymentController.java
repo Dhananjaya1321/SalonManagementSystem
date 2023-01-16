@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.PaymentBO;
-import lk.ijse.salongeetha.bo.castom.impl.PaymentBOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.*;
@@ -84,54 +83,54 @@ public class ManagePaymentController {
     @FXML
     private TableColumn<?, ?> columenAction;
     private double total;
-    private String setAOrB = "Appointment payment";
-    ArrayList<Payment> aPaymentArrayList;
-    ArrayList<Payment> bPaymentArrayList;
+    private String setAOrB = "AppointmentDTO payment";
+    ArrayList<PaymentDTO> aPaymentDTOArrayList;
+    ArrayList<PaymentDTO> bPaymentDTOArrayList;
     PaymentBO paymentBO = (PaymentBO) FactoryBOImpl.getFactoryBO().setBO(BOImplTypes.PAYMENT);
 
     {
         try {
-            aPaymentArrayList = getAllAPayments();
-            bPaymentArrayList = getAllBPayments();
+            aPaymentDTOArrayList = getAllAPayments();
+            bPaymentDTOArrayList = getAllBPayments();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private ArrayList<Payment> getAllBPayments() throws SQLException, ClassNotFoundException {
-        ArrayList<Payment> payments = new ArrayList<>();
+    private ArrayList<PaymentDTO> getAllBPayments() throws SQLException, ClassNotFoundException {
+        ArrayList<PaymentDTO> paymentDTOS = new ArrayList<>();
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM book_payment");
         while (resultSet.next()) {
-            Payment payment = new Payment();
-            payment.setPayId(String.valueOf(resultSet.getObject(1)));
-            payment.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
-            payment.setaOrBId(String.valueOf(resultSet.getObject(3)));
-            payment.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            payments.add(payment);
+            PaymentDTO paymentDTO = new PaymentDTO();
+            paymentDTO.setPayId(String.valueOf(resultSet.getObject(1)));
+            paymentDTO.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
+            paymentDTO.setaOrBId(String.valueOf(resultSet.getObject(3)));
+            paymentDTO.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            paymentDTOS.add(paymentDTO);
         }
-        return payments;
+        return paymentDTOS;
     }
 
-    private ArrayList<Payment> getAllAPayments() throws SQLException, ClassNotFoundException {
-        ArrayList<Payment> payments = new ArrayList<>();
+    private ArrayList<PaymentDTO> getAllAPayments() throws SQLException, ClassNotFoundException {
+        ArrayList<PaymentDTO> paymentDTOS = new ArrayList<>();
         ResultSet resultSet = paymentBO.getAllAppointmentPayments();
         while (resultSet.next()) {
-            Payment payment = new Payment();
-            payment.setPayId(String.valueOf(resultSet.getObject(1)));
-            payment.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
-            payment.setaOrBId(String.valueOf(resultSet.getObject(3)));
-            payment.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            payments.add(payment);
+            PaymentDTO paymentDTO = new PaymentDTO();
+            paymentDTO.setPayId(String.valueOf(resultSet.getObject(1)));
+            paymentDTO.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
+            paymentDTO.setaOrBId(String.valueOf(resultSet.getObject(3)));
+            paymentDTO.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            paymentDTOS.add(paymentDTO);
         }
-        return payments;
+        return paymentDTOS;
     }
 
     ObservableList<PaymentTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllAPaymentData() {
         observableList.clear();
-        for (Payment s : aPaymentArrayList) {
+        for (PaymentDTO s : aPaymentDTOArrayList) {
             PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), s.getAmountDue(), s.getaOrBId());
             observableList.add(paymentTM);
             tblView.setItems(observableList);
@@ -140,7 +139,7 @@ public class ManagePaymentController {
 
     private void loadAllBPaymentData() {
         observableList.clear();
-        for (Payment s : bPaymentArrayList) {
+        for (PaymentDTO s : bPaymentDTOArrayList) {
             PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), s.getAmountDue(), s.getaOrBId());
             observableList.add(paymentTM);
             tblView.setItems(observableList);
@@ -165,35 +164,35 @@ public class ManagePaymentController {
         String[] payMethods = new String[]{"Cash", "Checks", "Debit cards", "Credit cards", "Mobile payments", "Electronic bank transfers"};
         cmbPaymentMethod.getItems().setAll(payMethods);
 
-        ArrayList<Appointment> appointments;
-        ArrayList<Book> books;
+        ArrayList<AppointmentDTO> appointmentDTOS;
+        ArrayList<BookDTO> bookDTOS;
 
         try {
-            appointments = paymentBO.getAppointmentIds();
-            books = paymentBO.getBookingIds();
+            appointmentDTOS = paymentBO.getAppointmentIds();
+            bookDTOS = paymentBO.getBookingIds();
 
-            String[] aIds = new String[appointments.size()];
-            String[] bIds = new String[books.size()];
+            String[] aIds = new String[appointmentDTOS.size()];
+            String[] bIds = new String[bookDTOS.size()];
 
-            if (appointments.size() != 0) {
-                for (int i = 0; i < appointments.size(); i++) {
-                    aIds[i] = appointments.get(i).getAptId();
+            if (appointmentDTOS.size() != 0) {
+                for (int i = 0; i < appointmentDTOS.size(); i++) {
+                    aIds[i] = appointmentDTOS.get(i).getAptId();
                 }
             }
-            if (books.size() != 0) {
+            if (bookDTOS.size() != 0) {
                 for (int i = 0; i < bIds.length; i++) {
-                    bIds[i] = books.get(i).getBokId();
+                    bIds[i] = bookDTOS.get(i).getBokId();
 
                 }
             }
             String[] ids = new String[aIds.length + bIds.length];
             for (int i = 0; i < aIds.length; i++) {
-                ids[i] = appointments.get(i).getAptId();
+                ids[i] = appointmentDTOS.get(i).getAptId();
             }
             int j = 0;
             for (int i = aIds.length; i < ids.length; i++) {
-                ids[i] = books.get(j).getBokId();
-//                System.out.println(books.get(j).getBokId());
+                ids[i] = bookDTOS.get(j).getBokId();
+//                System.out.println(bookDTOS.get(j).getBokId());
                 j++;
             }
 
@@ -232,21 +231,21 @@ public class ManagePaymentController {
         String appointmentIdOrBookingIdValue = cmbAppointmentIdOrBookingId.getValue();
         double amountDue = Double.parseDouble(lblAmountDue.getText());
         String paymentMethodValue = cmbPaymentMethod.getValue();
-        Payment payment = new Payment();
-        payment.setPayId(pid);
-        payment.setPaymentMethod(paymentMethodValue);
-        payment.setAmountDue(amountDue);
-        payment.setaOrBId(appointmentIdOrBookingIdValue);
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setPayId(pid);
+        paymentDTO.setPaymentMethod(paymentMethodValue);
+        paymentDTO.setAmountDue(amountDue);
+        paymentDTO.setaOrBId(appointmentIdOrBookingIdValue);
         try {
-            boolean addPayment = add(payment);
+            boolean addPayment = add(paymentDTO);
             if (addPayment) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Payment add is successful");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "PaymentDTO add is successful");
                 alert.show();
                 loadCmb();
                 tblView.getItems().clear();
 
-                if (setAOrB.equals("Appointment payment")) {
-                    aPaymentArrayList = getAllAPayments();
+                if (setAOrB.equals("AppointmentDTO paymentDTO")) {
+                    aPaymentDTOArrayList = getAllAPayments();
                     loadAllAPaymentData();
                     setNextAId();
 
@@ -264,7 +263,7 @@ public class ManagePaymentController {
                         e.printStackTrace();
                     }
                 } else {
-                    bPaymentArrayList = getAllBPayments();
+                    bPaymentDTOArrayList = getAllBPayments();
                     loadAllBPaymentData();
                     setNextBId();
 
@@ -294,19 +293,19 @@ public class ManagePaymentController {
         }
     }
 
-    private boolean add(Payment payment) throws SQLException, ClassNotFoundException {
+    private boolean add(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
-        Matcher matcher = namePattern.matcher(payment.getaOrBId());
+        Matcher matcher = namePattern.matcher(paymentDTO.getaOrBId());
 
-        Book book = new Book();
-        book.setBokId(payment.getaOrBId());
-        book.setStatus("Paid");
+        BookDTO bookDTO = new BookDTO();
+        bookDTO.setBokId(paymentDTO.getaOrBId());
+        bookDTO.setStatus("Paid");
 
-        Appointment appointment = new Appointment();
-        appointment.setAptId(payment.getaOrBId());
-        appointment.setStatus("Paid");
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setAptId(paymentDTO.getaOrBId());
+        appointmentDTO.setStatus("Paid");
 
-        return paymentBO.add(matcher.matches(),payment,book,appointment);
+        return paymentBO.add(matcher.matches(), paymentDTO, bookDTO, appointmentDTO);
     }
 
     public void cmbAppointmentIdOrBookingId(ActionEvent actionEvent) {
@@ -317,23 +316,23 @@ public class ManagePaymentController {
         try {
             if (matcher.matches()) {
                 total = 0;
-                BookRentalsDetail bookRentalsDetail = new BookRentalsDetail();
-                bookRentalsDetail.setBokId(value);
+                BookRentalsDetailDTO bookRentalsDetailDTO = new BookRentalsDetailDTO();
+                bookRentalsDetailDTO.setBokId(value);
                 QueryDAO queryDAO = new QueryDAOImpl();
-                ArrayList<BookRentalsDetail> amountDue = getAmountDueBookRentalsDetail(bookRentalsDetail);
+                ArrayList<BookRentalsDetailDTO> amountDue = getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
                 if (amountDue.size() != 0) {
-                    for (BookRentalsDetail b : amountDue) {
+                    for (BookRentalsDetailDTO b : amountDue) {
                         total += b.getForHowManyDays() * (b.getPrice() - (b.getPrice() * b.getDiscount()) / 100.0);
                     }
                     lblAmountDue.setText(String.valueOf(total));
                 }
             } else {
                 total = 0;
-                ServiceAppointmentDetail serviceAppointmentDetail = new ServiceAppointmentDetail();
-                serviceAppointmentDetail.setAptId(value);
-                ArrayList<ServiceAppointmentDetail> amountDue = getAmountDueServiceAppointmentDetail(serviceAppointmentDetail);
+                ServiceAppointmentDetailDTO serviceAppointmentDetailDTO = new ServiceAppointmentDetailDTO();
+                serviceAppointmentDetailDTO.setAptId(value);
+                ArrayList<ServiceAppointmentDetailDTO> amountDue = getAmountDueServiceAppointmentDetail(serviceAppointmentDetailDTO);
                 if (amountDue.size() != 0) {
-                    for (ServiceAppointmentDetail a : amountDue) {
+                    for (ServiceAppointmentDetailDTO a : amountDue) {
                         total += a.getPrice() - (a.getPrice() * a.getDiscount()) / 100.0;
                     }
                     lblAmountDue.setText(String.valueOf(total));
@@ -345,30 +344,30 @@ public class ManagePaymentController {
 
     }
 
-    private ArrayList<BookRentalsDetail> getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException {
-        ArrayList<BookRentalsDetail> bookRentalsDetails = new ArrayList<>();
-        ResultSet resultSet = paymentBO.getAmountDueBookRentalsDetail(bookRentalsDetail);
+    private ArrayList<BookRentalsDetailDTO> getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<BookRentalsDetailDTO> bookRentalsDetailDTOS = new ArrayList<>();
+        ResultSet resultSet = paymentBO.getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
         while (resultSet.next()) {
-            BookRentalsDetail setBookRentalsDetail = new BookRentalsDetail();
-            setBookRentalsDetail.setQty((Integer) resultSet.getObject(1));
-            setBookRentalsDetail.setForHowManyDays((Integer) resultSet.getObject(2));
-            setBookRentalsDetail.setPrice((Double) resultSet.getObject(3));
-            setBookRentalsDetail.setDiscount((Double) resultSet.getObject(4));
-            bookRentalsDetails.add(setBookRentalsDetail);
+            BookRentalsDetailDTO setBookRentalsDetailDTO = new BookRentalsDetailDTO();
+            setBookRentalsDetailDTO.setQty((Integer) resultSet.getObject(1));
+            setBookRentalsDetailDTO.setForHowManyDays((Integer) resultSet.getObject(2));
+            setBookRentalsDetailDTO.setPrice((Double) resultSet.getObject(3));
+            setBookRentalsDetailDTO.setDiscount((Double) resultSet.getObject(4));
+            bookRentalsDetailDTOS.add(setBookRentalsDetailDTO);
         }
-        return bookRentalsDetails;
+        return bookRentalsDetailDTOS;
     }
 
-    private ArrayList<ServiceAppointmentDetail> getAmountDueServiceAppointmentDetail(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceAppointmentDetail> serviceAppointmentDetails = new ArrayList<>();
-        ResultSet resultSet = paymentBO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetail);
+    private ArrayList<ServiceAppointmentDetailDTO> getAmountDueServiceAppointmentDetail(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS = new ArrayList<>();
+        ResultSet resultSet = paymentBO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetailDTO);
         while (resultSet.next()) {
-            ServiceAppointmentDetail setServiceAppointmentDetail = new ServiceAppointmentDetail();
-            setServiceAppointmentDetail.setPrice((Double) resultSet.getObject(1));
-            setServiceAppointmentDetail.setDiscount((Double) resultSet.getObject(2));
-            serviceAppointmentDetails.add(setServiceAppointmentDetail);
+            ServiceAppointmentDetailDTO setServiceAppointmentDetailDTO = new ServiceAppointmentDetailDTO();
+            setServiceAppointmentDetailDTO.setPrice((Double) resultSet.getObject(1));
+            setServiceAppointmentDetailDTO.setDiscount((Double) resultSet.getObject(2));
+            serviceAppointmentDetailDTOS.add(setServiceAppointmentDetailDTO);
         }
-        return serviceAppointmentDetails;
+        return serviceAppointmentDetailDTOS;
     }
 
 

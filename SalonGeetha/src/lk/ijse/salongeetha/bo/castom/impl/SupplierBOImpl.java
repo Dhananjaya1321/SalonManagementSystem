@@ -4,8 +4,7 @@ import lk.ijse.salongeetha.bo.castom.SupplierBO;
 import lk.ijse.salongeetha.dao.DAOImplTypes;
 import lk.ijse.salongeetha.dao.FactoryDAOImpl;
 import lk.ijse.salongeetha.dao.castom.SupplierDAO;
-import lk.ijse.salongeetha.dao.castom.impl.SupplierDAOImpl;
-import lk.ijse.salongeetha.to.Supplier;
+import lk.ijse.salongeetha.to.SupplierDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,16 +12,16 @@ import java.sql.SQLException;
 public class SupplierBOImpl implements SupplierBO {
     SupplierDAO supplierDAO= (SupplierDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.SUPPLIER);
     @Override
-    public boolean updateSupplier(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return supplierDAO.update(supplier);
+    public boolean updateSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return supplierDAO.update(supplierDTO);
     }
     @Override
-    public ResultSet searchSupplier(Boolean value, Supplier supplier) throws SQLException, ClassNotFoundException {
-        return supplierDAO.search(value,supplier);
+    public ResultSet searchSupplier(Boolean value, SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return supplierDAO.search(value, supplierDTO);
     }
     @Override
-    public boolean deleteSupplier(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return supplierDAO.delete(supplier);
+    public boolean deleteSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return supplierDAO.delete(supplierDTO);
     }
     @Override
     public String checkIdSupplier() throws SQLException, ClassNotFoundException {
@@ -33,7 +32,7 @@ public class SupplierBOImpl implements SupplierBO {
         return supplierDAO.getAll();
     }
     @Override
-    public boolean addSupplier(Supplier supplier) throws SQLException, ClassNotFoundException {
-        return supplierDAO.add(supplier);
+    public boolean addSupplier(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
+        return supplierDAO.add(supplierDTO);
     }
 }

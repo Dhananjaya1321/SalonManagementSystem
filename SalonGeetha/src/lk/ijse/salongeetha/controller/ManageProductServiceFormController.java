@@ -12,16 +12,9 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductServiceBO;
-import lk.ijse.salongeetha.bo.castom.impl.ProductServiceBOImpl;
-import lk.ijse.salongeetha.dao.castom.ProductDAO;
-import lk.ijse.salongeetha.dao.castom.ProductServiceDAO;
-import lk.ijse.salongeetha.dao.castom.ServiceDAO;
-import lk.ijse.salongeetha.dao.castom.impl.ProductDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ProductServiceDAOImpl;
-import lk.ijse.salongeetha.dao.castom.impl.ServiceDAOImpl;
-import lk.ijse.salongeetha.to.Product;
-import lk.ijse.salongeetha.to.ProductServiceDetail;
-import lk.ijse.salongeetha.to.Service;
+import lk.ijse.salongeetha.to.ProductDTO;
+import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
+import lk.ijse.salongeetha.to.ServiceDTO;
 import lk.ijse.salongeetha.to.tm.ProductServiceTM;
 
 import java.sql.ResultSet;
@@ -85,17 +78,17 @@ public class ManageProductServiceFormController {
         String serviceIdValue = cmbServiceId.getValue();
         String serviceNameText = lblServiceName.getText();
         int txtQtyText = Integer.parseInt(txtQty.getText());
-        ProductServiceDetail productServiceDetail = new ProductServiceDetail(productIdValue, serviceIdValue, serviceNameText, txtQtyText);
+        ProductServiceDetailDTO productServiceDetailDTO = new ProductServiceDetailDTO(productIdValue, serviceIdValue, serviceNameText, txtQtyText);
 
         try {
-            boolean checkAlreadyExists = productServiceBO.checkAlreadyExists(productServiceDetail);
+            boolean checkAlreadyExists = productServiceBO.checkAlreadyExists(productServiceDetailDTO);
             if (!checkAlreadyExists) {
-                boolean addProductService = productServiceBO.addProductAndServiceDetail(productServiceDetail);
+                boolean addProductService = productServiceBO.addProductAndServiceDetail(productServiceDetailDTO);
                 if (addProductService) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "successfully added");
                     alert.show();
                     tblView.getItems().clear();
-                    productServiceDetailArrayList = getAllProductServiceDetail();
+                    productServiceDetailDTOArrayList = getAllProductServiceDetail();
                     loadAllData();
                 }
             } else {
@@ -115,12 +108,12 @@ public class ManageProductServiceFormController {
 
     public void cmbServiceIdOnAction(ActionEvent actionEvent) {
         this.serviceId = cmbServiceId.getValue();
-        Service service = new Service();
-        service.setName(serviceId);
+        ServiceDTO serviceDTO = new ServiceDTO();
+        serviceDTO.setName(serviceId);
         try {
-            ArrayList<Service> services = search(service);
-            if (services.size() > 0) {
-                for (Service s : services) {
+            ArrayList<ServiceDTO> serviceDTOS = search(serviceDTO);
+            if (serviceDTOS.size() > 0) {
+                for (ServiceDTO s : serviceDTOS) {
                     lblServiceName.setText(s.getName());
                 }
             }
@@ -130,21 +123,21 @@ public class ManageProductServiceFormController {
 
     }
 
-    private ArrayList<Service> search(Service service) throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> search(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
-        Matcher matcher = userNamePattern.matcher(service.getName());
-        ResultSet resultSet = productServiceBO.searchService(matcher.matches(), service);
+        Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
+        ResultSet resultSet = productServiceBO.searchService(matcher.matches(), serviceDTO);
         while (resultSet.next()) {
-            Service searchService = new Service();
-            searchService.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchService.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchService.setName(String.valueOf(resultSet.getObject(3)));
-            searchService.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchService.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(searchService);
+            ServiceDTO searchServiceDTO = new ServiceDTO();
+            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(searchServiceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
     public void cmbProductIdOnAction(ActionEvent actionEvent) {
@@ -154,24 +147,24 @@ public class ManageProductServiceFormController {
     public void initialize() {
         btnSave.setVisible(false);
         try {
-            ArrayList<Service> services = getAllService();
+            ArrayList<ServiceDTO> serviceDTOS = getAllService();
             String[] ids;
 
-            if (services.size() != 0) {
-                ids = new String[services.size()];
+            if (serviceDTOS.size() != 0) {
+                ids = new String[serviceDTOS.size()];
                 for (int i = 0; i < ids.length; i++) {
-                    ids[i] = String.valueOf(services.get(i).getSevId());
+                    ids[i] = String.valueOf(serviceDTOS.get(i).getSevId());
                 }
                 cmbServiceId.getItems().addAll(ids);
             }
 
 
-            ArrayList<Product> products = getAllProduct();
+            ArrayList<ProductDTO> productDTOS = getAllProduct();
             String[] Pids;
-            if (products.size() != 0) {
-                Pids = new String[products.size()];
+            if (productDTOS.size() != 0) {
+                Pids = new String[productDTOS.size()];
                 for (int i = 0; i < Pids.length; i++) {
-                    Pids[i] = String.valueOf(products.get(i).getProId());
+                    Pids[i] = String.valueOf(productDTOS.get(i).getProId());
                 }
                 cmbProductId.getItems().addAll(Pids);
             }
@@ -188,11 +181,11 @@ public class ManageProductServiceFormController {
         loadAllData();
     }
 
-    ArrayList<ProductServiceDetail> productServiceDetailArrayList;
+    ArrayList<ProductServiceDetailDTO> productServiceDetailDTOArrayList;
 
     {
         try {
-            productServiceDetailArrayList = getAllProductServiceDetail();
+            productServiceDetailDTOArrayList = getAllProductServiceDetail();
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -202,7 +195,7 @@ public class ManageProductServiceFormController {
     ObservableList<ProductServiceTM> observableList = FXCollections.observableArrayList();
 
     private void loadAllData() {
-        for (ProductServiceDetail p : productServiceDetailArrayList) {
+        for (ProductServiceDetailDTO p : productServiceDetailDTOArrayList) {
             JFXButton delete = new JFXButton("Delete");
             delete.setStyle("-fx-background-color: linear-gradient(to right, #fb0000, #fc0000, #fd0000, #fe0000, #ff0000)");
             delete.setOnAction((e) -> {
@@ -216,12 +209,12 @@ public class ManageProductServiceFormController {
 
                     String proId = tm.getProId();
                     String sevId = tm.getSevId();
-                    ProductServiceDetail productServiceDetail = new ProductServiceDetail();
+                    ProductServiceDetailDTO productServiceDetailDTO = new ProductServiceDetailDTO();
 
                     try {
-                        productServiceDetail.setProId(proId);
-                        productServiceDetail.setSevId(sevId);
-                        boolean isDeleted = productServiceBO.deleteProductAndServiceDetail(productServiceDetail);
+                        productServiceDetailDTO.setProId(proId);
+                        productServiceDetailDTO.setSevId(sevId);
+                        boolean isDeleted = productServiceBO.deleteProductAndServiceDetail(productServiceDetailDTO);
                         if (isDeleted) {
                             Alert alert1 = new Alert(Alert.AlertType.WARNING, "delete successful");
                             alert1.show();
@@ -255,49 +248,49 @@ public class ManageProductServiceFormController {
         }
     }
 
-    private ArrayList<Service> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<Service> services = new ArrayList<>();
+    private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
+        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllService();
         while (resultSet.next()) {
-            Service service = new Service();
-            service.setSevId(String.valueOf(resultSet.getObject(1)));
-            service.setDescription(String.valueOf(resultSet.getObject(2)));
-            service.setName(String.valueOf(resultSet.getObject(3)));
-            service.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            service.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            services.add(service);
+            ServiceDTO serviceDTO = new ServiceDTO();
+            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
+            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
+            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
+            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
+            serviceDTOS.add(serviceDTO);
         }
-        return services;
+        return serviceDTOS;
     }
 
-    private ArrayList<ProductServiceDetail> getAllProductServiceDetail() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductServiceDetail> productServiceDetails = new ArrayList<>();
+    private ArrayList<ProductServiceDetailDTO> getAllProductServiceDetail() throws SQLException, ClassNotFoundException {
+        ArrayList<ProductServiceDetailDTO> productServiceDetailDTOS = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllProductAndServiceDAO();
         while (resultSet.next()) {
-            ProductServiceDetail productServiceDetail = new ProductServiceDetail();
-            productServiceDetail.setProId(String.valueOf(resultSet.getObject(1)));
-            productServiceDetail.setSevId(String.valueOf(resultSet.getObject(2)));
-            productServiceDetail.setQty((Integer) resultSet.getObject(3));
-            productServiceDetail.setName(String.valueOf(resultSet.getObject(4)));
-            productServiceDetails.add(productServiceDetail);
+            ProductServiceDetailDTO productServiceDetailDTO = new ProductServiceDetailDTO();
+            productServiceDetailDTO.setProId(String.valueOf(resultSet.getObject(1)));
+            productServiceDetailDTO.setSevId(String.valueOf(resultSet.getObject(2)));
+            productServiceDetailDTO.setQty((Integer) resultSet.getObject(3));
+            productServiceDetailDTO.setName(String.valueOf(resultSet.getObject(4)));
+            productServiceDetailDTOS.add(productServiceDetailDTO);
         }
-        return productServiceDetails;
+        return productServiceDetailDTOS;
     }
 
-    private ArrayList<Product> getAllProduct() throws SQLException, ClassNotFoundException {
-        ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<ProductDTO> getAllProduct() throws SQLException, ClassNotFoundException {
+        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
         ResultSet resultSet = productServiceBO.getAllProduct();
         while (resultSet.next()) {
-            Product product = new Product();
-            product.setProId(String.valueOf(resultSet.getObject(1)));
-            product.setDescription(String.valueOf(resultSet.getObject(2)));
-            product.setCategory(String.valueOf(resultSet.getObject(3)));
-            product.setBrand(String.valueOf(resultSet.getObject(4)));
-            product.setUnitPrice((Double) resultSet.getObject(5));
-            product.setQtyOnHand((Integer) resultSet.getObject(6));
-            product.setSupId(String.valueOf(resultSet.getObject(7)));
-            products.add(product);
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setProId(String.valueOf(resultSet.getObject(1)));
+            productDTO.setDescription(String.valueOf(resultSet.getObject(2)));
+            productDTO.setCategory(String.valueOf(resultSet.getObject(3)));
+            productDTO.setBrand(String.valueOf(resultSet.getObject(4)));
+            productDTO.setUnitPrice((Double) resultSet.getObject(5));
+            productDTO.setQtyOnHand((Integer) resultSet.getObject(6));
+            productDTO.setSupId(String.valueOf(resultSet.getObject(7)));
+            productDTOS.add(productDTO);
         }
-        return products;
+        return productDTOS;
     }
 }

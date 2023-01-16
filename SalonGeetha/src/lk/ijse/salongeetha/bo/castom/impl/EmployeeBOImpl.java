@@ -6,8 +6,8 @@ import lk.ijse.salongeetha.dao.castom.UserDAO;
 import lk.ijse.salongeetha.dao.castom.impl.EmployeeDAOImpl;
 import lk.ijse.salongeetha.dao.castom.impl.UserDAOImpl;
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.to.Employee;
-import lk.ijse.salongeetha.to.User;
+import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.to.UserDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,13 +17,13 @@ public class EmployeeBOImpl implements EmployeeBO {
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     @Override
-    public boolean addReceptionist(Employee employee, User user) throws SQLException, ClassNotFoundException{
+    public boolean addReceptionist(EmployeeDTO employeeDTO, UserDTO userDTO) throws SQLException, ClassNotFoundException{
         try {
             DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-            boolean isAdded = employeeDAO.addReceptionist(employee, user);
+            boolean isAdded = employeeDAO.addReceptionist(employeeDTO, userDTO);
             if (isAdded) {
                 UserDAO userDAO = new UserDAOImpl();
-                boolean addUser = userDAO.add(user);
+                boolean addUser = userDAO.add(userDTO);
                 if (addUser) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;
@@ -37,12 +37,12 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public boolean deleteReceptionist(Employee employee, User user) throws SQLException, ClassNotFoundException {
+    public boolean deleteReceptionist(EmployeeDTO employeeDTO, UserDTO userDTO) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         try {
-            boolean executeUpdate = userDAO.delete(user, employee);
+            boolean executeUpdate = userDAO.delete(userDTO, employeeDTO);
             if (executeUpdate) {
-                boolean deleteEmployee = employeeDAO.delete(employee);
+                boolean deleteEmployee = employeeDAO.delete(employeeDTO);
                 if (deleteEmployee) {
                     DBConnection.getDBConnection().getConnection().commit();
                     return true;
@@ -56,18 +56,18 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public boolean addEmployee(Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.add(employee);
+    public boolean addEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.add(employeeDTO);
     }
 
     @Override
-    public boolean updateEmployee(Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.update(employee);
+    public boolean updateEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.update(employeeDTO);
     }
 
     @Override
-    public boolean deleteEmployee(Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.delete(employee);
+    public boolean deleteEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.delete(employeeDTO);
     }
 
     @Override
@@ -76,8 +76,8 @@ public class EmployeeBOImpl implements EmployeeBO {
     }
 
     @Override
-    public ResultSet searchEmployee(boolean value, Employee employee) throws SQLException, ClassNotFoundException {
-        return employeeDAO.search(value, employee);
+    public ResultSet searchEmployee(boolean value, EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
+        return employeeDAO.search(value, employeeDTO);
     }
 
     @Override
