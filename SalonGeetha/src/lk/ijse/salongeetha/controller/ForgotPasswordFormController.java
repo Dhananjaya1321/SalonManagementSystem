@@ -13,12 +13,12 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ForgotPasswordBO;
-import lk.ijse.salongeetha.to.UserDTO;
-import lk.ijse.salongeetha.util.GenerateOTP;
+import lk.ijse.salongeetha.dto.UserDTO;
 import lk.ijse.salongeetha.util.SendMail;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Random;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -56,7 +56,7 @@ public class ForgotPasswordFormController {
             boolean isChecked = forgotPasswordBO.checkEmail(userDTO);
             if (isChecked) {
                 if (email.equals(userDTO.getEmail())) {
-                    otp = GenerateOTP.getOTP();
+                    otp = getOTP();
                     boolean isSend = SendMail.Authentication("Authentication", email, otp);
                     if (isSend) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Email send successfully");
@@ -85,6 +85,13 @@ public class ForgotPasswordFormController {
             throw new RuntimeException(e);
         }
     }
+
+    private String getOTP(){
+        Random random=new Random();
+        int otp=random.nextInt(1000000);
+        return String.valueOf(otp);
+    }
+
 
     public void btnBackLoginFormOnAction(ActionEvent actionEvent) throws IOException {
         Navigation("LoginForm.fxml");

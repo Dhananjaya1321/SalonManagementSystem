@@ -1,11 +1,11 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.UserDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.dto.UserDTO;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface EmployeeBO extends SuperBOImpl {
 
@@ -21,7 +21,7 @@ public interface EmployeeBO extends SuperBOImpl {
 
     String checkIdEmployee() throws SQLException, ClassNotFoundException;
 
-    ResultSet searchEmployee(boolean value, EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException;
+    ArrayList<EmployeeDTO> searchEmployee(boolean value, EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException;
 
-    ResultSet getAllEmployee() throws SQLException, ClassNotFoundException;
+    ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException;
 }

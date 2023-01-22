@@ -71,7 +71,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/save.png" />
+                        <Image url="@assets/icon/save.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -97,7 +97,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/close_FILL1_wght400_GRAD0_opsz48.png" />
+                        <Image url="@assets/icon/close_FILL1_wght400_GRAD0_opsz48.png" />
                      </image>
                   </ImageView>
                </graphic>

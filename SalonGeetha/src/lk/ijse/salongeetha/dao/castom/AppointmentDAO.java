@@ -1,22 +1,22 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SQLUtil;
-import lk.ijse.salongeetha.to.AppointmentDTO;
-import lk.ijse.salongeetha.to.PaymentDTO;
-import lk.ijse.salongeetha.to.ServiceAppointmentDetailDTO;
+import lk.ijse.salongeetha.entity.Appointment;
+import lk.ijse.salongeetha.entity.AppointmentPayment;
+import lk.ijse.salongeetha.entity.ServiceAppointmentDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface AppointmentDAO extends SQLUtil<AppointmentDTO> {
-    boolean addAppointment(AppointmentDTO appointmentDTO, ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS) throws SQLException, ClassNotFoundException;
+public interface AppointmentDAO extends SQLUtil<Appointment> {
+    boolean addAppointment(Appointment appointment, ArrayList<ServiceAppointmentDetail> serviceAppointmentDetailS) throws SQLException, ClassNotFoundException;
 
-    ArrayList<AppointmentDTO> getIds() throws SQLException, ClassNotFoundException;
+    ArrayList<Appointment> getIds() throws SQLException, ClassNotFoundException;
 
-    boolean getId(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException;
+    String getId(AppointmentPayment payment) throws SQLException, ClassNotFoundException;
 
-    String getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException;
+    int getAppointmentCount(String setDate) throws SQLException, ClassNotFoundException;
 
     ResultSet getAppointmentForChart(String time) throws SQLException, ClassNotFoundException;
 }

@@ -1,17 +1,16 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SQLUtil;
-import lk.ijse.salongeetha.to.BookRentalsDetailDTO;
-import lk.ijse.salongeetha.to.RentalsDTO;
+import lk.ijse.salongeetha.entity.BookRentalsDetail;
+import lk.ijse.salongeetha.entity.Rentals;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface RentalsDAO extends SQLUtil<RentalsDTO> {
+public interface RentalsDAO extends SQLUtil<Rentals> {
 
-    ResultSet searchRentalsDetails(RentalsDTO rental) throws SQLException, ClassNotFoundException;
+    ArrayList<Rentals> searchRentalsDetails(Rentals rental) throws SQLException, ClassNotFoundException;
 
-    boolean update(ArrayList<BookRentalsDetailDTO> bookRentalsDetailDTOS) throws SQLException, ClassNotFoundException;
+    boolean update(ArrayList<BookRentalsDetail> bookRentalsDetailDTOS) throws SQLException, ClassNotFoundException;
 
 }

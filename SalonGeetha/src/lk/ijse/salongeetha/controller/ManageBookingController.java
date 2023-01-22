@@ -19,14 +19,13 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.BookingBO;
-import lk.ijse.salongeetha.to.*;
-import lk.ijse.salongeetha.to.tm.BookTM;
+import lk.ijse.salongeetha.dto.*;
+import lk.ijse.salongeetha.view.tm.BookTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -294,19 +293,7 @@ public class ManageBookingController {
         }
     }
     private ArrayList<RentalsDTO> searchRentalsDetails(RentalsDTO rental) throws SQLException, ClassNotFoundException {
-        ArrayList<RentalsDTO> rentals = new ArrayList<>();
-        ResultSet resultSet = bookingBO.searchRentalsDetails(rental);
-        while (resultSet.next()) {
-            RentalsDTO searchRental = new RentalsDTO();
-            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
-            searchRental.setName(String.valueOf(resultSet.getObject(2)));
-            searchRental.setPricePreDay((Double) resultSet.getObject(3));
-            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
-            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
-            searchRental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(searchRental);
-        }
-        return rentals;
+        return bookingBO.searchRentalsDetails(rental);
     }
 
     public void cmbCustomerId(ActionEvent actionEvent) {
@@ -327,18 +314,7 @@ public class ManageBookingController {
         }
     }
     private ArrayList<CustomerDTO> searchCustomerDetails(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
-        ResultSet resultSet = bookingBO.searchCustomerDetails(customerDTO);
-        while (resultSet.next()) {
-            CustomerDTO searchCustomerDTO = new CustomerDTO();
-            searchCustomerDTO.setNic(String.valueOf(resultSet.getObject(1)));
-            searchCustomerDTO.setName(String.valueOf(resultSet.getObject(2)));
-            searchCustomerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            searchCustomerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
-            searchCustomerDTO.setDob(String.valueOf(resultSet.getObject(5)));
-            customerDTOS.add(searchCustomerDTO);
-        }
-        return customerDTOS;
+        return bookingBO.searchCustomerDetails(customerDTO);
     }
     public void btnNewONAction(ActionEvent actionEvent) throws IOException {
         URL resource = getClass().getResource("/lk/ijse/salongeetha/view/AddCustomerForm.fxml");
@@ -410,33 +386,10 @@ public class ManageBookingController {
     }
 
     private ArrayList<RentalsDTO> getAllRentals() throws SQLException, ClassNotFoundException {
-        ArrayList<RentalsDTO> rentals = new ArrayList<>();
-        ResultSet resultSet = bookingBO.getAllRentals();
-        while (resultSet.next()) {
-            RentalsDTO rental = new RentalsDTO();
-            rental.setRntId(String.valueOf(resultSet.getObject(1)));
-            rental.setName(String.valueOf(resultSet.getObject(2)));
-            rental.setPricePreDay((Double) resultSet.getObject(3));
-            rental.setDescription(String.valueOf(resultSet.getObject(4)));
-            rental.setAvaliableCount((Integer) resultSet.getObject(5));
-            rental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(rental);
-        }
-        return rentals;
+        return bookingBO.getAllRentals();
     }
     private ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
-        ResultSet resultSet = bookingBO.getAllCustomer();
-        while (resultSet.next()) {
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setNic(String.valueOf(resultSet.getObject(1)));
-            customerDTO.setName(String.valueOf(resultSet.getObject(2)));
-            customerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            customerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
-            customerDTO.setDob(String.valueOf(resultSet.getObject(5)));
-            customerDTOS.add(customerDTO);
-        }
-        return customerDTOS;
+        return bookingBO.getAllCustomer();
     }
 
 }

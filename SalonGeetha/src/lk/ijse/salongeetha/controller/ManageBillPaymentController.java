@@ -12,15 +12,14 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.BillBO;
-import lk.ijse.salongeetha.to.BillPaymentDTO;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.tm.BillPaymentTM;
+import lk.ijse.salongeetha.dto.BillPaymentDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.view.tm.BillPaymentTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -321,11 +320,10 @@ public class ManageBillPaymentController {
         }
     }
     public ArrayList<BillPaymentDTO> search(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<BillPaymentDTO> billPaymentDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(billPaymentDTO.getTitle());
-        ResultSet resultSet = billBO.searchBillPayment(matcher.matches(), billPaymentDTO);
-        while (resultSet.next()) {
+        return billBO.searchBillPayment(matcher.matches(), billPaymentDTO);
+        /*while (resultSet.next()) {
             BillPaymentDTO searchBillPaymentDTO = new BillPaymentDTO();
             searchBillPaymentDTO.setBilId(String.valueOf(resultSet.getObject(1)));
             searchBillPaymentDTO.setDate(String.valueOf(resultSet.getObject(2)));
@@ -335,7 +333,7 @@ public class ManageBillPaymentController {
             searchBillPaymentDTO.setEmpId(String.valueOf(resultSet.getObject(6)));
             billPaymentDTOS.add(searchBillPaymentDTO);
         }
-        return billPaymentDTOS;
+        return billPaymentDTOS;*/
     }
 
     public void cleanTable() {
@@ -349,40 +347,10 @@ public class ManageBillPaymentController {
 
     }
     private ArrayList<BillPaymentDTO> getAllBillPayment() throws SQLException, ClassNotFoundException {
-        ArrayList<BillPaymentDTO> billPaymentDTOS = new ArrayList<>();
-        ResultSet resultSet = billBO.getAllBillPayment();
-        while (resultSet.next()) {
-            BillPaymentDTO billPaymentDTO = new BillPaymentDTO();
-            billPaymentDTO.setBilId(String.valueOf(resultSet.getObject(1)));
-            billPaymentDTO.setDate(String.valueOf(resultSet.getObject(2)));
-            billPaymentDTO.setDescription(String.valueOf(resultSet.getObject(3)));
-            billPaymentDTO.setTitle(String.valueOf(resultSet.getObject(4)));
-            billPaymentDTO.setAmountPaid((Double) resultSet.getObject(5));
-            billPaymentDTO.setEmpId(String.valueOf(resultSet.getObject(6)));
-            billPaymentDTOS.add(billPaymentDTO);
-        }
-        return billPaymentDTOS;
+        return billBO.getAllBillPayment();
     }
     private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        ResultSet resultSet = billBO.getAllEmployees();
-        if (resultSet.next()) {
-            do {
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
-                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
-                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
-                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
-                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
-                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
-                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employeeDTOS.add(employeeDTO);
-            } while (resultSet.next());
-            return employeeDTOS;
-        }
-        return new ArrayList<>();
+        return billBO.getAllEmployees();
     }
 
 }

@@ -52,7 +52,7 @@
                <graphic>
                   <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/home_FILL0_wght400_GRAD0_opsz48.png" />
+                        <Image url="@assets/icon/home_FILL0_wght400_GRAD0_opsz48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -72,7 +72,7 @@
                <graphic>
                   <ImageView fitHeight="37.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/download-removebg-preview.png" />
+                        <Image url="@assets/image/download-removebg-preview.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -92,7 +92,7 @@
                <graphic>
                   <ImageView fitHeight="36.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/ooking.png" />
+                        <Image url="@assets/image/ooking.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -112,7 +112,7 @@
                <graphic>
                   <ImageView fitHeight="39.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/groups_FILL0_wght400_GRAD0_opsz48.png" />
+                        <Image url="@assets/icon/groups_FILL0_wght400_GRAD0_opsz48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -132,7 +132,7 @@
                <graphic>
                   <ImageView fitHeight="41.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/payments_FILL0_wght400_GRAD0_opsz48.png" />
+                        <Image url="@assets/icon/payments_FILL0_wght400_GRAD0_opsz48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -152,7 +152,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/logOut.png" />
+                        <Image url="@assets/icon/logOut.png" />
                      </image>
                   </ImageView>
                </graphic>

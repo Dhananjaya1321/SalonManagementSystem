@@ -71,7 +71,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/icon/search_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@assets/icon/search_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -85,7 +85,7 @@
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
+                              <Image url="@assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -167,7 +167,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 60;">
                                  <image>
-                                    <Image url="@../assets/icon/send_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@assets/icon/send_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>

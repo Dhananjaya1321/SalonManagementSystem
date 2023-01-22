@@ -51,7 +51,7 @@
                      <graphic>
                         <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: -50;">
                            <image>
-                              <Image url="@../assets/image/ooking.png" />
+                              <Image url="@assets/image/ooking.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -85,7 +85,7 @@
                      <graphic>
                         <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: -50;">
                            <image>
-                              <Image url="@../assets/image/download-removebg-preview.png" />
+                              <Image url="@assets/image/download-removebg-preview.png" />
                            </image>
                         </ImageView>
                      </graphic>

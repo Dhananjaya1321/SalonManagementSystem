@@ -58,7 +58,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/home_FILL0_wght400_GRAD0_opsz48.png" />
+                        <Image url="@assets/icon/home_FILL0_wght400_GRAD0_opsz48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -78,7 +78,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/208-2088629_employee-png-free-employees-icon-png-transparent-png-removebg-preview.png" />
+                        <Image url="@assets/image/208-2088629_employee-png-free-employees-icon-png-transparent-png-removebg-preview.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -98,7 +98,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/service.png" />
+                        <Image url="@assets/image/service.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -118,7 +118,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/rentals.png" />
+                        <Image url="@assets/image/rentals.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -138,7 +138,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/423-4232162_supplier-svg-png-icon-free-download-supplier-icon-black-and-white-removebg-preview.png" />
+                        <Image url="@assets/image/423-4232162_supplier-svg-png-icon-free-download-supplier-icon-black-and-white-removebg-preview.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -158,7 +158,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/443-4431327_png-file-fa-fa-product-icon-removebg-preview.png" />
+                        <Image url="@assets/image/443-4431327_png-file-fa-fa-product-icon-removebg-preview.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -178,7 +178,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/service.png" />
+                        <Image url="@assets/image/service.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -198,7 +198,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/service.png" />
+                        <Image url="@assets/image/service.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -211,14 +211,14 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton buttonType="RAISED" maxHeight="50.0" onAction="#btnBillPaymentOnAction" prefHeight="45.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);; -fx-background-radius: 0 60 50;" text="  Bill paymentDTO                " textFill="WHITE" GridPane.rowIndex="9">
+            <JFXButton buttonType="RAISED" maxHeight="50.0" onAction="#btnBillPaymentOnAction" prefHeight="45.0" prefWidth="294.0" style="-fx-background-color: linear-gradient(to right, #c719e1, #c333e2, #c043e3, #bd50e3, #ba5be3);; -fx-background-radius: 0 60 50;" text="  Bill paymentDTO          " textFill="WHITE" GridPane.rowIndex="9">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/bill_payment.png" />
+                        <Image url="@assets/image/bill_payment.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -238,7 +238,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/image/reports.png" />
+                        <Image url="@assets/image/reports.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -258,7 +258,7 @@
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icon/logOut.png" />
+                        <Image url="@assets/icon/logOut.png" />
                      </image>
                   </ImageView>
                </graphic>

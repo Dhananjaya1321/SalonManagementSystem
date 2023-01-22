@@ -12,10 +12,9 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeServiceBO;
-import lk.ijse.salongeetha.to.*;
-import lk.ijse.salongeetha.to.tm.EmployeeServiceTM;
+import lk.ijse.salongeetha.dto.*;
+import lk.ijse.salongeetha.view.tm.EmployeeServiceTM;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -228,24 +227,10 @@ public class ManageEmployeeServiceFormController {
     }
 
     public ArrayList<EmployeeDTO> searchEmployee(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = namePattern.matcher(employeeDTO.getName());
-        ResultSet resultSet = employeeServiceBO.searchEmployee(matcher.matches(), employeeDTO);
-        while (resultSet.next()) {
-            EmployeeDTO searchEmployeeDTO = new EmployeeDTO();
-            searchEmployeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployeeDTO.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employeeDTOS.add(searchEmployeeDTO);
-        }
-        return employeeDTOS;
+        return employeeServiceBO.searchEmployee(matcher.matches(), employeeDTO);
+
     }
 
     public void cmbServiceIdOnAction(ActionEvent actionEvent) {
@@ -266,70 +251,20 @@ public class ManageEmployeeServiceFormController {
     }
 
     private ArrayList<ServiceDTO> searchService(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
-        ResultSet resultSet = employeeServiceBO.searchService(matcher.matches(), serviceDTO);
-        while (resultSet.next()) {
-            ServiceDTO searchServiceDTO = new ServiceDTO();
-            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(searchServiceDTO);
-        }
-        return serviceDTOS;
+        return employeeServiceBO.searchService(matcher.matches(), serviceDTO);
     }
 
     private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
-        ResultSet resultSet = employeeServiceBO.getAllService();
-        while (resultSet.next()) {
-            ServiceDTO serviceDTO = new ServiceDTO();
-            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(serviceDTO);
-        }
-        return serviceDTOS;
+        return employeeServiceBO.getAllService();
     }
 
     private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        ResultSet resultSet = employeeServiceBO.getAllEmployee();
-        if (resultSet.next()) {
-            do {
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
-                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
-                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
-                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
-                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
-                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
-                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employeeDTOS.add(employeeDTO);
-            } while (resultSet.next());
-            return employeeDTOS;
-        }
-        return new ArrayList<>();
+        return employeeServiceBO.getAllEmployee();
     }
 
     private ArrayList<EmployeeServiceDetailDTO> getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeServiceDetailDTO> employeeServiceDetailDTOS = new ArrayList<>();
-        ResultSet resultSet = employeeServiceBO.getAllEmployeeServiceDetails();
-        while (resultSet.next()) {
-            EmployeeServiceDetailDTO employeeServiceDetailDTO = new EmployeeServiceDetailDTO();
-            employeeServiceDetailDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-            employeeServiceDetailDTO.setSevId(String.valueOf(resultSet.getObject(2)));
-            employeeServiceDetailDTO.setEmpName(String.valueOf(resultSet.getObject(3)));
-            employeeServiceDetailDTO.setSevName(String.valueOf(resultSet.getObject(4)));
-            employeeServiceDetailDTOS.add(employeeServiceDetailDTO);
-        }
-        return employeeServiceDetailDTOS;
+        return employeeServiceBO.getAllEmployeeServiceDetails();
     }
 }

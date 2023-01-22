@@ -8,9 +8,9 @@ import lk.ijse.salongeetha.dao.castom.BookingDAO;
 import lk.ijse.salongeetha.dao.castom.PaymentDAO;
 import lk.ijse.salongeetha.dao.castom.QueryDAO;
 import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.to.*;
+import lk.ijse.salongeetha.entity.*;
+import lk.ijse.salongeetha.dto.*;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -20,25 +20,58 @@ public class PaymentBOImpl implements PaymentBO {
     AppointmentDAO appointmentDAO = (AppointmentDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.APPOINTMENT);
     QueryDAO queryDAO = (QueryDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.QUERY);
     BookingDAO bookingDAO = (BookingDAO) FactoryDAOImpl.getFactoryDAOImpl().setDAOImpl(DAOImplTypes.BOOKING);
+    private ArrayList<PaymentDTO> paymentDTOS;
 
     @Override
-    public ResultSet getAllAppointmentPayments() throws SQLException, ClassNotFoundException {
-        return paymentDAO.getAllAPayments();
+    public ArrayList<PaymentDTO> getAllAppointmentPayments() throws SQLException, ClassNotFoundException {
+        /*ArrayList<AppointmentPayment>*/
+        ArrayList<AppointmentPayment> allAPayments = paymentDAO.getAllAPayments();
+        /*ArrayList<PaymentDTO>*/ paymentDTOS =new ArrayList<>();
+        for (AppointmentPayment a : allAPayments) {
+            paymentDTOS.add(new PaymentDTO(
+                    a.getPay_Id(),
+                    a.getPayment_method(),
+                    a.getNIC(),
+                    a.getAmount_due(),
+                    a.getApt_Id()));
+        }
+        return paymentDTOS;
     }
 
     @Override
-    public ResultSet getAllBookingPayments() throws SQLException, ClassNotFoundException {
-        return paymentDAO.getAllAPayments();
+    public ArrayList<PaymentDTO> getAllBookingPayments() throws SQLException, ClassNotFoundException {
+        /*ArrayList<BookPayment>*/
+        ArrayList<BookPayment> allBPayments = paymentDAO.getAllBPayments();
+        /*ArrayList<PaymentDTO>*/ paymentDTOS =new ArrayList<>();
+        for (BookPayment a : allBPayments) {
+            paymentDTOS.add(new PaymentDTO(
+                    a.getPay_Id(),
+                    a.getPayment_method(),
+                    a.getNIC(),
+                    a.getAmount_due(),
+                    a.getBok_Id()));
+        }
+        return paymentDTOS;
     }
 
     @Override
     public ArrayList<AppointmentDTO> getAppointmentIds() throws SQLException, ClassNotFoundException {
-        return appointmentDAO.getIds();
+        ArrayList<Appointment> arrayList = appointmentDAO.getIds();
+        ArrayList<AppointmentDTO> dtos = new ArrayList<>();
+        for (Appointment a : arrayList) {
+            dtos.add(new AppointmentDTO(a.getAptId(), a.getDate(), a.getTime(), a.getNic()));
+        }
+        return dtos;
     }
 
     @Override
     public ArrayList<BookDTO> getBookingIds() throws SQLException, ClassNotFoundException {
-        return booingDAO.getIdS();
+        ArrayList<Book> arrayList = booingDAO.getIdS();
+        ArrayList<BookDTO> dtos = new ArrayList<>();
+        for (Book b : arrayList) {
+            dtos.add(new BookDTO(b.getBokId(), b.getDate(), b.getNic()));
+        }
+        return dtos;
     }
 
     @Override
@@ -52,47 +85,72 @@ public class PaymentBOImpl implements PaymentBO {
     }
 
     @Override
-    public ResultSet getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException {
-        return queryDAO.getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
+    public ArrayList<CustomDTO> getAmountDueBookRentalsDetail(BookRentalsDetailDTO dto) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomEntity> arrayList = queryDAO.getAmountDueBookRentalsDetail(new BookRentalsDetail(dto.getRentId(),
+                dto.getBokId(), dto.getForHowManyDays(), dto.getQty()));
+        ArrayList<CustomDTO> dtos = new ArrayList<>();
+        for (CustomEntity c : arrayList) {
+            dtos.add(new CustomDTO(c.getQty(),c.getForHowManyDays(),c.getPrice(),c.getDiscount()));
+        }
+        return dtos;
     }
 
     @Override
-    public ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException {
-        return queryDAO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetailDTO);
+    public ArrayList<CustomDTO> getAmountDueServiceAppointmentDetails(ServiceAppointmentDetailDTO dto) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomEntity> arrayList = queryDAO.getAmountDueServiceAppointmentDetails(new ServiceAppointmentDetail(dto.getAptId(), dto.getSevId()));
+        ArrayList<CustomDTO> dtos = new ArrayList<>();
+        for (CustomEntity c : arrayList) {
+            dtos.add(new CustomDTO(c.getPrice(), c.getDiscount()));
+        }
+        return dtos;
     }
 
     @Override
     public boolean add(boolean value, PaymentDTO paymentDTO, BookDTO bookDTO, AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
         if (value) {
-            bookingDAO.getId(paymentDTO);
-            boolean isAdded = paymentDAO.addBookingPayment(paymentDTO);//set
+            String nic = bookingDAO.getId(new BookPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(), paymentDTO.getNic(),
+                    paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+            boolean isAdded = paymentDAO.addBookingPayment(
+                    new BookPayment(
+                            paymentDTO.getPayId(),
+                            paymentDTO.getPaymentMethod(),
+                            nic,
+                            paymentDTO.getAmountDue(),
+                            paymentDTO.getaOrBId()));//set
+
             if (isAdded) {
-                bookingDAO.update(bookDTO);
+                bookingDAO.update(new Book(bookDTO.getBokId(), bookDTO.getDate(), bookDTO.getNic(), bookDTO.getStatus()));
                 DBConnection.getDBConnection().getConnection().commit();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return true;
-            }else{
+            } else {
                 DBConnection.getDBConnection().getConnection().rollback();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return false;
             }
 
         } else {
-            appointmentDAO.getId(paymentDTO);
-            boolean isAdded = paymentDAO.addAppointmentPayment(paymentDTO);//set
+            String nic = appointmentDAO.getId(new AppointmentPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(),
+                    paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+            boolean isAdded = paymentDAO.addAppointmentPayment(new AppointmentPayment(
+                    paymentDTO.getPayId(),
+                    paymentDTO.getPaymentMethod(),
+                    nic,
+                    paymentDTO.getAmountDue(),
+                    paymentDTO.getaOrBId()));//set
+//            System.out.println(paymentDTO.getNic());
             if (isAdded) {
-                appointmentDAO.update(appointmentDTO);
+                appointmentDAO.update(new Appointment(appointmentDTO.getAptId(), appointmentDTO.getDate(), appointmentDTO.getTime()
+                        , appointmentDTO.getNic(), appointmentDTO.getStatus()));
                 DBConnection.getDBConnection().getConnection().commit();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return true;
-            }else {
+            } else {
                 DBConnection.getDBConnection().getConnection().rollback();
                 DBConnection.getDBConnection().getConnection().setAutoCommit(true);
                 return false;
             }
         }
     }
-
-
 }

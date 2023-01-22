@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddAdminDetailsBO;
-import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 

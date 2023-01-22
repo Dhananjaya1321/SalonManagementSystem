@@ -1,10 +1,10 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.RentalsDTO;
+import lk.ijse.salongeetha.dto.RentalsDTO;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface RentalsBO extends SuperBOImpl {
     boolean deleteRental(RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException;
@@ -15,7 +15,7 @@ public interface RentalsBO extends SuperBOImpl {
 
     String checkIdRental() throws SQLException, ClassNotFoundException;
 
-    ResultSet getAllRental() throws SQLException, ClassNotFoundException;
+    ArrayList<RentalsDTO> getAllRental() throws SQLException, ClassNotFoundException;
 
-    ResultSet searchRental(boolean value, RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException;
+    ArrayList<RentalsDTO> searchRental(boolean value, RentalsDTO rentalsDTO) throws SQLException, ClassNotFoundException;
 }

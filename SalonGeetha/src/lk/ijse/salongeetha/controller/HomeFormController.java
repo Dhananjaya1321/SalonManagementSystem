@@ -15,9 +15,9 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.HomeFormBO;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.tm.AppointmentTM;
-import lk.ijse.salongeetha.to.tm.BookTM;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.view.tm.AppointmentTM;
+import lk.ijse.salongeetha.view.tm.BookTM;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -46,9 +46,9 @@ public class HomeFormController {
         String setDate = String.valueOf(date);
 
         try {
-            String appointmentCount = homeFormBO.getAppointmentCount(setDate);
-            if (appointmentCount != null) {
-                lblAppointment.setText(appointmentCount);
+            int appointmentCount = homeFormBO.getAppointmentCount(setDate);
+            if (appointmentCount >= 0) {
+                lblAppointment.setText(String.valueOf(appointmentCount));
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -60,9 +60,9 @@ public class HomeFormController {
         java.sql.Date date = new java.sql.Date(millis);
         String setDate = String.valueOf(date);
         try {
-            String bookingCount = homeFormBO.getBookingCount(setDate);
-            if (bookingCount != null) {
-                lblBooking.setText(bookingCount);
+            int bookingCount = homeFormBO.getBookingCount(setDate);
+            if (bookingCount >= 0) {
+                lblBooking.setText(String.valueOf(bookingCount));
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -77,19 +77,17 @@ public class HomeFormController {
         setLineChart(cmbPastTime.getValue().toString());
         setLblAppointment();
         setLblBooking();
-        EmployeeDTO employeeDTO = new EmployeeDTO();
         try {
-            boolean isCheckedAdmin = homeFormBO.checkAdmin(employeeDTO);
-            if (isCheckedAdmin) {
-                if (employeeDTO.getPhoneNumber().equals("")) {
-                    Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/AddAdminDetailsForm.fxml"));
-                    popUpPane.getChildren().clear();
-                    popUpPane.getChildren().add(load);
-                    new ZoomInUp(popUpPane).play();
-                } else {
-                    popUpPane.setVisible(false);
-                }
+            EmployeeDTO employeeDTO = homeFormBO.checkAdmin();
+            if (employeeDTO.getPhoneNumber().equals("") || employeeDTO.getPhoneNumber() == null) {
+                Parent load = FXMLLoader.load(getClass().getResource("/lk/ijse/salongeetha/view/AddAdminDetailsForm.fxml"));
+                popUpPane.getChildren().clear();
+                popUpPane.getChildren().add(load);
+                new ZoomInUp(popUpPane).play();
+            } else {
+                popUpPane.setVisible(false);
             }
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -14,14 +14,13 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ServiceBO;
-import lk.ijse.salongeetha.to.ServiceDTO;
-import lk.ijse.salongeetha.to.tm.ServiceTM;
+import lk.ijse.salongeetha.dto.ServiceDTO;
+import lk.ijse.salongeetha.view.tm.ServiceTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -239,20 +238,10 @@ public class ManageServiceController {
         }
     }
     private ArrayList<ServiceDTO> search(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
-        ResultSet resultSet = serviceBO.searchService(matcher.matches(), serviceDTO);
-        while (resultSet.next()) {
-            ServiceDTO searchServiceDTO = new ServiceDTO();
-            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(searchServiceDTO);
-        }
-        return serviceDTOS;
+        return serviceBO.searchService(matcher.matches(), serviceDTO);
+
     }
 
     public void cleanTable() {
@@ -265,17 +254,6 @@ public class ManageServiceController {
     }
 
     private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
-        ResultSet resultSet = serviceBO.getAllService();
-        while (resultSet.next()) {
-            ServiceDTO serviceDTO = new ServiceDTO();
-            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(serviceDTO);
-        }
-        return serviceDTOS;
+        return serviceBO.getAllService();
     }
 }

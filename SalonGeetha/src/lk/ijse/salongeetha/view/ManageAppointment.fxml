@@ -113,8 +113,8 @@
                            <defaultColor>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
-                                    <Stop color="#e51a98" />
-                                    <Stop color="BLACK" offset="1.0" />
+                                    <Stop color="#00ccff" />
+                                    <Stop color="#682cff" offset="1.0" />
                                  </stops>
                               </LinearGradient>
                            </defaultColor>
@@ -140,8 +140,8 @@
                            <defaultColor>
                               <LinearGradient endX="1.0" endY="1.0">
                                  <stops>
-                                    <Stop color="#e51a98" />
-                                    <Stop color="BLACK" offset="1.0" />
+                                    <Stop color="#00ccff" />
+                                    <Stop color="#682cff" offset="1.0" />
                                  </stops>
                               </LinearGradient>
                            </defaultColor>
@@ -164,7 +164,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblAppointmentId" alignment="CENTER" prefHeight="35.0" prefWidth="400.0" GridPane.rowIndex="3">
+                        <Label fx:id="lblAppointmentId" alignment="CENTER" prefHeight="35.0" prefWidth="400.0" textFill="#1497b5" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
@@ -204,9 +204,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblCustomerPhone" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblCustomerPhone" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                      </children>
@@ -220,9 +220,9 @@
                         <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="lblCustomerName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblCustomerName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                         <Label alignment="CENTER" prefHeight="35.0" prefWidth="50.0" style="-fx-background-color: #F5F5F5;" text="Name :">
@@ -246,7 +246,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cmbCustomerId" onAction="#cmbCustomerIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cmbCustomerId" focusColor="#1497b5" onAction="#cmbCustomerIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="#4d4d4d" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane GridPane.columnIndex="2">
@@ -274,7 +274,7 @@
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -313,7 +313,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cmbServiceId" onAction="#cmbServiceIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cmbServiceId" focusColor="#1497b5" onAction="#cmbServiceIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="#4d4d4d" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane prefHeight="29.0" prefWidth="91.0" GridPane.columnIndex="3">
@@ -330,9 +330,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblServiceName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblServiceName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                      </children>
@@ -351,9 +351,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblPrice" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblPrice" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                      </children>
@@ -372,9 +372,9 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblDiscount" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblDiscount" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                      </children>
@@ -406,7 +406,7 @@
                         <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXComboBox fx:id="cmbEmployeeId" onAction="#cmbEmployeeIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="cmbEmployeeId" focusColor="#1497b5" onAction="#cmbEmployeeIdOnAction" prefHeight="35.0" prefWidth="500.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: black;" unFocusColor="#4d4d4d" GridPane.rowIndex="1" />
                         <Label alignment="CENTER" prefHeight="35.0" prefWidth="80.0" style="-fx-background-color: #F5F5F5;" text="Employee :" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                            <font>
                               <Font name="System Bold" size="15.0" />
@@ -423,9 +423,9 @@
                         <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="lblEmpDescription" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblEmpDescription" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                         <Label alignment="CENTER" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #F5F5F5;" text="Description :">
@@ -444,9 +444,9 @@
                         <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="lblEmpName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" GridPane.rowIndex="1">
+                        <Label fx:id="lblEmpName" alignment="CENTER" prefHeight="35.0" prefWidth="500.0" textFill="#1497b5" GridPane.rowIndex="1">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                         <Label alignment="CENTER" prefHeight="35.0" prefWidth="50.0" style="-fx-background-color: #F5F5F5;" text="Name :" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
@@ -482,7 +482,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnAddONAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #12b500; -fx-background-radius: 5; -fx-border-color: black;" text="Add" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnAddONAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #12b500; -fx-background-radius: 5;" text="Add" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -497,7 +497,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@assets/icon/add_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -531,7 +531,7 @@
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/icon/mop_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@assets/icon/mop_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -580,15 +580,15 @@
                   </Label>
                </children>
             </GridPane>
-            <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnMakeAppointmentOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #46b9b1; -fx-background-radius: 5;" text="Make appointmentDTO" GridPane.columnIndex="7">
+            <JFXButton alignment="CENTER" buttonType="RAISED" maxWidth="500.0" onAction="#btnMakeAppointmentOnAction" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #1497b5; -fx-background-radius: 5;" text="Make appointmentDTO" GridPane.columnIndex="7">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
                <ripplerFill>
                   <LinearGradient endX="1.0" endY="1.0" startX="0.49523809523809526" startY="0.2619047619047619">
                      <stops>
-                        <Stop color="#46b9b1" />
-                        <Stop color="BLACK" offset="1.0" />
+                        <Stop color="#00ccff" />
+                        <Stop color="#682cff" offset="1.0" />
                      </stops>
                   </LinearGradient>
                </ripplerFill>

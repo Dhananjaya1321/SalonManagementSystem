@@ -17,15 +17,14 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CustomerBO;
-import lk.ijse.salongeetha.to.CustomerDTO;
-import lk.ijse.salongeetha.to.tm.CustomerTM;
+import lk.ijse.salongeetha.dto.CustomerDTO;
+import lk.ijse.salongeetha.view.tm.CustomerTM;
 import lk.ijse.salongeetha.util.SendMail;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -241,21 +240,9 @@ public class ManageCustomerController {
     }
 
     public ArrayList<CustomerDTO> search(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(customerDTO.getName());
-        ResultSet resultSet = customerBO.searchCustomer(matcher.matches(), customerDTO);
-        while (resultSet.next()) {
-            CustomerDTO searchCustomerDTO = new CustomerDTO();
-            searchCustomerDTO.setNic(String.valueOf(resultSet.getObject(1)));
-//            System.out.println("data awo"+String.valueOf(resultSet.getObject(1)));
-            searchCustomerDTO.setName(String.valueOf(resultSet.getObject(2)));
-            searchCustomerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            searchCustomerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
-            searchCustomerDTO.setDob(String.valueOf(resultSet.getObject(5)));
-            customerDTOS.add(searchCustomerDTO);
-        }
-        return customerDTOS;
+        return customerBO.searchCustomer(matcher.matches(), customerDTO);
     }
 
     public void cleanTable() {
@@ -285,17 +272,6 @@ public class ManageCustomerController {
     }
 
     private ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOS = new ArrayList<>();
-        ResultSet resultSet = customerBO.getAllCustomer();
-        while (resultSet.next()) {
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setNic(String.valueOf(resultSet.getObject(1)));
-            customerDTO.setName(String.valueOf(resultSet.getObject(2)));
-            customerDTO.setPhoneNumber(String.valueOf(resultSet.getObject(3)));
-            customerDTO.setEmail(String.valueOf(resultSet.getObject(4)));
-            customerDTO.setDob(String.valueOf(resultSet.getObject(5)));
-            customerDTOS.add(customerDTO);
-        }
-        return customerDTOS;
+        return customerBO.getAllCustomer();
     }
 }

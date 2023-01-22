@@ -2,45 +2,44 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.ServiceAppointmentDAO;
-import lk.ijse.salongeetha.to.ServiceAppointmentDetailDTO;
+import lk.ijse.salongeetha.entity.ServiceAppointmentDetail;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ServiceAppointmentDAOImpl implements ServiceAppointmentDAO {
     @Override
-    public boolean addDetails(ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS) throws SQLException, ClassNotFoundException {
+    public boolean addDetails(ArrayList<ServiceAppointmentDetail> details) throws SQLException, ClassNotFoundException {
         int i = 0;
-        for (ServiceAppointmentDetailDTO a : serviceAppointmentDetailDTOS) {
+        for (ServiceAppointmentDetail a : details) {
             boolean isAdded = CrudUtil.setQuery("INSERT INTO service_appointment_detail VALUES (?,?)", a.getAptId(), a.getSevId());
             if (isAdded) {
                 i++;
             }
         }
-        if (i == serviceAppointmentDetailDTOS.size()) {
+        if (i == details.size()) {
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean add(ServiceAppointmentDetailDTO user) throws SQLException, ClassNotFoundException {
+    public boolean add(ServiceAppointmentDetail detail) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public boolean delete(ServiceAppointmentDetailDTO user) throws SQLException, ClassNotFoundException {
+    public boolean delete(ServiceAppointmentDetail detail) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public ResultSet getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<ServiceAppointmentDetail> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(ServiceAppointmentDetailDTO supplier) throws SQLException, ClassNotFoundException {
+    public boolean update(ServiceAppointmentDetail detail) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -50,7 +49,7 @@ public class ServiceAppointmentDAOImpl implements ServiceAppointmentDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, ServiceAppointmentDetailDTO to) throws SQLException, ClassNotFoundException {
+    public ArrayList<ServiceAppointmentDetail> search(boolean value, ServiceAppointmentDetail detail) throws SQLException, ClassNotFoundException {
         return null;
     }
 

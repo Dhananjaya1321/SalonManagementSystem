@@ -1,10 +1,10 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SQLUtil;
-import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
+import lk.ijse.salongeetha.entity.ProductServiceDetail;
 
 import java.sql.SQLException;
 
-public interface ProductServiceDAO extends SQLUtil<ProductServiceDetailDTO> {
-    boolean checkAlreadyExists(ProductServiceDetailDTO productServiceDetailDTO) throws SQLException, ClassNotFoundException;
+public interface ProductServiceDAO extends SQLUtil<ProductServiceDetail> {
+    boolean checkAlreadyExists(ProductServiceDetail productServiceDetail) throws SQLException, ClassNotFoundException;
 }

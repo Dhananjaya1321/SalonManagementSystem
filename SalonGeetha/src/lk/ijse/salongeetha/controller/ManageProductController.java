@@ -15,16 +15,14 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductBO;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.to.ProductDTO;
-import lk.ijse.salongeetha.to.SupplierDTO;
-import lk.ijse.salongeetha.to.tm.ProductTM;
+import lk.ijse.salongeetha.dto.ProductDTO;
+import lk.ijse.salongeetha.dto.SupplierDTO;
+import lk.ijse.salongeetha.view.tm.ProductTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -354,22 +352,9 @@ public class ManageProductController {
     }
 
     public ArrayList<ProductDTO> search(ProductDTO productDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(productDTO.getBrand());
-        ResultSet resultSet = productBO.searchProduct(matcher.matches(), productDTO);
-        while (resultSet.next()) {
-            ProductDTO searchProductDTO = new ProductDTO();
-            searchProductDTO.setProId(String.valueOf(resultSet.getObject(1)));
-            searchProductDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchProductDTO.setCategory(String.valueOf(resultSet.getObject(3)));
-            searchProductDTO.setBrand(String.valueOf(resultSet.getObject(4)));
-            searchProductDTO.setUnitPrice((Double) resultSet.getObject(5));
-            searchProductDTO.setQtyOnHand((Integer) resultSet.getObject(6));
-            searchProductDTO.setSupId(String.valueOf(resultSet.getObject(7)));
-            productDTOS.add(searchProductDTO);
-        }
-        return productDTOS;
+        return productBO.searchProduct(matcher.matches(), productDTO);
     }
 
 
@@ -383,36 +368,11 @@ public class ManageProductController {
     }
 
     public ArrayList<ProductDTO> getAllProduct() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
-        ResultSet resultSet = productBO.getAllProduct();
-        while (resultSet.next()) {
-            ProductDTO productDTO = new ProductDTO();
-            productDTO.setProId(String.valueOf(resultSet.getObject(1)));
-            productDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            productDTO.setCategory(String.valueOf(resultSet.getObject(3)));
-            productDTO.setBrand(String.valueOf(resultSet.getObject(4)));
-            productDTO.setUnitPrice((Double) resultSet.getObject(5));
-            productDTO.setQtyOnHand((Integer) resultSet.getObject(6));
-            productDTO.setSupId(String.valueOf(resultSet.getObject(7)));
-            productDTOS.add(productDTO);
-        }
-        return productDTOS;
+        return productBO.getAllProduct();
     }
 
     private ArrayList<SupplierDTO> getAllSupplier() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = productBO.getAllSupplier();
-        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
-        while (resultSet.next()) {
-            SupplierDTO supplierDTO = new SupplierDTO();
-            supplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
-            supplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            supplierDTO.setName(String.valueOf(resultSet.getObject(3)));
-            supplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
-            supplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            supplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
-            supplierDTOS.add(supplierDTO);
-        }
-        return supplierDTOS;
+        return productBO.getAllSupplier();
     }
 }
 

@@ -13,22 +13,15 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.PaymentBO;
-import lk.ijse.salongeetha.db.DBConnection;
-import lk.ijse.salongeetha.dao.CrudUtil;
-import lk.ijse.salongeetha.dao.castom.*;
-import lk.ijse.salongeetha.dao.castom.impl.*;
-import lk.ijse.salongeetha.to.*;
-import lk.ijse.salongeetha.to.tm.PaymentTM;
+import lk.ijse.salongeetha.dao.castom.QueryDAO;
+import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
+import lk.ijse.salongeetha.dto.*;
+import lk.ijse.salongeetha.view.tm.PaymentTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
 
-import java.io.InputStream;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,31 +92,11 @@ public class ManagePaymentController {
     }
 
     private ArrayList<PaymentDTO> getAllBPayments() throws SQLException, ClassNotFoundException {
-        ArrayList<PaymentDTO> paymentDTOS = new ArrayList<>();
-        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM book_payment");
-        while (resultSet.next()) {
-            PaymentDTO paymentDTO = new PaymentDTO();
-            paymentDTO.setPayId(String.valueOf(resultSet.getObject(1)));
-            paymentDTO.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
-            paymentDTO.setaOrBId(String.valueOf(resultSet.getObject(3)));
-            paymentDTO.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            paymentDTOS.add(paymentDTO);
-        }
-        return paymentDTOS;
+        return paymentBO.getAllBookingPayments();
     }
 
     private ArrayList<PaymentDTO> getAllAPayments() throws SQLException, ClassNotFoundException {
-        ArrayList<PaymentDTO> paymentDTOS = new ArrayList<>();
-        ResultSet resultSet = paymentBO.getAllAppointmentPayments();
-        while (resultSet.next()) {
-            PaymentDTO paymentDTO = new PaymentDTO();
-            paymentDTO.setPayId(String.valueOf(resultSet.getObject(1)));
-            paymentDTO.setPaymentMethod(String.valueOf(resultSet.getObject(2)));
-            paymentDTO.setaOrBId(String.valueOf(resultSet.getObject(3)));
-            paymentDTO.setAmountDue(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            paymentDTOS.add(paymentDTO);
-        }
-        return paymentDTOS;
+        return paymentBO.getAllAppointmentPayments();
     }
 
     ObservableList<PaymentTM> observableList = FXCollections.observableArrayList();
@@ -131,8 +104,9 @@ public class ManagePaymentController {
     private void loadAllAPaymentData() {
         observableList.clear();
         for (PaymentDTO s : aPaymentDTOArrayList) {
-            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), s.getAmountDue(), s.getaOrBId());
+            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getaOrBId());
             observableList.add(paymentTM);
+//            System.out.println(s.getAmountDue());
             tblView.setItems(observableList);
         }
     }
@@ -140,25 +114,15 @@ public class ManagePaymentController {
     private void loadAllBPaymentData() {
         observableList.clear();
         for (PaymentDTO s : bPaymentDTOArrayList) {
-            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), s.getAmountDue(), s.getaOrBId());
+            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getaOrBId());
+//            System.out.println(paymentTM.getAOrB_Id());
             observableList.add(paymentTM);
             tblView.setItems(observableList);
         }
     }
 
 
-    public void initialize() {
 
-        loadAllAPaymentData();
-        setNextAId();
-        aPayment.setSelected(true);
-        loadCmb();
-        columenPaymentId.setCellValueFactory(new PropertyValueFactory<>("payId"));
-        columenAIdOrBId.setCellValueFactory(new PropertyValueFactory<>("AOrB_Id"));
-        columenPaymentMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
-        columenAmountDue.setCellValueFactory(new PropertyValueFactory<>("Amount_due"));
-
-    }
 
     private void loadCmb() {
         String[] payMethods = new String[]{"Cash", "Checks", "Debit cards", "Credit cards", "Mobile payments", "Electronic bank transfers"};
@@ -250,7 +214,7 @@ public class ManagePaymentController {
                     setNextAId();
 
 
-                    InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/appointmentBill.jrxml");
+                   /* InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/appointmentBill.jrxml");
                     HashMap<String, Object> hm = new HashMap<>();
                     hm.put("TotalValue", Double.valueOf(lblAmountDue.getText()));
                     hm.put("AmountPaid", Double.valueOf(txtAmountPaid.getText()));
@@ -261,14 +225,14 @@ public class ManagePaymentController {
                         JasperViewer.viewReport(jasperPrint, false);
                     } catch (JRException | ClassNotFoundException | SQLException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 } else {
                     bPaymentDTOArrayList = getAllBPayments();
                     loadAllBPaymentData();
                     setNextBId();
 
 
-                    InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/bookingBill.jrxml");
+                    /*InputStream resource = this.getClass().getResourceAsStream("/lk/ijse/salongeetha/report/bookingBill.jrxml");
                     HashMap<String, Object> hm = new HashMap<>();
                     hm.put("TotalValue", Double.valueOf(lblAmountDue.getText()));
                     hm.put("AmountPaid", Double.valueOf(txtAmountPaid.getText()));
@@ -279,7 +243,7 @@ public class ManagePaymentController {
                         JasperViewer.viewReport(jasperPrint, false);
                     } catch (JRException | ClassNotFoundException | SQLException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     cmbPaymentMethod.setValue(null);
                     cmbAppointmentIdOrBookingId.setValue(null);
                     lblBalance.setText(null);
@@ -346,31 +310,41 @@ public class ManagePaymentController {
 
     private ArrayList<BookRentalsDetailDTO> getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException {
         ArrayList<BookRentalsDetailDTO> bookRentalsDetailDTOS = new ArrayList<>();
-        ResultSet resultSet = paymentBO.getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
-        while (resultSet.next()) {
-            BookRentalsDetailDTO setBookRentalsDetailDTO = new BookRentalsDetailDTO();
-            setBookRentalsDetailDTO.setQty((Integer) resultSet.getObject(1));
-            setBookRentalsDetailDTO.setForHowManyDays((Integer) resultSet.getObject(2));
-            setBookRentalsDetailDTO.setPrice((Double) resultSet.getObject(3));
-            setBookRentalsDetailDTO.setDiscount((Double) resultSet.getObject(4));
-            bookRentalsDetailDTOS.add(setBookRentalsDetailDTO);
+        ArrayList<CustomDTO> dtos = paymentBO.getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
+        for (CustomDTO c : dtos) {
+            bookRentalsDetailDTOS.add(new BookRentalsDetailDTO(
+                    bookRentalsDetailDTO.getRentId(),
+                    bookRentalsDetailDTO.getBokId(),
+                    c.getForHowManyDays(),
+                    c.getQty(),
+                    c.getPrice(),
+                    c.getDiscount()));
         }
         return bookRentalsDetailDTOS;
     }
 
     private ArrayList<ServiceAppointmentDetailDTO> getAmountDueServiceAppointmentDetail(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceAppointmentDetailDTO> serviceAppointmentDetailDTOS = new ArrayList<>();
-        ResultSet resultSet = paymentBO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetailDTO);
-        while (resultSet.next()) {
-            ServiceAppointmentDetailDTO setServiceAppointmentDetailDTO = new ServiceAppointmentDetailDTO();
-            setServiceAppointmentDetailDTO.setPrice((Double) resultSet.getObject(1));
-            setServiceAppointmentDetailDTO.setDiscount((Double) resultSet.getObject(2));
-            serviceAppointmentDetailDTOS.add(setServiceAppointmentDetailDTO);
+        ArrayList<CustomDTO> dtos =paymentBO.getAmountDueServiceAppointmentDetails(serviceAppointmentDetailDTO);
+        ArrayList<ServiceAppointmentDetailDTO> arrayList=new ArrayList<>();
+        for (CustomDTO c : dtos) {
+            arrayList.add(new ServiceAppointmentDetailDTO(serviceAppointmentDetailDTO.getAptId(),
+                    serviceAppointmentDetailDTO.getSevId(),c.getPrice(),c.getDiscount()));
         }
-        return serviceAppointmentDetailDTOS;
+        return arrayList;
     }
 
+    public void initialize() {
 
+        loadAllAPaymentData();
+        setNextAId();
+        aPayment.setSelected(true);
+        loadCmb();
+        columenPaymentId.setCellValueFactory(new PropertyValueFactory<>("payId"));
+        columenAIdOrBId.setCellValueFactory(new PropertyValueFactory<>("AOrB_Id"));
+        columenPaymentMethod.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
+        columenAmountDue.setCellValueFactory(new PropertyValueFactory<>("Amount_due"));
+
+    }
     public void txtAmountPaid(ActionEvent actionEvent) {
         double balance = Double.parseDouble(txtAmountPaid.getText()) - total;
         lblBalance.setText(String.valueOf(balance));

@@ -1,16 +1,21 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SuperDAOImpl;
-import lk.ijse.salongeetha.to.BookRentalsDetailDTO;
-import lk.ijse.salongeetha.to.ServiceAppointmentDetailDTO;
+import lk.ijse.salongeetha.entity.*;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface QueryDAO extends SuperDAOImpl {
-    ResultSet getAmountDueServiceAppointmentDetails(ServiceAppointmentDetailDTO serviceAppointmentDetailDTO) throws SQLException, ClassNotFoundException;
+    ArrayList<CustomEntity> getAmountDueServiceAppointmentDetails(ServiceAppointmentDetail serviceAppointmentDetail) throws SQLException, ClassNotFoundException;
 
-    ResultSet getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException;
+    ArrayList<CustomEntity>  getAllEmployeeServiceDetails() throws SQLException, ClassNotFoundException;
 
-    ResultSet getAmountDueBookRentalsDetail(BookRentalsDetailDTO bookRentalsDetailDTO) throws SQLException, ClassNotFoundException;
+    ArrayList<CustomEntity> getAmountDueBookRentalsDetail(BookRentalsDetail bookRentalsDetail) throws SQLException, ClassNotFoundException;
+
+    ArrayList<CustomEntity> getAllProductService() throws SQLException, ClassNotFoundException;
+
+    boolean checkEmail(User user) throws SQLException, ClassNotFoundException;
+
+    String getEmployeeJobTitle(User userDTO) throws SQLException, ClassNotFoundException;
 }

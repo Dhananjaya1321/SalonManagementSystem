@@ -13,15 +13,14 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.EmployeeBO;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.UserDTO;
-import lk.ijse.salongeetha.to.tm.EmployeeTM;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.dto.UserDTO;
+import lk.ijse.salongeetha.view.tm.EmployeeTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -434,8 +433,18 @@ public class ManageEmployeeFormController extends MainFormController {
 
             });
 
-
-            EmployeeTM employeeTM = new EmployeeTM(emp.getEmpId(), emp.getName(), emp.getAddress(), emp.getDob(), emp.getPhoneNumber(), emp.getDescription(), emp.getEmail(), emp.getNic(), emp.getJobTitle(), delete, update);
+            EmployeeTM employeeTM = new EmployeeTM(emp.getEmpId(),
+                    emp.getName(),
+                    emp.getAddress(),
+                    emp.getDob(),
+                    emp.getPhoneNumber(),
+                    emp.getDescription(),
+                    emp.getEmail(),
+                    emp.getNic(),
+                    emp.getJobTitle(),
+                    delete,
+                    update);
+//            System.out.println(employeeTM.getAddress());
             observableList.add(employeeTM);
             tblView.setItems(observableList);
         }
@@ -538,24 +547,9 @@ public class ManageEmployeeFormController extends MainFormController {
     }
 
     public ArrayList<EmployeeDTO> search(EmployeeDTO employeeDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
         Pattern namePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = namePattern.matcher(employeeDTO.getName());
-        ResultSet resultSet = employeeBO.searchEmployee(matcher.matches(), employeeDTO);
-        while (resultSet.next()) {
-            EmployeeDTO searchEmployeeDTO = new EmployeeDTO();
-            searchEmployeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-            searchEmployeeDTO.setName(String.valueOf(resultSet.getObject(2)));
-            searchEmployeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
-            searchEmployeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
-            searchEmployeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchEmployeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
-            searchEmployeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
-            searchEmployeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
-            searchEmployeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
-            employeeDTOS.add(searchEmployeeDTO);
-        }
-        return employeeDTOS;
+        return employeeBO.searchEmployee(matcher.matches(), employeeDTO);
     }
 
     public void cleanTable() {
@@ -569,24 +563,8 @@ public class ManageEmployeeFormController extends MainFormController {
     }
 
     private ArrayList<EmployeeDTO> getAllEmployee() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        ResultSet resultSet = employeeBO.getAllEmployee();
-        if (resultSet.next()) {
-            do {
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                employeeDTO.setEmpId(String.valueOf(resultSet.getObject(1)));
-                employeeDTO.setName(String.valueOf(resultSet.getObject(2)));
-                employeeDTO.setAddress(String.valueOf(resultSet.getObject(3)));
-                employeeDTO.setDob(String.valueOf(resultSet.getObject(4)));
-                employeeDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-                employeeDTO.setDescription(String.valueOf(resultSet.getObject(6)));
-                employeeDTO.setEmail(String.valueOf(resultSet.getObject(7)));
-                employeeDTO.setNic(String.valueOf(resultSet.getObject(8)));
-                employeeDTO.setJobTitle(String.valueOf(resultSet.getObject(9)));
-                employeeDTOS.add(employeeDTO);
-            } while (resultSet.next());
-            return employeeDTOS;
-        }
-        return new ArrayList<>();
+        ArrayList<EmployeeDTO> allEmployee = employeeBO.getAllEmployee();
+//        System.out.println(allEmployee.toString());
+        return allEmployee;
     }
 }

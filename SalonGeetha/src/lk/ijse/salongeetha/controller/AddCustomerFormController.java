@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.AddCustomerBO;
-import lk.ijse.salongeetha.to.CustomerDTO;
+import lk.ijse.salongeetha.dto.CustomerDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 

@@ -20,8 +20,8 @@ import javafx.util.Duration;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.LoginFormBO;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.UserDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.dto.UserDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
@@ -192,8 +192,7 @@ public class LoginFormController {
             boolean isSetUserAccount = loginFormBO.setUserAccount(userDTO);
             if (isSetUserAccount) {
                 if (password.equals(userDTO.getPassword())) {
-                    EmployeeDTO employeeDTOJobTitle = loginFormBO.getEmployeeJobTitle(userDTO);
-                    String jobTitle = employeeDTOJobTitle.getJobTitle();
+                    String jobTitle = loginFormBO.getEmployeeJobTitle(userDTO);
                     if (jobTitle.equals("Admin")) {
                         Stage stage = (Stage) fullPane.getScene().getWindow();
                         stage.resizableProperty().setValue(true);

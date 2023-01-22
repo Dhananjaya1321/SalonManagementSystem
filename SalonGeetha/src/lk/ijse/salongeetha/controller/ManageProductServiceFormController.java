@@ -12,12 +12,11 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.ProductServiceBO;
-import lk.ijse.salongeetha.to.ProductDTO;
-import lk.ijse.salongeetha.to.ProductServiceDetailDTO;
-import lk.ijse.salongeetha.to.ServiceDTO;
-import lk.ijse.salongeetha.to.tm.ProductServiceTM;
+import lk.ijse.salongeetha.dto.ProductDTO;
+import lk.ijse.salongeetha.dto.ProductServiceDetailDTO;
+import lk.ijse.salongeetha.dto.ServiceDTO;
+import lk.ijse.salongeetha.view.tm.ProductServiceTM;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -124,20 +123,9 @@ public class ManageProductServiceFormController {
     }
 
     private ArrayList<ServiceDTO> search(ServiceDTO serviceDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(serviceDTO.getName());
-        ResultSet resultSet = productServiceBO.searchService(matcher.matches(), serviceDTO);
-        while (resultSet.next()) {
-            ServiceDTO searchServiceDTO = new ServiceDTO();
-            searchServiceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            searchServiceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchServiceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            searchServiceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            searchServiceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(searchServiceDTO);
-        }
-        return serviceDTOS;
+        return productServiceBO.searchService(matcher.matches(), serviceDTO);
     }
 
     public void cmbProductIdOnAction(ActionEvent actionEvent) {
@@ -249,48 +237,14 @@ public class ManageProductServiceFormController {
     }
 
     private ArrayList<ServiceDTO> getAllService() throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDTO> serviceDTOS = new ArrayList<>();
-        ResultSet resultSet = productServiceBO.getAllService();
-        while (resultSet.next()) {
-            ServiceDTO serviceDTO = new ServiceDTO();
-            serviceDTO.setSevId(String.valueOf(resultSet.getObject(1)));
-            serviceDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            serviceDTO.setName(String.valueOf(resultSet.getObject(3)));
-            serviceDTO.setPrice(Double.parseDouble(String.valueOf(resultSet.getObject(4))));
-            serviceDTO.setDiscount(Double.parseDouble(String.valueOf(resultSet.getObject(5))));
-            serviceDTOS.add(serviceDTO);
-        }
-        return serviceDTOS;
+        return productServiceBO.getAllService();
     }
 
     private ArrayList<ProductServiceDetailDTO> getAllProductServiceDetail() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductServiceDetailDTO> productServiceDetailDTOS = new ArrayList<>();
-        ResultSet resultSet = productServiceBO.getAllProductAndServiceDAO();
-        while (resultSet.next()) {
-            ProductServiceDetailDTO productServiceDetailDTO = new ProductServiceDetailDTO();
-            productServiceDetailDTO.setProId(String.valueOf(resultSet.getObject(1)));
-            productServiceDetailDTO.setSevId(String.valueOf(resultSet.getObject(2)));
-            productServiceDetailDTO.setQty((Integer) resultSet.getObject(3));
-            productServiceDetailDTO.setName(String.valueOf(resultSet.getObject(4)));
-            productServiceDetailDTOS.add(productServiceDetailDTO);
-        }
-        return productServiceDetailDTOS;
+        return productServiceBO.getAllProductAndServiceDAO();
     }
 
     private ArrayList<ProductDTO> getAllProduct() throws SQLException, ClassNotFoundException {
-        ArrayList<ProductDTO> productDTOS = new ArrayList<>();
-        ResultSet resultSet = productServiceBO.getAllProduct();
-        while (resultSet.next()) {
-            ProductDTO productDTO = new ProductDTO();
-            productDTO.setProId(String.valueOf(resultSet.getObject(1)));
-            productDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            productDTO.setCategory(String.valueOf(resultSet.getObject(3)));
-            productDTO.setBrand(String.valueOf(resultSet.getObject(4)));
-            productDTO.setUnitPrice((Double) resultSet.getObject(5));
-            productDTO.setQtyOnHand((Integer) resultSet.getObject(6));
-            productDTO.setSupId(String.valueOf(resultSet.getObject(7)));
-            productDTOS.add(productDTO);
-        }
-        return productDTOS;
+        return productServiceBO.getAllProduct();
     }
 }

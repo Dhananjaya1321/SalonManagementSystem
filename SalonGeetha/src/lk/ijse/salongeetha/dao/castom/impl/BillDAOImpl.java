@@ -2,15 +2,16 @@ package lk.ijse.salongeetha.dao.castom.impl;
 
 import lk.ijse.salongeetha.dao.CrudUtil;
 import lk.ijse.salongeetha.dao.castom.BillDAO;
-import lk.ijse.salongeetha.to.BillPaymentDTO;
+import lk.ijse.salongeetha.entity.BillPayment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class BillDAOImpl implements BillDAO {
-    public boolean add(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("INSERT INTO Bill_payment VALUES (?,?,?,?,?,?)", billPaymentDTO.getBilId(), billPaymentDTO.getDate()
-                , billPaymentDTO.getDescription(), billPaymentDTO.getTitle(), billPaymentDTO.getAmountPaid(), billPaymentDTO.getEmpId());
+    public boolean add(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("INSERT INTO Bill_payment VALUES (?,?,?,?,?,?)", billPayment.getBilId(), billPayment.getDate()
+                , billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId());
     }
 
     public String checkId() throws SQLException, ClassNotFoundException {
@@ -22,29 +23,55 @@ public class BillDAOImpl implements BillDAO {
     }
 
     @Override
-    public ResultSet search(boolean value, BillPaymentDTO to) throws SQLException, ClassNotFoundException {
+    public ArrayList<BillPayment> search(boolean value, BillPayment to) throws SQLException, ClassNotFoundException {
         String setColumn;
         if (value) {
             setColumn = "SELECT * FROM Bill_payment WHERE Title LIKE ?";
         } else {
             setColumn = "SELECT * FROM Bill_payment WHERE Bil_Id LIKE ?";
         }
-        return CrudUtil.setQuery(setColumn, "%" + to.getTitle() + "%");
+        ArrayList<BillPayment> arrayList = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + to.getTitle() + "%");
+        while (resultSet.next()) {
+            arrayList.add(new BillPayment(
+                            resultSet.getString(1),
+                            resultSet.getString(6),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4),
+                            resultSet.getDouble(5)
+                    )
+            );
+        }
+        return arrayList;
     }
 
-    public ResultSet getAll() throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("SELECT * FROM bill_payment");
+    public ArrayList<BillPayment> getAll() throws SQLException, ClassNotFoundException {
+        ArrayList<BillPayment> arrayList = new ArrayList<>();
+        ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM bill_payment");
+        while (resultSet.next()) {
+
+            arrayList.add(
+                    new BillPayment(
+                            resultSet.getString(1),
+                            resultSet.getString(6),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4),
+                            resultSet.getDouble(5)
+                    )
+            );
+        }
+        return arrayList;
     }
 
-    public boolean delete(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM bill_payment WHERE Bil_Id=?", billPaymentDTO.getBilId());
+    public boolean delete(BillPayment billPayment) throws SQLException, ClassNotFoundException {
+        return CrudUtil.setQuery("DELETE FROM bill_payment WHERE Bil_Id=?", billPayment.getBilId());
     }
 
-    public boolean update(BillPaymentDTO billPaymentDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(BillPayment billPayment) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("UPDATE Bill_payment SET Date=?,Description=?,Title=?,Amount_paid=?,Emp_Id=? WHERE Bil_Id=?"
-                , billPaymentDTO.getDate(), billPaymentDTO.getDescription(), billPaymentDTO.getTitle(), billPaymentDTO.getAmountPaid(), billPaymentDTO.getEmpId()
-                , billPaymentDTO.getBilId());
+                , billPayment.getDate(), billPayment.getDescription(), billPayment.getTitle(), billPayment.getAmountPaid(), billPayment.getEmpId()
+                , billPayment.getBilId());
     }
-
-
 }

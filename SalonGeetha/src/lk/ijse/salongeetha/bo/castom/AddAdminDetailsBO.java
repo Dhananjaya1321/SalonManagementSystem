@@ -1,7 +1,7 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.EmployeeDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
 
 import java.sql.SQLException;
 

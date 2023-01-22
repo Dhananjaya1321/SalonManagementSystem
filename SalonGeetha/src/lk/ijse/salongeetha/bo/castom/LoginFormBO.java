@@ -1,8 +1,8 @@
 package lk.ijse.salongeetha.bo.castom;
 
 import lk.ijse.salongeetha.bo.SuperBOImpl;
-import lk.ijse.salongeetha.to.EmployeeDTO;
-import lk.ijse.salongeetha.to.UserDTO;
+import lk.ijse.salongeetha.dto.EmployeeDTO;
+import lk.ijse.salongeetha.dto.UserDTO;
 
 import java.sql.SQLException;
 
@@ -11,7 +11,7 @@ public interface LoginFormBO extends SuperBOImpl {
 
     boolean setUserAccount(UserDTO userDTO) throws SQLException, ClassNotFoundException;
 
-    EmployeeDTO getEmployeeJobTitle(UserDTO userDTO) throws SQLException, ClassNotFoundException;
+    String  getEmployeeJobTitle(UserDTO userDTO) throws SQLException, ClassNotFoundException;
 
     boolean checkUserAccount() throws SQLException, ClassNotFoundException;
 }

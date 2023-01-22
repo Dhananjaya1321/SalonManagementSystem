@@ -138,7 +138,7 @@
                   </Button>
                   <AnchorPane layoutX="51.0" layoutY="386.0" prefHeight="51.0" prefWidth="254.0" style="-fx-background-color: #e51a98; -fx-background-radius: 15;">
                      <children>
-                        <JFXButton fx:id="btnCreateAccount" buttonType="RAISED" layoutX="2.0" layoutY="3.0" maxHeight="45.0" onAction="#createAccountOnAction" prefHeight="45.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 13;" stylesheets="@../assets/style/style.css" text="Create Account">
+                        <JFXButton fx:id="btnCreateAccount" buttonType="RAISED" layoutX="2.0" layoutY="3.0" maxHeight="45.0" onAction="#createAccountOnAction" prefHeight="45.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 13;" stylesheets="@assets/style/style.css" text="Create Account">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -151,7 +151,7 @@
                               </LinearGradient>
                            </ripplerFill>
                         </JFXButton>
-                        <JFXButton fx:id="btnLoginAccount" buttonType="RAISED" layoutX="2.0" layoutY="3.0" maxHeight="45.0" onAction="#loginOnACtion" prefHeight="45.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 13;" stylesheets="@../assets/style/style.css" text="Login">
+                        <JFXButton fx:id="btnLoginAccount" buttonType="RAISED" layoutX="2.0" layoutY="3.0" maxHeight="45.0" onAction="#loginOnACtion" prefHeight="45.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 13;" stylesheets="@assets/style/style.css" text="Login">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -223,7 +223,7 @@
             <Circle fx:id="backgroundGirl1" fill="WHITE" layoutY="394.0" radius="206.0" stroke="WHITE" strokeType="INSIDE" />
             <ImageView fx:id="imgGirl" fitHeight="363.0" fitWidth="558.0" layoutX="-272.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/image/girl1.png" />
+                  <Image url="@assets/image/girl1.png" />
                </image>
             </ImageView>
             <Polygon fx:id="backgroundGirl2" fill="WHITE" layoutX="108.0" layoutY="363.0" points="192.0, 237.0, 192.0, -15.0, -87.0, 237.0" stroke="WHITE" strokeType="INSIDE" />
@@ -231,7 +231,7 @@
             <Polygon fx:id="backgroundGirl22" fill="WHITE" layoutX="118.0" layoutY="373.0" points="146.0, 205.0, 34.0, -3.0, -97.0, 153.0" stroke="WHITE" strokeType="INSIDE" />
             <ImageView fx:id="imgGirl2" fitHeight="392.0" fitWidth="244.0" layoutX="56.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/image/girl2.png" />
+                  <Image url="@assets/image/girl2.png" />
                </image>
             </ImageView>
          </children>

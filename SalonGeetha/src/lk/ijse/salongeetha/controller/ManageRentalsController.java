@@ -14,14 +14,13 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.RentalsBO;
-import lk.ijse.salongeetha.to.RentalsDTO;
-import lk.ijse.salongeetha.to.tm.RentalsTM;
+import lk.ijse.salongeetha.dto.RentalsDTO;
+import lk.ijse.salongeetha.view.tm.RentalsTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -320,21 +319,9 @@ public class ManageRentalsController {
     }
 
     private ArrayList<RentalsDTO> search(RentalsDTO rental) throws SQLException, ClassNotFoundException {
-        ArrayList<RentalsDTO> rentals = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(rental.getName());
-        ResultSet resultSet = rentalsBO.searchRental(matcher.matches(), rental);
-        while (resultSet.next()) {
-            RentalsDTO searchRental = new RentalsDTO();
-            searchRental.setRntId(String.valueOf(resultSet.getObject(1)));
-            searchRental.setName(String.valueOf(resultSet.getObject(2)));
-            searchRental.setPricePreDay((Double) resultSet.getObject(3));
-            searchRental.setDescription(String.valueOf(resultSet.getObject(4)));
-            searchRental.setAvaliableCount((Integer) resultSet.getObject(5));
-            searchRental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(searchRental);
-        }
-        return rentals;
+        return rentalsBO.searchRental(matcher.matches(), rental);
     }
 
     public void cleanTable() {
@@ -352,18 +339,6 @@ public class ManageRentalsController {
     }
 
     private ArrayList<RentalsDTO> getAllRentals() throws SQLException, ClassNotFoundException {
-        ArrayList<RentalsDTO> rentals = new ArrayList<>();
-        ResultSet resultSet = rentalsBO.getAllRental();
-        while (resultSet.next()) {
-            RentalsDTO rental = new RentalsDTO();
-            rental.setRntId(String.valueOf(resultSet.getObject(1)));
-            rental.setName(String.valueOf(resultSet.getObject(2)));
-            rental.setPricePreDay((Double) resultSet.getObject(3));
-            rental.setDescription(String.valueOf(resultSet.getObject(4)));
-            rental.setAvaliableCount((Integer) resultSet.getObject(5));
-            rental.setDiscount((Double) resultSet.getObject(6));
-            rentals.add(rental);
-        }
-        return rentals;
+        return rentalsBO.getAllRental();
     }
 }

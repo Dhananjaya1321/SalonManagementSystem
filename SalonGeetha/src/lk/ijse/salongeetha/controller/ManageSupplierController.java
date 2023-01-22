@@ -14,14 +14,13 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.SupplierBO;
-import lk.ijse.salongeetha.to.SupplierDTO;
-import lk.ijse.salongeetha.to.tm.SupplierTM;
+import lk.ijse.salongeetha.dto.SupplierDTO;
+import lk.ijse.salongeetha.view.tm.SupplierTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -221,21 +220,9 @@ public class ManageSupplierController {
     }
 
     private ArrayList<SupplierDTO> search(SupplierDTO supplierDTO) throws SQLException, ClassNotFoundException {
-        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
         Pattern userNamePattern = Pattern.compile("[a-zA-Z]{1,}");
         Matcher matcher = userNamePattern.matcher(supplierDTO.getName());
-        ResultSet resultSet = supplierBO.searchSupplier(matcher.matches(), supplierDTO);
-        while (resultSet.next()) {
-            SupplierDTO searchSupplierDTO = new SupplierDTO();
-            searchSupplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
-            searchSupplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            searchSupplierDTO.setName(String.valueOf(resultSet.getObject(3)));
-            searchSupplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
-            searchSupplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            searchSupplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
-            supplierDTOS.add(searchSupplierDTO);
-        }
-        return supplierDTOS;
+        return supplierBO.searchSupplier(matcher.matches(), supplierDTO);
     }
 
     public void cleanTable() {
@@ -348,18 +335,6 @@ public class ManageSupplierController {
     }
 
     private ArrayList<SupplierDTO> getAllSupplier() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = supplierBO.getAllSupplier();
-        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
-        while (resultSet.next()) {
-            SupplierDTO supplierDTO = new SupplierDTO();
-            supplierDTO.setSupId(String.valueOf(resultSet.getObject(1)));
-            supplierDTO.setDescription(String.valueOf(resultSet.getObject(2)));
-            supplierDTO.setName(String.valueOf(resultSet.getObject(3)));
-            supplierDTO.setAddress(String.valueOf(resultSet.getObject(4)));
-            supplierDTO.setPhoneNumber(String.valueOf(resultSet.getObject(5)));
-            supplierDTO.setEmail(String.valueOf(resultSet.getObject(6)));
-            supplierDTOS.add(supplierDTO);
-        }
-        return supplierDTOS;
+        return supplierBO.getAllSupplier();
     }
 }

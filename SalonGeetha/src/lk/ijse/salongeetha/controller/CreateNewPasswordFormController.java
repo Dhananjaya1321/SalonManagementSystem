@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.CreateNewPasswordBO;
-import lk.ijse.salongeetha.to.UserDTO;
+import lk.ijse.salongeetha.dto.UserDTO;
 import lk.ijse.salongeetha.util.Validation;
 import lk.ijse.salongeetha.util.ValidityCheck;
 

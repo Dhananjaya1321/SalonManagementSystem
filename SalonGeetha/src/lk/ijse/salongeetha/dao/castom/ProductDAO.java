@@ -1,7 +1,7 @@
 package lk.ijse.salongeetha.dao.castom;
 
 import lk.ijse.salongeetha.dao.SQLUtil;
-import lk.ijse.salongeetha.to.ProductDTO;
+import lk.ijse.salongeetha.entity.Product;
 
-public interface ProductDAO extends SQLUtil<ProductDTO> {
+public interface ProductDAO extends SQLUtil<Product> {
 }
