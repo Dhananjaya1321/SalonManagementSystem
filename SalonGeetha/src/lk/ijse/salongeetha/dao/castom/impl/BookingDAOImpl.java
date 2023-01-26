@@ -66,21 +66,6 @@ public class BookingDAOImpl implements BookingDAO {
         return -1;
     }
 
-    public ResultSet getBookingForChart(String time) throws SQLException, ClassNotFoundException {
-        String query;
-        if (time.equals("Past 7 day")) {
-            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
-        } else if (time.equals("Past 30 day")) {
-            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
-        } else if (time.equals("Past 1 year")) {
-            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
-        } else {
-            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
-        }
-        return CrudUtil.setQuery(query);
-    }
-
-
     @Override
     public boolean add(Book user) throws SQLException, ClassNotFoundException {
         return false;

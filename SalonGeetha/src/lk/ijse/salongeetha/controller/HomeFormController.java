@@ -15,12 +15,10 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.HomeFormBO;
+import lk.ijse.salongeetha.dto.CustomDTO;
 import lk.ijse.salongeetha.dto.EmployeeDTO;
-import lk.ijse.salongeetha.view.tm.AppointmentTM;
-import lk.ijse.salongeetha.view.tm.BookTM;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -99,13 +97,13 @@ public class HomeFormController {
         XYChart.Series seriesBooking = new XYChart.Series();
         XYChart.Series seriesAppointment = new XYChart.Series();
         try {
-            ArrayList<BookTM> bookingForChart = getBookingForChart(time);
-            for (BookTM b : bookingForChart) {
-                seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getQty()));
+            ArrayList<CustomDTO> bookingForChart = getBookingForChart(time);
+            for (CustomDTO b : bookingForChart) {
+                seriesBooking.getData().add(new XYChart.Data(b.getDate(), b.getAvaliableCount()));
             }
-            ArrayList<AppointmentTM> appointmentForChart = getAppointmentForChart(time);
-            for (AppointmentTM a : appointmentForChart) {
-                seriesBooking.getData().add(new XYChart.Data(a.getDate(), a.getCount()));
+            ArrayList<CustomDTO> appointmentForChart = getAppointmentForChart(time);
+            for (CustomDTO a : appointmentForChart) {
+                seriesBooking.getData().add(new XYChart.Data(a.getDate(), a.getAvaliableCount()));
             }
             seriesBooking.getData().add(new XYChart.Data("55", 555));
             lineChart.getData().addAll(seriesBooking, seriesAppointment);
@@ -115,27 +113,13 @@ public class HomeFormController {
         }
     }
 
-    private ArrayList<AppointmentTM> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
-        ArrayList<AppointmentTM> appointmentTMS = new ArrayList<>();
-        ResultSet resultSet = homeFormBO.getAppointmentForChart(time);
-        while (resultSet.next()) {
-            AppointmentTM appointmentTM = new AppointmentTM();
-            appointmentTM.setCount(resultSet.getInt(1));
-            appointmentTM.setDate(resultSet.getString(2));
-            appointmentTMS.add(appointmentTM);
-        }
+    private ArrayList<CustomDTO> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomDTO> appointmentTMS = homeFormBO.getAppointmentForChart(time);
         return appointmentTMS;
     }
 
-    private ArrayList<BookTM> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
-        ArrayList<BookTM> bookTMS = new ArrayList<>();
-        ResultSet resultSet = homeFormBO.getBookingForChart(time);
-        while (resultSet.next()) {
-            BookTM bookTM = new BookTM();
-            bookTM.setQty(resultSet.getInt(1));
-            bookTM.setDate(resultSet.getString(2));
-            bookTMS.add(bookTM);
-        }
+    private ArrayList<CustomDTO> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomDTO> bookTMS = homeFormBO.getBookingForChart(time);
         return bookTMS;
     }
 

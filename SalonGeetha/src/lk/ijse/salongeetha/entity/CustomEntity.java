@@ -62,6 +62,10 @@ public class CustomEntity {
         this.price=price;
         this.discount=discount;
     }
+    public CustomEntity(int avaliableCount, String date) {
+        this.avaliableCount=avaliableCount;
+        this.date=date;
+    }
 
     public CustomEntity(String proId, String sevId, int qty, String name) {
         this.proId=proId;

@@ -13,12 +13,10 @@ import javafx.scene.layout.GridPane;
 import lk.ijse.salongeetha.bo.BOImplTypes;
 import lk.ijse.salongeetha.bo.FactoryBOImpl;
 import lk.ijse.salongeetha.bo.castom.PaymentBO;
-import lk.ijse.salongeetha.dao.castom.QueryDAO;
-import lk.ijse.salongeetha.dao.castom.impl.QueryDAOImpl;
 import lk.ijse.salongeetha.dto.*;
-import lk.ijse.salongeetha.view.tm.PaymentTM;
 import lk.ijse.salongeetha.util.GenerateId;
 import lk.ijse.salongeetha.util.IdTypes;
+import lk.ijse.salongeetha.view.tm.PaymentTM;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -282,7 +280,7 @@ public class ManagePaymentController {
                 total = 0;
                 BookRentalsDetailDTO bookRentalsDetailDTO = new BookRentalsDetailDTO();
                 bookRentalsDetailDTO.setBokId(value);
-                QueryDAO queryDAO = new QueryDAOImpl();
+//                QueryDAO queryDAO = new QueryDAOImpl();
                 ArrayList<BookRentalsDetailDTO> amountDue = getAmountDueBookRentalsDetail(bookRentalsDetailDTO);
                 if (amountDue.size() != 0) {
                     for (BookRentalsDetailDTO b : amountDue) {

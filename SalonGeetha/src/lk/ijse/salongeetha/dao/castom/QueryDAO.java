@@ -18,4 +18,8 @@ public interface QueryDAO extends SuperDAOImpl {
     boolean checkEmail(User user) throws SQLException, ClassNotFoundException;
 
     String getEmployeeJobTitle(User userDTO) throws SQLException, ClassNotFoundException;
+
+    ArrayList<CustomEntity> getBookingForChart(String time) throws SQLException, ClassNotFoundException;
+
+    ArrayList<CustomEntity> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException;
 }

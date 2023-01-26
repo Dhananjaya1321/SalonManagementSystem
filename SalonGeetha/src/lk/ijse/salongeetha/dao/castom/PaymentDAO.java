@@ -8,7 +8,7 @@ import lk.ijse.salongeetha.dto.PaymentDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface PaymentDAO extends SQLUtil<PaymentDTO> {
+public interface PaymentDAO extends SQLUtil<AppointmentPayment> {
     ArrayList<AppointmentPayment> getAllAPayments() throws SQLException, ClassNotFoundException;
     ArrayList<BookPayment> getAllBPayments() throws SQLException, ClassNotFoundException;
     ArrayList<AppointmentPayment> searchPaymentDetails(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException;

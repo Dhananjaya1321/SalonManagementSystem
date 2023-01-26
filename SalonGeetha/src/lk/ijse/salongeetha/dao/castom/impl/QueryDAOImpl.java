@@ -62,7 +62,6 @@ public class QueryDAOImpl implements QueryDAO {
 
     @Override
     public ArrayList<CustomEntity> getAllProductService() throws SQLException, ClassNotFoundException {
-        //join query ekk
         ResultSet resultSet = CrudUtil.setQuery("select ps.Pro_Id,ps.Sev_Id,ps.Qty,s.Name from product_service_detail ps inner join service s on ps.Sev_Id = s.Sev_Id;");
         ArrayList<CustomEntity> arrayList = new ArrayList();
         while (resultSet.next()) {
@@ -96,5 +95,52 @@ public class QueryDAOImpl implements QueryDAO {
             return resultSet.getString(1);
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<CustomEntity> getBookingForChart(String time) throws SQLException, ClassNotFoundException {
+        String query;
+        if (time.equals("Past 7 day")) {
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 7";
+        } else if (time.equals("Past 30 day")) {
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 30";
+        } else if (time.equals("Past 1 year")) {
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date ORDER BY Date ASC LIMIT 365";
+        } else {
+            query = "SELECT COUNT(Bok_Id), Date FROM Book GROUP BY Date";
+        }
+        ResultSet resultSet = CrudUtil.setQuery(query);
+        ArrayList<CustomEntity> arrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            arrayList.add(
+                    new CustomEntity(
+                            resultSet.getInt(1),
+                            resultSet.getString(2)
+                    ));
+        }
+        return arrayList;
+    }
+    @Override
+    public ArrayList<CustomEntity> getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
+            String query;
+            if (time.equals("Past 7 day")) {
+                query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 7";
+            } else if (time.equals("Past 30 day")) {
+                query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 30";
+            } else if (time.equals("Past 1 year")) {
+                query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 365";
+            } else {
+                query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date";
+            }
+        ResultSet resultSet = CrudUtil.setQuery(query);
+        ArrayList<CustomEntity> arrayList = new ArrayList<>();
+        while (resultSet.next()) {
+            arrayList.add(
+                    new CustomEntity(
+                            resultSet.getInt(1),
+                            resultSet.getString(2)
+                    ));
+        }
+        return arrayList;
     }
 }

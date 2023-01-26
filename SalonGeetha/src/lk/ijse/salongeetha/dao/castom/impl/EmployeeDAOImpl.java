@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
+    private ArrayList<Employee> employees;
+
     public boolean add(Employee employee) throws SQLException, ClassNotFoundException {
         return CrudUtil.setQuery("INSERT INTO Employee VALUES (?,?,?,?,?,?,?,?,?)", employee.getEmpId(), employee.getName(),
                 employee.getAddress(), employee.getDob(), employee.getPhoneNumber(), employee.getDescription(), employee.getEmail(),
@@ -42,7 +44,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             setColumn = "SELECT * FROM Employee WHERE Emp_Id LIKE ?";
         }
         ResultSet resultSet = CrudUtil.setQuery(setColumn, "%" + employee.getName() + "%");
-        ArrayList<Employee> employees = new ArrayList<>();
+        /*ArrayList<Employee>*/
+        employees = new ArrayList<>();
         while (resultSet.next()) {
             employees.add(
                     new Employee(
@@ -63,7 +66,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     public ArrayList<Employee> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Employee");
-        ArrayList<Employee> employees = new ArrayList<>();
+        /*ArrayList<Employee>*/
+        employees = new ArrayList<>();
         while (resultSet.next()) {
             employees.add(
                     new Employee(
@@ -85,19 +89,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     public ArrayList<Employee> getBeauticians() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Emp_Id FROM Employee WHERE Job_title='Beautician'");
-        ArrayList<Employee> employeeDTOS = new ArrayList<>();
+        /*ArrayList<Employee>*/
+        employees = new ArrayList<>();
         while (resultSet.next()) {
             Employee employee = new Employee();
             employee.setEmpId(resultSet.getString(1));
-            employeeDTOS.add(employee);
+            employees.add(employee);
         }
-        return employeeDTOS;
+        return employees;
     }
 
     @Override
     public ArrayList<Employee> searchEmployeeDetails(Employee employee) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT * FROM Employee WHERE Emp_Id = ?", employee.getEmpId());
-        ArrayList<Employee> employees = new ArrayList<>();
+        /*ArrayList<Employee>*/
+        employees = new ArrayList<>();
         while (resultSet.next()) {
             employees.add(
                     new Employee(resultSet.getString(1),

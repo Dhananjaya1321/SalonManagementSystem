@@ -5,7 +5,6 @@ import lk.ijse.salongeetha.entity.Book;
 import lk.ijse.salongeetha.entity.BookPayment;
 import lk.ijse.salongeetha.entity.BookRentalsDetail;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,5 +17,4 @@ public interface BookingDAO extends SQLUtil<Book> {
 
     int getBookingCount(String setDate) throws SQLException, ClassNotFoundException;
 
-    ResultSet getBookingForChart(String time) throws SQLException, ClassNotFoundException;
 }

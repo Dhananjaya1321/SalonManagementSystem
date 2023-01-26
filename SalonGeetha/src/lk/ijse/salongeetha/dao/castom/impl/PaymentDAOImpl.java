@@ -36,23 +36,22 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public boolean add(PaymentDTO to) throws SQLException, ClassNotFoundException {
+    public boolean add(AppointmentPayment to) throws SQLException, ClassNotFoundException {
         return false;
     }
 
-    public boolean delete(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.setQuery("DELETE FROM Payment WHERE Pay_Id=?", paymentDTO.getPayId());
+    public boolean delete(AppointmentPayment paymentDTO) throws SQLException, ClassNotFoundException {
+//        return CrudUtil.setQuery("DELETE FROM Payment WHERE Pay_Id=?", paymentDTO.getPayId());
+        return false;
     }
 
     @Override
-    public ArrayList<PaymentDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<AppointmentPayment> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
-    public boolean update(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
-//        return CrudUtil.setQuery("UPDATE Payment SET Amount_paid=?,Balance=?,Payment_method=? WHERE Pay_Id=?",
-//                paymentDTO.getAmountPaid(), paymentDTO.getBalance(), paymentDTO.getPaymentMethod(), paymentDTO.getPayId());
-        return false;
+    public boolean update(AppointmentPayment paymentDTO) throws SQLException, ClassNotFoundException {
+       return false;
     }
 
     @Override
@@ -61,10 +60,9 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public ArrayList<PaymentDTO> search(boolean value, PaymentDTO to) throws SQLException, ClassNotFoundException {
+    public ArrayList<AppointmentPayment> search(boolean value, AppointmentPayment to) throws SQLException, ClassNotFoundException {
         return null;
     }
-
 
     public String checkAppointmentId() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.setQuery("SELECT Pay_Id FROM appointment_payment ORDER BY Pay_Id DESC LIMIT 1");
@@ -83,7 +81,6 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     public ArrayList<AppointmentPayment> searchPaymentDetails(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
-//        return CrudUtil.setQuery("SELECT Pay_Id FROM payment ORDER BY Pay_Id DESC LIMIT 1");
         return null;
     }
 
@@ -101,7 +98,6 @@ public class PaymentDAOImpl implements PaymentDAO {
                     )
             );
         }
-//        System.out.println("pDAOIMPL"+arrayList.toString());
         return arrayList;
     }
 

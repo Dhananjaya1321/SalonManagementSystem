@@ -78,19 +78,4 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         }
         return -1;
     }
-
-    @Override
-    public ResultSet getAppointmentForChart(String time) throws SQLException, ClassNotFoundException {
-        String query;
-        if (time.equals("Past 7 day")) {
-            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 7";
-        } else if (time.equals("Past 30 day")) {
-            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 30";
-        } else if (time.equals("Past 1 year")) {
-            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date ORDER BY Date ASC LIMIT 365";
-        } else {
-            query = "SELECT COUNT(Apt_Id), Date FROM Appointment GROUP BY Date";
-        }
-        return CrudUtil.setQuery(query);
-    }
 }

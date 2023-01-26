@@ -5,9 +5,16 @@ public class CustomDTO {
     private double discount;
     private int qty;
     private int forHowManyDays;
+    private int avaliableCount;
+    private String date;
+
     public CustomDTO(double price, double discount) {
         this.price = price;
         this.discount = discount;
+    }
+    public CustomDTO(int avaliableCount, String date) {
+        this.avaliableCount = avaliableCount;
+        this.date = date;
     }
 
     public CustomDTO() {
@@ -27,6 +34,8 @@ public class CustomDTO {
                 ", discount=" + discount +
                 ", qty=" + qty +
                 ", forHowManyDays=" + forHowManyDays +
+                ", avaliableCount=" + avaliableCount +
+                ", date='" + date + '\'' +
                 '}';
     }
 
@@ -60,5 +69,21 @@ public class CustomDTO {
 
     public void setForHowManyDays(int forHowManyDays) {
         this.forHowManyDays = forHowManyDays;
+    }
+
+    public int getAvaliableCount() {
+        return avaliableCount;
+    }
+
+    public void setAvaliableCount(int avaliableCount) {
+        this.avaliableCount = avaliableCount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
