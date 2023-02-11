@@ -26,7 +26,8 @@ public class PaymentBOImpl implements PaymentBO {
     public ArrayList<PaymentDTO> getAllAppointmentPayments() throws SQLException, ClassNotFoundException {
         /*ArrayList<AppointmentPayment>*/
         ArrayList<AppointmentPayment> allAPayments = paymentDAO.getAllAPayments();
-        /*ArrayList<PaymentDTO>*/ paymentDTOS =new ArrayList<>();
+        /*ArrayList<PaymentDTO>*/
+        paymentDTOS = new ArrayList<>();
         for (AppointmentPayment a : allAPayments) {
             paymentDTOS.add(new PaymentDTO(
                     a.getPay_Id(),
@@ -42,7 +43,8 @@ public class PaymentBOImpl implements PaymentBO {
     public ArrayList<PaymentDTO> getAllBookingPayments() throws SQLException, ClassNotFoundException {
         /*ArrayList<BookPayment>*/
         ArrayList<BookPayment> allBPayments = paymentDAO.getAllBPayments();
-        /*ArrayList<PaymentDTO>*/ paymentDTOS =new ArrayList<>();
+        /*ArrayList<PaymentDTO>*/
+        paymentDTOS = new ArrayList<>();
         for (BookPayment a : allBPayments) {
             paymentDTOS.add(new PaymentDTO(
                     a.getPay_Id(),
@@ -90,7 +92,7 @@ public class PaymentBOImpl implements PaymentBO {
                 dto.getBokId(), dto.getForHowManyDays(), dto.getQty()));
         ArrayList<CustomDTO> dtos = new ArrayList<>();
         for (CustomEntity c : arrayList) {
-            dtos.add(new CustomDTO(c.getQty(),c.getForHowManyDays(),c.getPrice(),c.getDiscount()));
+            dtos.add(new CustomDTO(c.getQty(), c.getForHowManyDays(), c.getPrice(), c.getDiscount()));
         }
         return dtos;
     }
@@ -108,49 +110,53 @@ public class PaymentBOImpl implements PaymentBO {
     @Override
     public boolean add(boolean value, PaymentDTO paymentDTO, BookDTO bookDTO, AppointmentDTO appointmentDTO) throws SQLException, ClassNotFoundException {
         DBConnection.getDBConnection().getConnection().setAutoCommit(false);
-        if (value) {
-            String nic = bookingDAO.getId(new BookPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(), paymentDTO.getNic(),
-                    paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
-            boolean isAdded = paymentDAO.addBookingPayment(
-                    new BookPayment(
-                            paymentDTO.getPayId(),
-                            paymentDTO.getPaymentMethod(),
-                            nic,
-                            paymentDTO.getAmountDue(),
-                            paymentDTO.getaOrBId()));//set
+        try {
+            if (value) {
+                String nic = bookingDAO.getId(new BookPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(), paymentDTO.getNic(),
+                        paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+                boolean isAdded = paymentDAO.addBookingPayment(
+                        new BookPayment(
+                                paymentDTO.getPayId(),
+                                paymentDTO.getPaymentMethod(),
+                                nic,
+                                paymentDTO.getAmountDue(),
+                                paymentDTO.getaOrBId()));//set
 
-            if (isAdded) {
-                bookingDAO.update(new Book(bookDTO.getBokId(), bookDTO.getDate(), bookDTO.getNic(), bookDTO.getStatus()));
-                DBConnection.getDBConnection().getConnection().commit();
-                DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-                return true;
+                if (isAdded) {
+                    bookingDAO.update(new Book(bookDTO.getBokId(), bookDTO.getDate(), bookDTO.getNic(), bookDTO.getStatus()));
+                    DBConnection.getDBConnection().getConnection().commit();
+//                    DBConnection.getDBConnection().getConnection().setAutoCommit(true);
+                    return true;
+                } else {
+                    DBConnection.getDBConnection().getConnection().rollback();
+//                    DBConnection.getDBConnection().getConnection().setAutoCommit(true);
+                    return false;
+                }
+
             } else {
-                DBConnection.getDBConnection().getConnection().rollback();
-                DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-                return false;
-            }
-
-        } else {
-            String nic = appointmentDAO.getId(new AppointmentPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(),
-                    paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
-            boolean isAdded = paymentDAO.addAppointmentPayment(new AppointmentPayment(
-                    paymentDTO.getPayId(),
-                    paymentDTO.getPaymentMethod(),
-                    nic,
-                    paymentDTO.getAmountDue(),
-                    paymentDTO.getaOrBId()));//set
+                String nic = appointmentDAO.getId(new AppointmentPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(),
+                        paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+                boolean isAdded = paymentDAO.addAppointmentPayment(new AppointmentPayment(
+                        paymentDTO.getPayId(),
+                        paymentDTO.getPaymentMethod(),
+                        nic,
+                        paymentDTO.getAmountDue(),
+                        paymentDTO.getaOrBId()));//set
 //            System.out.println(paymentDTO.getNic());
-            if (isAdded) {
-                appointmentDAO.update(new Appointment(appointmentDTO.getAptId(), appointmentDTO.getDate(), appointmentDTO.getTime()
-                        , appointmentDTO.getNic(), appointmentDTO.getStatus()));
-                DBConnection.getDBConnection().getConnection().commit();
-                DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-                return true;
-            } else {
-                DBConnection.getDBConnection().getConnection().rollback();
-                DBConnection.getDBConnection().getConnection().setAutoCommit(true);
-                return false;
+                if (isAdded) {
+                    appointmentDAO.update(new Appointment(appointmentDTO.getAptId(), appointmentDTO.getDate(), appointmentDTO.getTime()
+                            , appointmentDTO.getNic(), appointmentDTO.getStatus()));
+                    DBConnection.getDBConnection().getConnection().commit();
+//                    DBConnection.getDBConnection().getConnection().setAutoCommit(true);
+                    return true;
+                } else {
+                    DBConnection.getDBConnection().getConnection().rollback();
+//                    DBConnection.getDBConnection().getConnection().setAutoCommit(true);
+                    return false;
+                }
             }
+        } finally {
+            DBConnection.getDBConnection().getConnection().setAutoCommit(true);
         }
     }
 }
