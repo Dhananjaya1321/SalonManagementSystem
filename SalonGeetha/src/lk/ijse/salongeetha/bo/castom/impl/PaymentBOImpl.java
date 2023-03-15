@@ -49,7 +49,7 @@ public class PaymentBOImpl implements PaymentBO {
             paymentDTOS.add(new PaymentDTO(
                     a.getPay_Id(),
                     a.getPayment_method(),
-                    a.getNIC(),
+                    a.getNic(),
                     a.getAmount_due(),
                     a.getBok_Id()));
         }

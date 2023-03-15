@@ -18,7 +18,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         return CrudUtil.setQuery("INSERT INTO book_payment VALUES (?,?,?,?,?)",
                 paymentDTO.getPay_Id(),
                 paymentDTO.getPayment_method(),
-                paymentDTO.getNIC(),
+                paymentDTO.getNic(),
                 paymentDTO.getAmount_due(),
                 paymentDTO.getBok_Id()
         );

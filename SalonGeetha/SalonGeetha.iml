@@ -11,5 +11,15 @@
     <orderEntry type="library" name="io.github.typhon0.AnimateFX" level="project" />
     <orderEntry type="library" name="mail" level="project" />
     <orderEntry type="library" name="batik-anim" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.18/lombok-1.18.18.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="lombok" level="project" />
   </component>
 </module>
