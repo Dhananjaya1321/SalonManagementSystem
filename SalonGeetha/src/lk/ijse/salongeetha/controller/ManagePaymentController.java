@@ -102,7 +102,7 @@ public class ManagePaymentController {
     private void loadAllAPaymentData() {
         observableList.clear();
         for (PaymentDTO s : aPaymentDTOArrayList) {
-            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getaOrBId());
+            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getAOrBId());
             observableList.add(paymentTM);
 //            System.out.println(s.getAmountDue());
             tblView.setItems(observableList);
@@ -112,7 +112,7 @@ public class ManagePaymentController {
     private void loadAllBPaymentData() {
         observableList.clear();
         for (PaymentDTO s : bPaymentDTOArrayList) {
-            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getaOrBId());
+            PaymentTM paymentTM = new PaymentTM(s.getPayId(), s.getPaymentMethod(), /*methanata getAmountDue()*/s.getAmountPaid(), s.getAOrBId());
 //            System.out.println(paymentTM.getAOrB_Id());
             observableList.add(paymentTM);
             tblView.setItems(observableList);
@@ -197,7 +197,7 @@ public class ManagePaymentController {
         paymentDTO.setPayId(pid);
         paymentDTO.setPaymentMethod(paymentMethodValue);
         paymentDTO.setAmountDue(amountDue);
-        paymentDTO.setaOrBId(appointmentIdOrBookingIdValue);
+        paymentDTO.setAOrBId(appointmentIdOrBookingIdValue);
         try {
             boolean addPayment = add(paymentDTO);
             if (addPayment) {
@@ -257,14 +257,14 @@ public class ManagePaymentController {
 
     private boolean add(PaymentDTO paymentDTO) throws SQLException, ClassNotFoundException {
         Pattern namePattern = Pattern.compile("([BOK]{1,})([0-9]{1,})\\w+");
-        Matcher matcher = namePattern.matcher(paymentDTO.getaOrBId());
+        Matcher matcher = namePattern.matcher(paymentDTO.getAOrBId());
 
         BookDTO bookDTO = new BookDTO();
-        bookDTO.setBokId(paymentDTO.getaOrBId());
+        bookDTO.setBokId(paymentDTO.getAOrBId());
         bookDTO.setStatus("Paid");
 
         AppointmentDTO appointmentDTO = new AppointmentDTO();
-        appointmentDTO.setAptId(paymentDTO.getaOrBId());
+        appointmentDTO.setAptId(paymentDTO.getAOrBId());
         appointmentDTO.setStatus("Paid");
 
         return paymentBO.add(matcher.matches(), paymentDTO, bookDTO, appointmentDTO);

@@ -113,14 +113,14 @@ public class PaymentBOImpl implements PaymentBO {
         try {
             if (value) {
                 String nic = bookingDAO.getId(new BookPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(), paymentDTO.getNic(),
-                        paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+                        paymentDTO.getAmountDue(), paymentDTO.getAOrBId()));
                 boolean isAdded = paymentDAO.addBookingPayment(
                         new BookPayment(
                                 paymentDTO.getPayId(),
                                 paymentDTO.getPaymentMethod(),
                                 nic,
                                 paymentDTO.getAmountDue(),
-                                paymentDTO.getaOrBId()));//set
+                                paymentDTO.getAOrBId()));//set
 
                 if (isAdded) {
                     bookingDAO.update(new Book(bookDTO.getBokId(), bookDTO.getDate(), bookDTO.getNic(), bookDTO.getStatus()));
@@ -135,13 +135,13 @@ public class PaymentBOImpl implements PaymentBO {
 
             } else {
                 String nic = appointmentDAO.getId(new AppointmentPayment(paymentDTO.getPayId(), paymentDTO.getPaymentMethod(),
-                        paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getaOrBId()));
+                        paymentDTO.getNic(), paymentDTO.getAmountDue(), paymentDTO.getAOrBId()));
                 boolean isAdded = paymentDAO.addAppointmentPayment(new AppointmentPayment(
                         paymentDTO.getPayId(),
                         paymentDTO.getPaymentMethod(),
                         nic,
                         paymentDTO.getAmountDue(),
-                        paymentDTO.getaOrBId()));//set
+                        paymentDTO.getAOrBId()));//set
 //            System.out.println(paymentDTO.getNic());
                 if (isAdded) {
                     appointmentDAO.update(new Appointment(appointmentDTO.getAptId(), appointmentDTO.getDate(), appointmentDTO.getTime()
